@@ -1,0 +1,59 @@
+[
+    {
+        "img": "https://bootdey.com/img/Content/avatar/avatar7.png",
+        "nombre": "Diego Gonzalez",
+        "rol": "Usuario",
+        "fecha": "30-08-2022",
+        "mensaje": "hola como estas tengo una consulta con TEM esadsadsadsadsad dasdsadsad asdasd asdasdas ad asd asd asd asdas a"
+    },
+    {
+        "img": "https://bootdey.com/img/Content/avatar/avatar6.png",
+        "nombre": "Facundo Diaz",
+        "rol": "Interno",
+        "fecha": "31-08-2022",
+        "mensaje": "hola como estas tengo una consulta con TEM esadsadsadsadsad dasdsadsad asdasd asdasdas ad asd asd asd asdas a"
+    },
+    {
+        "img": "https://bootdey.com/img/Content/avatar/avatar7.png",
+        "nombre": "Diego Gonzalez",
+        "rol": "Usuario",
+        "fecha": "30-08-2022",
+        "mensaje": "hola como estas, tengo una consulta con TEM "
+    },
+    {
+        "img": "https://bootdey.com/img/Content/avatar/avatar6.png",
+        "nombre": "Facundo Diaz",
+        "rol": "Interno",
+        "fecha": "31-08-2022",
+        "mensaje": "Hola, ya consulto en lo que es lo que pasa"
+    },
+    {
+        "img": "https://bootdey.com/img/Content/avatar/avatar7.png",
+        "nombre": "Diego Gonzalez",
+        "rol": "Usuario",
+        "fecha": "30-08-2022",
+        "mensaje": "hola como estas, tengo una consulta con TEM "
+    },
+    {
+        "img": "https://bootdey.com/img/Content/avatar/avatar6.png",
+        "nombre": "Facundo Diaz",
+        "rol": "Interno",
+        "fecha": "31-08-2022",
+        "mensaje": "Hola, ya consulto en lo que es lo que pasa"
+    },
+    {
+        "img": "https://bootdey.com/img/Content/avatar/avatar7.png",
+        "nombre": "Diego Gonzalez",
+        "rol": "Usuario",
+        "fecha": "30-08-2022",
+        "mensaje": "hola como estas, tengo una consulta con TEM "
+    },
+    {
+        "img": "https://bootdey.com/img/Content/avatar/avatar6.png",
+        "nombre": "Facundo Diaz",
+        "rol": "Interno",
+        "fecha": "31-08-2022",
+        "mensaje": "Hola, ya consulto en lo que es lo que pasa"
+    }
+
+]
