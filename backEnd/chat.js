@@ -6,7 +6,7 @@ let datos = {
         idcabecera: 28512,
         mensaje: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt officia quidem, architecto nulla doloribus excepturi delectus, maiores fugit doloremque sunt quis? Magnam labore nulla velit quo magni, facere eos voluptatibus.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt officia quidem, architecto nulla doloribus excepturi delectus, maiores fugit doloremque sunt quis? Magnam labore nulla velit quo magni, facere eos voluptatibus.Lorem ipsum dolor sit amet, consectetur adipis',
         motivo: '1',
-        usuario: 'mapaez',
+        usuario: 'facundo',
         ip: '172.20.254.205',
         fecha_mov: '2018-12-04 11:11:04.076532',
         leido: true,
@@ -20,7 +20,7 @@ let datos = {
         interno:true,
         tipo_adjunto:null,
         idusuario:null,
-        rol:"usuario",
+        rol:"interno",
         img:"https://bootdey.com/img/Content/avatar/avatar6.png"
 
       },
@@ -29,7 +29,7 @@ let datos = {
         idcabecera: 28512,
         mensaje: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt officia quidem, architecto nulla doloribus excepturi delectus, maiores fugit doloremque sunt quis? Magnam labore nulla velit quo magni, facere eos voluptatibus.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt officia quidem, architecto nulla doloribus excepturi delectus, maiores fugit doloremque sunt quis? Magnam labore nulla velit quo magni, facere eos voluptatibus.Lorem ipsum dolor sit amet, consectetur adipis',
         motivo: '1',
-        usuario: 'mapaez',
+        usuario: 'jose',
         ip: '172.20.254.205',
         fecha_mov: '2018-12-04 11:11:04.076532',
         leido: true,
@@ -66,7 +66,7 @@ let datos = {
         interno:true,
         tipo_adjunto:null,
         idusuario:null,
-        rol:"usuario",
+        rol:"interno",
         img:"https://bootdey.com/img/Content/avatar/avatar6.png"
 
       },
@@ -75,7 +75,7 @@ let datos = {
         idcabecera: 28512,
         mensaje: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt officia quidem, architecto nulla doloribus excepturi delectus, maiores fugit doloremque sunt quis? Magnam labore nulla velit quo magni, facere eos voluptatibus.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt officia quidem, architecto nulla doloribus excepturi delectus, maiores fugit doloremque sunt quis? Magnam labore nulla velit quo magni, facere eos voluptatibus.Lorem ipsum dolor sit amet, consectetur adipis',
         motivo: '1',
-        usuario: 'mapaez',
+        usuario: 'embappe',
         ip: '172.20.254.205',
         fecha_mov: '2018-12-04 11:11:04.076532',
         leido: true,
