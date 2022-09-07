@@ -17,7 +17,7 @@ function App() {
       <Routes>
 
         <Route path="/chat" element={<Chat/>} />
-        <Route path='/atencio-online' element={<PageWrapperTabla/>}/>
+        <Route path='/atencion-online' element={<PageWrapperTabla/>}/>
         <Route path="/" element={<InicioSesion/>} />
 
       </Routes>

@@ -63,8 +63,8 @@ body {
 
 .fixedElement{
     position:fixed;
-    top:95.8%;
-    z-index:100;
+    top:94%;
+    z-index:2;
 }
 
 .container-fluid{

@@ -2,7 +2,7 @@ export default function Usuario(props){
 
     return(
 
-        <li>
+        <li data-aos="fade-right">
         <a href="#">
           <div className="message-avatar">
             <img src={props.img} alt="" />

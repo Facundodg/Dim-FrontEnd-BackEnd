@@ -13,7 +13,7 @@ export default function FiltrosTablas(props) {
 				<div className="container d-flex filtros">
 
 					<div className="input-group mb-3 d-block w-100">
-						<label htmlFor="">Filtrar por Tributo</label>
+						<label htmlFor="">Filtrar por Tributo </label>
 						<button className="btn btn-outline-secondary dropdown-toggle" type="button"
 							data-bs-toggle="dropdown" aria-expanded="false">Todos</button>
 						<ul className="dropdown-menu">
@@ -26,7 +26,7 @@ export default function FiltrosTablas(props) {
 					</div>
 
 					<div className="input-group mb-3 d-block d-block w-100">
-						<label htmlFor="">Filtrar por tipo de Solicitud</label>
+						<label htmlFor="">Filtrar por tipo de Solicitud </label>
 						<button className="btn btn-outline-secondary dropdown-toggle" type="button"
 							data-bs-toggle="dropdown" aria-expanded="false">Todos</button>
 						<ul className="dropdown-menu">

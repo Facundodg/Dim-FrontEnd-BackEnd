@@ -2,8 +2,7 @@ export default function FilaTabla(props) {
 
     return (
 
-
-            <tr className={props.estado}>
+        <tr className={props.estado} data-aos="fade-up">
 
                 <td>
                     <h6 className="mb-0">{props.apyNom}</h6>
@@ -52,7 +51,8 @@ export default function FilaTabla(props) {
                         </div>
                     </div>
                 </td>
-            </tr>
+
+        </tr>
 
     )
 

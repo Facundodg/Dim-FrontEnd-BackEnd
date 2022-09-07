@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const {datos} = require('./chat.js');
+const {solicitudes} = require('./solicitud_persona.js');
 
 
 app.get('/', (req, res) => {
@@ -14,9 +15,18 @@ app.get('/', (req, res) => {
 app.get('/chat', (req, res) => {
 
     res.send(JSON.stringify(datos));
-    console.log("entre");
     console.log(datos);
+
 });
+
+app.get('/atencion-online', (req, res) => {
+
+    res.send(JSON.stringify(solicitudes));
+    console.log(solicitudes);
+
+});
+
+
 
 /**/
 

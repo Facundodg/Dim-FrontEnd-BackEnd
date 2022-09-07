@@ -1,14 +1,18 @@
 import PageWrapperChat from "./PageWrapperChat"
 import Interno from "./Interno"
 import Usuario from "./Usuario"
-import MensajeJson from "../mensajes.json"
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 export default function Chat(props) {
 
     const [chats, setChat] = useState([]);
+    let filasChat;
 
-    //let personas = MensajeJson;
+    useEffect(() =>{
+
+        buscarChat();
+
+    }, []);
 
     const buscarChat = async () => {
 
@@ -25,7 +29,18 @@ export default function Chat(props) {
         });
 
         let json = await consulta.json();
-        setChat(json);
+
+
+        {
+            Object.entries(json).map(js => {
+
+                filasChat = js[1];
+
+            })
+        }
+
+
+        setChat(filasChat);
 
     }
 
@@ -33,46 +48,37 @@ export default function Chat(props) {
 
         <PageWrapperChat>
 
-            <button onClick={buscarChat}>apreto</button>
+            {chats.map(chat => {
 
-            {Object.entries(chats).map(chat => {
+                if (chat.rol == "usuario") {
 
-                chat[1].map(ch => {
+                    return (
 
-                    console.log(ch);
+                        <Usuario
+                            img={chat.img}
+                            nombre={chat.usuario}
+                            rol={chat.rol}
+                            fecha={chat.fecha_mov}
+                            mensaje={chat.mensaje}
+                        />
 
-                    if (ch.rol == "usuario") {
+                    )
 
-                        return (
+                } else if (chat.rol == "interno") {
 
-                            <Usuario
-                                img={ch.img}
-                                nombre={ch.usuario}
-                                rol={ch.rol}
-                                fecha={ch.fecha_mov}
-                                mensaje={ch.mensaje}
-                            />
+                    return (
 
-                        )
+                        <Interno
+                            img={chat.img}
+                            nombre={chat.usuario}
+                            rol={chat.rol}
+                            fecha={chat.fecha_mov}
+                            mensaje={chat.mensaje}
+                        />
 
-                    } else if (ch.rol == "interno") {
+                    )
 
-                        return (
-
-                            <Interno
-                                img={ch.img}
-                                nombre={ch.usuario}
-                                rol={ch.rol}
-                                fecha={ch.fecha_mov}
-                                mensaje={ch.mensaje}
-                            />
-
-                        )
-
-                    }
-
-                })
-
+                }
             })}
 
         </PageWrapperChat>

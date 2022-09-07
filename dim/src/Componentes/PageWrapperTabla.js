@@ -2,11 +2,50 @@ import NavBarTabla from "./NavBarTabla"
 import FiltrosTablas from "./FiltrosTabla"
 import Tabla from "./tabla"
 import FilaTabla from "./FilaTabla"
-import consultasJson from "../consultas.json"
+import Footer from "./Footer"
+
+import { useState,useEffect } from "react";
+
 
 export default function PageWrapperTabla(props) {
 
-    let filas = consultasJson;
+    const [consultas, setConsultas] = useState([]);
+    let filasConsultas;
+    
+    useEffect(() =>{
+
+        cargarConsultasUsuarios();
+
+    }, []);
+
+    const cargarConsultasUsuarios = async () => {
+
+        let url = "http://localhost:4000/atencion-online";
+
+        let consulta = await fetch(url, {
+
+            " method ": ' GET ',
+            " headers ": {
+                " Accept ": ' application/json ',
+                " Content-Type ": ' application/json ',
+            }
+
+        });
+
+        let json = await consulta.json();
+
+
+        {
+            Object.entries(json).map(js => {
+
+                filasConsultas = js[1];
+
+            })
+        }
+
+        setConsultas(filasConsultas);
+
+    }
 
     return (
 
@@ -30,15 +69,17 @@ export default function PageWrapperTabla(props) {
 
                     <Tabla>
 
-                        {filas.map(fila => {
+                        {consultas.map(con => {
 
                             return (
+
                                 <FilaTabla
-                                    apyNom={fila.apyNom}
-                                    cuit={fila.cuit}
-                                    razonConsulta={fila.razonConsulta}
-                                    estado={fila.estado}
+                                    apyNom={con.nombre}
+                                    cuit={con.cuit}
+                                    razonConsulta={con.tipo_solicitud}
+                                    estado={con.estado}
                                 />
+
                             )
 
                         })
@@ -50,6 +91,12 @@ export default function PageWrapperTabla(props) {
                 </div>
 
             </section>
+
+            <div className="container">
+
+                <Footer></Footer>
+
+            </div>
 
         </div>
 
