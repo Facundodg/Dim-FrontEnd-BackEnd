@@ -9,7 +9,8 @@ export default function Footer() {
                         <use link="#" href="#bootstrap" />
                     </svg>
                 </a>
-                <span className="mb-3 mb-md-0 text-muted">Subdirección de Informática | Dirección de Ingresos Municipales | San Miguel de Tucumán</span>
+                <span className="mb-3 mb-md-0 text-muted">(C) 2022 Subdireccion de Informatica | Direccion de Ingresos Municipales
+                    Municipalidad de San Miguel de Tucuman</span>
             </div>
 
         </footer>

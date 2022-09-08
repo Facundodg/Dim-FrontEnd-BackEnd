@@ -61,9 +61,6 @@ app.get('/atencion-online', (req, res) => {
 });
 
 
-
-/**/
-
 const PUERTO = process.env.PORT || 4000;
 
 app.listen(PUERTO, () => {
