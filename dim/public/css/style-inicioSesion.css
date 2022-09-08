@@ -1,8 +1,7 @@
 #contenedor-informacion {
 
     width: 100% !important;
-    height: 100px !important;
-    background-color: darkgray;
+    height: 120px !important;
 
 }
 
@@ -13,9 +12,37 @@
 
 }
 
-#formulario{
+#formulario {
 
-    width: 200px;
+    width: 400px;
     height: 200px;
+
+}
+
+.titulo-dim h2 {
+
+    color: #00A0C0;
+
+}
+
+.titulo-dim h5 {
+
+    color: #A1C000;
+
+}
+
+@media (max-width:770px) {
+
+    .titulo-dim h2 {
+
+        font-size: 20px;
+
+    }
+
+    .titulo-dim h5 {
+
+        font-size: 15px;
+
+    }
 
 }
