@@ -3,6 +3,8 @@ const app = express();
 
 const {datos} = require('./database/chat.js');
 const {solicitudes} = require('./database/solicitud_persona.js');
+const {usuarios} = require('./database/usuarios.js');
+
 
 
 /*
@@ -39,6 +41,8 @@ app.post("/auth", async(req, res) => {
 
 */
 
+//
+
 app.get('/', (req, res) => {
 
     res.send('servidor escuchando💻....');
@@ -60,6 +64,12 @@ app.get('/atencion-online', (req, res) => {
 
 });
 
+app.get('/usuarios', (req, res) => {
+
+    res.send(JSON.stringify(usuarios));
+    console.log(usuarios);
+
+});
 
 const PUERTO = process.env.PORT || 4000;
 

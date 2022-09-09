@@ -1,6 +1,33 @@
 import Footer from "./Footer"
+import { useState } from "react";
 
 export default function InicioSesion(props) {
+
+    const [linea1, setUsuario] = useState();
+    const [linea2, setContraseña] = useState();
+
+
+    const usuario = function (evento) {
+
+        setUsuario(evento.target.value)
+
+    }
+
+    const contrasena = function (evento) {
+
+        setContraseña(evento.target.value)
+
+    }
+
+    function mostrar() {
+
+        console.log(linea1);
+        console.log(linea2);
+    
+    }
+
+
+
 
     return (
         <div>
@@ -35,7 +62,7 @@ export default function InicioSesion(props) {
 
                             <span className="input-group-text" id="inputGroup-sizing-sm">Usuario</span>
                             <input type="text" className="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" name="user" required/>
+                                aria-describedby="inputGroup-sizing-sm" name="user" onChange={usuario} />
 
                         </div>
 
@@ -43,13 +70,13 @@ export default function InicioSesion(props) {
 
                             <span className="input-group-text" id="inputGroup-sizing-sm">Contraseña</span>
                             <input type="password" className="form-control" aria-label="Sizing example input"
-                             aria-describedby="inputGroup-sizing-sm" name="password" required/>
+                                aria-describedby="inputGroup-sizing-sm" name="password" onChange={contrasena} />
 
                         </div>
 
                         <div className="input-group mb-3 d-flex justify-content-center">
 
-                            <button href="inicio-sesion" className="btn btn-outline-secondary" type="button" id="button-addon2">Ingresar</button>
+                            <button href="inicio-sesion" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={mostrar}>Ingresar</button>
 
                         </div>
 
