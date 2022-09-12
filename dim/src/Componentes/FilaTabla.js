@@ -1,5 +1,29 @@
 export default function FilaTabla(props) {
 
+    //carga los usuarios cuando se apreta el ojo en la fila de la tabla
+
+    const cargarUsuario = async (cuit) => {
+
+        let url = 'http://localhost:4000/atencion-online/usuario/' + cuit + '';
+
+        console.log(cuit);
+
+        let consulta = await fetch(url, {
+
+            " method ": ' GET ',
+            " headers ": {
+                " Accept ": ' application/json ',
+                " Content-Type ": ' application/json ',
+            }
+
+        });
+
+        let json = await consulta.json();  
+        
+        return json;
+    
+    }
+
     return (
 
         <tr className={props.estado} data-aos="fade-up">
@@ -34,7 +58,8 @@ export default function FilaTabla(props) {
                 </td>
 
                 <td>
-                    <a href="" data-toggle="modal" data-target="#exampleModal"><img src="img/ver.png" alt=""
+
+                    <a href="" onClick={()=>cargarUsuario(props.cuit)} data-toggle="modal" data-target="#exampleModal"><img src="img/ver.png" alt=""
                         width="25px" height="25px" /></a>
                 </td>
 

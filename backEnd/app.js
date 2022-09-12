@@ -66,10 +66,55 @@ app.get('/atencion-online', (req, res) => {
 
 app.get('/usuarios', (req, res) => {
 
+    debugger;
+
     res.send(JSON.stringify(usuarios));
     console.log(usuarios);
 
 });
+
+app.get('/usuarios/:nombre_usuario', (req, res) => {
+    const nombre = req.params.nombre_usuario;
+    const resultados = usuarios.usuario.filter(dato => dato.nombre_usuario == nombre);
+    
+    if (resultados.length === 0) {
+      return res.status(204).send(`No se encontraron usuario de ${nombre_usuario}`);
+    }
+    res.json(resultados);
+
+});
+
+  
+app.get('/usuarios/:nombre_usuario/:password', (req, res) => {
+
+    const usuario = req.params.nombre_usuario;
+    const contraseña = req.params.password;
+
+    const resultados = usuarios.usuario.filter(dato => dato.password == contraseña 
+        && dato.nombre_usuario === usuario);
+    
+    if (resultados.length === 0) {
+      return res.status(204).send(`No se encontro usuario...`);
+    }
+    res.json(resultados);
+
+});
+
+  
+app.get('/atencion-online/usuario/:cuit', (req, res) => {
+
+    const cuit = req.params.cuit;
+
+    const resultados = solicitudes.usuarios.filter(dato => dato.cuit == cuit);
+    
+    if (resultados.length === 0) {
+      return res.status(204).send(`No se encontro usuario...`);
+    }
+    
+    res.json(resultados);
+    
+});
+
 
 const PUERTO = process.env.PORT || 4000;
 

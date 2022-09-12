@@ -3,17 +3,43 @@ import FiltrosTablas from "./FiltrosTabla"
 import Tabla from "./tabla"
 import FilaTabla from "./FilaTabla"
 import Footer from "./Footer"
+import Cookies from 'universal-cookie';
+import InfoConsultaTabla from "./InfoConsultaTabla"
 
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+const cookies = new Cookies();
 
 
 export default function PageWrapperTabla(props) {
 
+
+    //aqui va la veririficacion de la cookie
+
+    const cerrarSesion = () => {
+
+        cookies.remove('id', { path: "/" });
+        cookies.remove('rol', { path: "/" });
+        cookies.remove('nombre_usuario', { path: "/" });
+        window.location.href = './';
+
+    }
+
+    const permiso = () => {
+
+        if (!cookies.get('nombre_usuario')) {
+
+            window.location.href = "./";
+
+        }
+
+    }
+
     const [consultas, setConsultas] = useState([]);
     let filasConsultas;
-    
-    useEffect(() =>{
 
+    useEffect(() => {
+
+        permiso();
         cargarConsultasUsuarios();
 
     }, []);
@@ -51,9 +77,12 @@ export default function PageWrapperTabla(props) {
 
         <div>
 
+            <InfoConsultaTabla />
+
             <div>
 
                 <NavBarTabla />
+                <button onClick={cerrarSesion}>Cerrar Sesión</button>
 
             </div>
 
@@ -74,6 +103,7 @@ export default function PageWrapperTabla(props) {
                             return (
 
                                 <FilaTabla
+                                    id={con.id}
                                     apyNom={con.nombre}
                                     cuit={con.cuit}
                                     razonConsulta={con.tipo_solicitud}
@@ -98,7 +128,7 @@ export default function PageWrapperTabla(props) {
 
             </div>
 
-        </div>
+        </div >
 
     )
 

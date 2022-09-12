@@ -1,5 +1,12 @@
 import Footer from "./Footer"
 import { useState } from "react";
+import axios from "axios";
+import md5 from "md5";
+import Cookies from 'universal-cookie';
+
+
+const baseUrl = "http://localhost:4000/usuarios/";
+const cookies = new Cookies();
 
 export default function InicioSesion(props) {
 
@@ -23,7 +30,104 @@ export default function InicioSesion(props) {
 
         console.log(linea1);
         console.log(linea2);
-    
+
+    }
+
+    const buscarUsuario = async () => {
+
+        let url = 'http://localhost:4000/usuarios/' + linea1 + '/' + md5(linea2) + '';
+
+        let consulta = await fetch(url, {
+
+            " method ": ' GET ',
+            " headers ": {
+                " Accept ": ' application/json ',
+                " Content-Type ": ' application/json ',
+            }
+
+        });
+
+        try {
+
+            let json = await consulta.json();
+            console.log(json);
+            console.log(md5(linea2));
+            return json;
+            
+        } catch (error) {
+
+            alert("Usuario o Contraseña no Validos...")
+            
+        }
+    }
+
+    async function InicioSesionUsuario() {
+
+        let usuario = await buscarUsuario()
+
+            .then(usuario => {
+
+                if (usuario.length > 0) {
+
+                    var usu = usuario[0];
+                    console.log(usu.nombre_usuario);
+                    console.log(usu.password);
+                    
+                    if (usu.nombre_usuario == linea1 && usu.password == md5(linea2)) {
+
+                        console.log(usu);
+                        cookies.set('id', usu.id, { path: "/" });
+                        cookies.set('rol', usu.rol, { path: "/" });
+                        cookies.set('nombre_usuario', usu.nombre_usuario, { path: "/" });
+                        alert(`Bienvenido ${usu.nombre_usuario}`);
+                        window.location.href = "./atencion-online";
+
+                    }else{
+
+                        alert("Usuario o Contraseña erroneas...")
+
+                    }
+
+                } else {
+
+                    alert("No se encontro usuario");
+
+                }
+            })
+
+
+    }
+
+
+    async function cargar() {
+
+        //lo cambiabos por un metodo fetch luego
+        await axios.get(baseUrl, { params: { nombre_usuario: linea1, contraseña_usuario: md5(linea2) } })
+            .then(response => {
+                console.log(response.data);
+                return (response.data);
+            })
+            .then(response => {
+                if (response.length > 0) {
+
+                    var respuesta = response[0];
+                    cookies.set('id', respuesta.id, { path: "/" });
+                    cookies.set('rol', respuesta.rol, { path: "/" });
+                    cookies.set('nombre_usuario', respuesta.nombre_usuario, { path: "/" });
+                    alert(`Bienvenido ${respuesta.nombre_usuario}`);
+                    //window.location.href="./atencion-online";
+
+                } else {
+
+                    alert("No se encontro usuario");
+
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+
     }
 
 
@@ -76,7 +180,7 @@ export default function InicioSesion(props) {
 
                         <div className="input-group mb-3 d-flex justify-content-center">
 
-                            <button href="inicio-sesion" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={mostrar}>Ingresar</button>
+                            <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={InicioSesionUsuario}>Ingresar</button>
 
                         </div>
 

@@ -1,23 +1,22 @@
+
 let usuarios = {
 
-    'usuarios': [
+    "usuario":[
         {
             id: 1,
-            rol:"usuario",
+            rol: "usuario",
             nombre_usuario: "facundo",
-            contraseña_usuario: "1f32aa4c9a1d2ea010adcf2348166a04",
+            password: "81dc9bdb52d04dc20036dbd8313ed055",
 
         },
         {
             id: 2,
-            rol:"interno",
+            rol: "interno",
             nombre_usuario: "admin",
-            contraseña_usuario: "1f32aa4c9a1d2ea010adcf2348166a04",
+            password: "81dc9bdb52d04dc20036dbd8313ed055",
 
         }
 
     ]
-
 }
-
 module.exports.usuarios = usuarios;
