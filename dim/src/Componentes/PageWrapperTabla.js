@@ -9,9 +9,7 @@ import InfoConsultaTabla from "./InfoConsultaTabla"
 import { useState, useEffect } from "react";
 const cookies = new Cookies();
 
-
 export default function PageWrapperTabla(props) {
-
 
     //aqui va la veririficacion de la cookie
 
@@ -108,6 +106,7 @@ export default function PageWrapperTabla(props) {
                                     cuit={con.cuit}
                                     razonConsulta={con.tipo_solicitud}
                                     estado={con.estado}
+                                    id_solicitud={con.id_solicitud}
                                 />
 
                             )

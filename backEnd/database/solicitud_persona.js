@@ -21,7 +21,7 @@ let solicitudes = {
         },
         {
             id: 2,
-            id_solicitud: 28512,
+            id_solicitud: 28513,
             tipo_solicitud: 2,
             caracter: '3',
             tipo_doc: 9999999999,
@@ -39,7 +39,7 @@ let solicitudes = {
         },
         {
             id: 3,
-            id_solicitud: 28512,
+            id_solicitud: 28514,
             tipo_solicitud: 2,
             caracter: '3',
             tipo_doc: 9999999999,
@@ -56,7 +56,7 @@ let solicitudes = {
         },
         {
             id: 4,
-            id_solicitud: 28512,
+            id_solicitud: 28515,
             tipo_solicitud: 2,
             caracter: '3',
             tipo_doc: 9999999999,
@@ -72,8 +72,8 @@ let solicitudes = {
             estado: "tr-bg-vistoNoContestado"
         },
         {
-            id: 4,
-            id_solicitud: 28512,
+            id: 5,
+            id_solicitud: 28516,
             tipo_solicitud: 2,
             caracter: '3',
             tipo_doc: 9999999999,
@@ -89,8 +89,8 @@ let solicitudes = {
             estado: "tr-bg-vistoNoContestado"
         },
         {
-            id: 4,
-            id_solicitud: 28512,
+            id: 6,
+            id_solicitud: 28517,
             tipo_solicitud: 2,
             caracter: '3',
             tipo_doc: 9999999999,
@@ -106,8 +106,8 @@ let solicitudes = {
             estado: "tr-bg-vistoNoContestado"
         },
         {
-            id: 4,
-            id_solicitud: 28512,
+            id: 7,
+            id_solicitud: 28518,
             tipo_solicitud: 2,
             caracter: '3',
             tipo_doc: 9999999999,
@@ -123,8 +123,8 @@ let solicitudes = {
             estado: "tr-bg-vistoNoContestado"
         },
         {
-            id: 4,
-            id_solicitud: 28512,
+            id: 8,
+            id_solicitud: 28519,
             tipo_solicitud: 2,
             caracter: '3',
             tipo_doc: 9999999999,

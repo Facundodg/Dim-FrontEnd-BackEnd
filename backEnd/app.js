@@ -104,8 +104,22 @@ app.get('/usuarios/:nombre_usuario/:password', (req, res) => {
 app.get('/atencion-online/usuario/:cuit', (req, res) => {
 
     const cuit = req.params.cuit;
-
+  
     const resultados = solicitudes.usuarios.filter(dato => dato.cuit == cuit);
+    
+    if (resultados.length === 0) {
+      return res.status(204).send(`No se encontro usuario...`);
+    }
+    
+    res.json(resultados);
+    
+});
+
+app.get('/solicitud/:id_solicitud', (req, res) => {
+
+    const idSolicitud = req.params.id_solicitud;
+  
+    const resultados = solicitudes.usuarios.filter(dato => dato.id_solicitud == idSolicitud);
     
     if (resultados.length === 0) {
       return res.status(204).send(`No se encontro usuario...`);
