@@ -1,9 +1,19 @@
 import PageWrapperChat from "./PageWrapperChat"
 import Interno from "./Interno"
 import Usuario from "./Usuario"
-import { useState,useEffect } from "react";
+import { useState,useEffect} from "react";
+import { useNavigate,useParams } from "react-router-dom"
+
 
 export default function Solicitud(props) {
+
+    const params = useParams();
+
+    useEffect(() => {
+
+        console.log(params);
+    
+    }, []);
 
     //--------------------PRUEBAS--------------------
 

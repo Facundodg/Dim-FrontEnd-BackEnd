@@ -17,11 +17,11 @@ function App() {
 
       <Routes>
 
-        <Route path="/chat" element={<Chat/>} />
-        <Route path='/atencion-online' element={<PageWrapperTabla/>}/>
-        <Route path="/" element={<InicioSesion/>} />
-        
-        <Route path="/Solicitud" element={<Solicitud/>} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path='/atencion-online' element={<PageWrapperTabla />} />
+        <Route path="/" element={<InicioSesion />} />
+
+        <Route path="/atencion-online/solicitud/:id" element={<Solicitud />} />
 
       </Routes>
 

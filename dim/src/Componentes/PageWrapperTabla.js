@@ -6,6 +6,7 @@ import Footer from "./Footer"
 import Cookies from 'universal-cookie';
 import InfoConsultaTabla from "./InfoConsultaTabla"
 
+
 import { useState, useEffect } from "react";
 const cookies = new Cookies();
 
@@ -54,7 +55,7 @@ export default function PageWrapperTabla(props) {
                 " Content-Type ": ' application/json ',
             }
 
-        });
+       });
 
         let json = await consulta.json();
 
