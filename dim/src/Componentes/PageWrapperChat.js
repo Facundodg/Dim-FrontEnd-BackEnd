@@ -8,7 +8,6 @@ export default function PageWrapperChat(props) {
 
   return (
 
-
     <div>
 
       <Opciones />

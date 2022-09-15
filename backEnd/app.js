@@ -1,47 +1,98 @@
 const express = require('express');
 const app = express();
 
-const {datos} = require('./database/chat.js');
-const {solicitudes} = require('./database/solicitud_persona.js');
-const {usuarios} = require('./database/usuarios.js');
+const { datos } = require('./database/chat.js');
+const { solicitudes } = require('./database/solicitud_persona.js');
+const { usuarios } = require('./database/usuarios.js');
+const {infoSolicitud} = require('./database/infoSolicitud.js');
 
+const jwt = require("jsonwebtoken");
+const keys = require("./settings/keys");
 
-
-/*
-
-//2 - seteamos urlencoded para capturar los datos del formulario
-app.use(express.urlencoded({extended:false}));
+app.set('key', keys.key);
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-//3 - Invocamos a dotenv
-const dotenv = require("dotenv");
-dotenv.config({path:"./env/.env"});
+//PRUEBA DE LOGIN PARA PROBAR EL TOKEN POR THUNDER CLIENT
 
-//5 - Establecer un motor de plantillas 
-app.set("view engine", "ejs");
+app.post("/login", (req, res) => {
 
-//6 - Invocar o bcryptjs
-const bcryptjs = require("bcryptjs");
+    if (req.body.usuario == "admin" && req.body.password == "1234") {
 
-app.post("/inicio-sesion", async(req,res) =>{
+        const payload = {
+            ckeck: true
+        }
+        const token = jwt.sign(payload, app.get("key"), {
+            expiresIn: "2d"
+        });
+        res.json({
 
-    console.log("holaaa");
+            message: "AUTENTICADO CON EXITO",
+            token: token
+
+        })
+    } else {
+
+        res.json({
+
+            message: "TOKEN NO CORRECTO"
+
+        })
+
+    }
+
+})
+
+//PRUEBA DE INICIO SESION CON TOKEN
+
+const verificacion = express.Router();
+
+verificacion.use((req,res,next) =>{
+
+    let token = req.headers["x-access-token"] || req.header["authorization"];
+    console.log(token);
+
+    if (!token){
+        res.status(401).send({
+            error : ' Es necesario un token de autenticación'
+        })
+        return
+    }
+    if(token.startsWith("Bearer ")){
+        token = token.slice(7,token.length);
+        console.log(token);
+    }
+    if(token){
+
+        jwt.verify(token, app.get("key"), (error,decoded) =>{
+
+            if(error){
+
+                return res.json({
+
+                    message:"El token no es valido"
+
+                });
+
+            }else{
+
+                req.decoded = decoded;
+                next();
+
+            }
+
+        })
+
+    }
 
 });
 
-app.post("/auth", async(req, res) => {
+app.get("/info", verificacion,(req,res) =>{
+    res.json("INFORMACION ENTREGADA");
+})
 
-    const user = req.body.user;
-    const password = req.body.password;
 
-    console.log("usuario: " + user);
-    console.log("password: " + password);
-
-});
-
-*/
-
-//
+//EXPRESA EL ARRANQUE DE EL SERVIDOR
 
 app.get('/', (req, res) => {
 
@@ -50,12 +101,34 @@ app.get('/', (req, res) => {
 });
 
 
+//INGRESA A LA VENTANA CHAT ==> ESTA VENTANA EN EL FRONT TENEMOS QUE ELIMINAR (CONSULTAR ANTES DE GENERAR CAMBIO)
+
 app.get('/chat', (req, res) => {
 
     res.send(JSON.stringify(datos));
     console.log(datos);
 
 });
+
+
+//creacion de un login de prueba que crea el token
+
+app.get('/chat/:idcabecera', (req, res) => {
+
+    const idCabezera = req.params.idcabecera;
+
+    const resultados = datos.chat.filter(dato => dato.idcabecera == idCabezera);
+
+    if (resultados.length === 0) {
+        return res.status(204).send(`No se encontro usuario...`);
+    }
+
+    res.json(resultados);
+
+});
+
+
+//GET QUE SE ENCARGA DE MOSTRAR LAS FILAS DE LA TABLA
 
 app.get('/atencion-online', (req, res) => {
 
@@ -64,69 +137,93 @@ app.get('/atencion-online', (req, res) => {
 
 });
 
+//MUESTRA LOS USUARIOS DESDE EL LADO DEL SERVIDOR http://localhost:4000/usuarios
+
 app.get('/usuarios', (req, res) => {
-
-    debugger;
-
+    
     res.send(JSON.stringify(usuarios));
     console.log(usuarios);
 
 });
 
+//FILTRA LOS USUARIOS POR NOMBRE http://localhost:4000/usuarios/2
+
 app.get('/usuarios/:nombre_usuario', (req, res) => {
     const nombre = req.params.nombre_usuario;
     const resultados = usuarios.usuario.filter(dato => dato.nombre_usuario == nombre);
-    
+
     if (resultados.length === 0) {
-      return res.status(204).send(`No se encontraron usuario de ${nombre_usuario}`);
+        return res.status(204).send(`No se encontraron usuario de ${nombre_usuario}`);
     }
     res.json(resultados);
 
 });
 
-  
+
+//FILTRA LOS USUARIOS POR NOMBRE Y CONTRASEÑA http://localhost:4000/usuarios/facundo/1234
+
 app.get('/usuarios/:nombre_usuario/:password', (req, res) => {
 
     const usuario = req.params.nombre_usuario;
     const contraseña = req.params.password;
 
-    const resultados = usuarios.usuario.filter(dato => dato.password == contraseña 
+    const resultados = usuarios.usuario.filter(dato => dato.password == contraseña
         && dato.nombre_usuario === usuario);
-    
+
     if (resultados.length === 0) {
-      return res.status(204).send(`No se encontro usuario...`);
+        return res.status(204).send(`No se encontro usuario...`);
     }
     res.json(resultados);
 
 });
 
-  
+
+//FILTRA LOS USUARIOS POR CUIT http://localhost:4000/usuarios/23122132322
+
 app.get('/atencion-online/usuario/:cuit', (req, res) => {
 
     const cuit = req.params.cuit;
-  
+
     const resultados = solicitudes.usuarios.filter(dato => dato.cuit == cuit);
-    
+
     if (resultados.length === 0) {
-      return res.status(204).send(`No se encontro usuario...`);
+        return res.status(204).send(`No se encontro usuario...`);
     }
-    
+
     res.json(resultados);
-    
+
 });
+
+//FILTRA LOS USUARIOS POR id_solicitud http://localhost:4000/solicitud/28511
 
 app.get('/solicitud/:id_solicitud', (req, res) => {
 
     const idSolicitud = req.params.id_solicitud;
-  
+
     const resultados = solicitudes.usuarios.filter(dato => dato.id_solicitud == idSolicitud);
-    
+
     if (resultados.length === 0) {
-      return res.status(204).send(`No se encontro usuario...`);
+        return res.status(204).send(`No se encontro usuario...`);
     }
-    
+
     res.json(resultados);
-    
+
+});
+
+//FILTRA LOS USUARIOS POR id_solicitud http://localhost:4000/infosolicitud/28511
+
+app.get('/solicitud/:num_tramite', (req, res) => {
+
+    const num_tramite = req.params.num_tramite;
+
+    const resultados = infoSolicitud.solicitud.filter(dato => dato.num_tramite == num_tramite);
+
+    if (resultados.length === 0) {
+        return res.status(204).send(`No se encontro usuario...`);
+    }
+
+    res.json(resultados);
+
 });
 
 

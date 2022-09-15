@@ -1,9 +1,8 @@
-
 let solicitudes = {
     'usuarios': [
         {
             id: 1,
-            id_solicitud: 28512,
+            id_solicitud: 28511,
             tipo_solicitud: 2,
             caracter: '3',
             tipo_doc: 9999999999,

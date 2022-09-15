@@ -1,26 +1,30 @@
 import PageWrapperChat from "./PageWrapperChat"
 import Interno from "./Interno"
 import Usuario from "./Usuario"
-import { useState,useEffect} from "react";
-import { useNavigate,useParams } from "react-router-dom"
+import InfoContribuyenteResumida from "./InfoContribuyenteResumida";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom"
 
 
 export default function Solicitud(props) {
 
+    const [chats, setChat] = useState([]);
+    //const [info, setInfo] = useState([]);
+
+    let filasChat;
     const params = useParams();
 
     useEffect(() => {
 
-        console.log(params);
-    
+        console.log(params.id);
+        ConsultaDeUnicoChat();
+        //infoConsulta();
+
     }, []);
 
-    //--------------------PRUEBAS--------------------
+    const ConsultaDeUnicoChat = async () => {
 
-/*
-    const SolicitudConsulta = async () => {
-
-        let url = 'http://localhost:4000/solicitud/'+id_solicitud+'';
+        let url = 'http://localhost:4000/chat/' + params.id + '';
 
         let consulta = await fetch(url, {
 
@@ -33,37 +37,14 @@ export default function Solicitud(props) {
         });
 
         let json = await consulta.json();
-
-
-        {
-            Object.entries(json).map(js => {
-
-                filasChat = js[1];
-
-            })
-        }
-
-
-        setChat(filasChat);
+        setChat(json);
 
     }
 
-*/
+    /*
+    const infoConsulta = async () => {
 
-    //---------------------------------------------
-
-    const [chats, setChat] = useState([]);
-    let filasChat;
-
-    useEffect(() =>{
-
-        buscarChat();
-
-    }, []);
-
-    const buscarChat = async () => {
-
-        let url = "http://localhost:4000/chat";
+        let url = 'http://localhost:4000/solicitud/' + params.id + '';
 
         let consulta = await fetch(url, {
 
@@ -76,56 +57,52 @@ export default function Solicitud(props) {
         });
 
         let json = await consulta.json();
-
-
-        {
-            Object.entries(json).map(js => {
-
-                filasChat = js[1];
-
-            })
-        }
-
-
-        setChat(filasChat);
+        setInfo(json);
 
     }
+
+    */
 
     return (
 
         <PageWrapperChat>
 
-            {chats.map(chat => {
+            {Object.entries(chats).map(js => {
 
-                if (chat.rol == "usuario") {
+
+                filasChat = js[1];
+                console.log(filasChat);
+
+                if (filasChat.rol == "usuario") {
 
                     return (
 
                         <Usuario
-                            img={chat.img}
-                            nombre={chat.usuario}
-                            rol={chat.rol}
-                            fecha={chat.fecha_mov}
-                            mensaje={chat.mensaje}
+                            img={filasChat.img}
+                            nombre={filasChat.usuario}
+                            rol={filasChat.rol}
+                            fecha={filasChat.fecha_mov}
+                            mensaje={filasChat.mensaje}
                         />
 
                     )
 
-                } else if (chat.rol == "interno") {
+                } else if (filasChat.rol == "interno") {
 
                     return (
 
                         <Interno
-                            img={chat.img}
-                            nombre={chat.usuario}
-                            rol={chat.rol}
-                            fecha={chat.fecha_mov}
-                            mensaje={chat.mensaje}
+                            img={filasChat.img}
+                            nombre={filasChat.usuario}
+                            rol={filasChat.rol}
+                            fecha={filasChat.fecha_mov}
+                            mensaje={filasChat.mensaje}
                         />
 
                     )
 
                 }
+
             })}
 
         </PageWrapperChat>
