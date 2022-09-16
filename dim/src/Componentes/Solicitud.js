@@ -8,8 +8,8 @@ import { useNavigate, useParams } from "react-router-dom"
 
 export default function Solicitud(props) {
 
-    const [chats, setChat] = useState([]);
-    //const [info, setInfo] = useState([]);
+    //const [chats, setChat] = useState([]);
+    const [info, setInfo] = useState([]);
 
     let filasChat;
     const params = useParams();
@@ -17,10 +17,14 @@ export default function Solicitud(props) {
     useEffect(() => {
 
         console.log(params.id);
-        ConsultaDeUnicoChat();
-        //infoConsulta();
+        infoConsulta();
+        //ConsultaDeUnicoChat();
 
     }, []);
+
+    console.log(info);
+
+    /*
 
     const ConsultaDeUnicoChat = async () => {
 
@@ -41,8 +45,13 @@ export default function Solicitud(props) {
 
     }
 
-    /*
+    */
+
+//-----------------------CAMBIAR ESTE FETCH--------------------------------------
+
     const infoConsulta = async () => {
+
+        console.log(params.id);
 
         let url = 'http://localhost:4000/solicitud/' + params.id + '';
 
@@ -57,53 +66,28 @@ export default function Solicitud(props) {
         });
 
         let json = await consulta.json();
-        setInfo(json);
+        
+        let filas = json[0];
+
+        setInfo(filas);
 
     }
 
-    */
+//------------------------------------------------------------------------------
 
     return (
 
-        <PageWrapperChat>
-
-            {Object.entries(chats).map(js => {
+        <PageWrapperChat data={params.id}>
 
 
-                filasChat = js[1];
-                console.log(filasChat);
+            <InfoContribuyenteResumida
 
-                if (filasChat.rol == "usuario") {
+                consultaN={info.num_tramite}
+                nombreContribuyente={info.nombre_contribuyente}
+                cuitContribuyente={info.cuit_contribuyente}
+                razonSocial={info.razon_social}
 
-                    return (
-
-                        <Usuario
-                            img={filasChat.img}
-                            nombre={filasChat.usuario}
-                            rol={filasChat.rol}
-                            fecha={filasChat.fecha_mov}
-                            mensaje={filasChat.mensaje}
-                        />
-
-                    )
-
-                } else if (filasChat.rol == "interno") {
-
-                    return (
-
-                        <Interno
-                            img={filasChat.img}
-                            nombre={filasChat.usuario}
-                            rol={filasChat.rol}
-                            fecha={filasChat.fecha_mov}
-                            mensaje={filasChat.mensaje}
-                        />
-
-                    )
-
-                }
-
-            })}
+            />
 
         </PageWrapperChat>
 

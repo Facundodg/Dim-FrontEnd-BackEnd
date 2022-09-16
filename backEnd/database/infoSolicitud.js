@@ -2,6 +2,7 @@ let infoSolicitud = {
 
     "solicitud":[
         {
+            
             id: 1,
             num_tramite: 28511,
             nombre_contribuyente: "Garbarino 28511 ",
@@ -13,6 +14,7 @@ let infoSolicitud = {
 
         },
         {
+
             id: 2,
             num_tramite: 32312,
             nombre_contribuyente: "MusiMundo ",

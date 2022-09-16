@@ -196,27 +196,11 @@ app.get('/atencion-online/usuario/:cuit', (req, res) => {
 
 //FILTRA LOS USUARIOS POR id_solicitud http://localhost:4000/solicitud/28511
 
-app.get('/solicitud/:id_solicitud', (req, res) => {
-
-    const idSolicitud = req.params.id_solicitud;
-
-    const resultados = solicitudes.usuarios.filter(dato => dato.id_solicitud == idSolicitud);
-
-    if (resultados.length === 0) {
-        return res.status(204).send(`No se encontro usuario...`);
-    }
-
-    res.json(resultados);
-
-});
-
-//FILTRA LOS USUARIOS POR id_solicitud http://localhost:4000/infosolicitud/28511
-
 app.get('/solicitud/:num_tramite', (req, res) => {
 
-    const num_tramite = req.params.num_tramite;
+    const idSolicitud = req.params.num_tramite;
 
-    const resultados = infoSolicitud.solicitud.filter(dato => dato.num_tramite == num_tramite);
+    const resultados = infoSolicitud.solicitud.filter(dato => dato.num_tramite == idSolicitud);
 
     if (resultados.length === 0) {
         return res.status(204).send(`No se encontro usuario...`);
@@ -225,7 +209,6 @@ app.get('/solicitud/:num_tramite', (req, res) => {
     res.json(resultados);
 
 });
-
 
 const PUERTO = process.env.PORT || 4000;
 

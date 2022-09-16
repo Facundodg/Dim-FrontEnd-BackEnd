@@ -3,8 +3,38 @@ import Interno from './Interno';
 import Opciones from './Opciones';
 import InfoContribuyente from './InfoContribuyente';
 import InfoContribuyenteResumida from './InfoContribuyenteResumida';
+import { useState, useEffect } from "react";
 
 export default function PageWrapperChat(props) {
+
+  const [chats, setChat] = useState([]);
+
+  useEffect(() => {
+
+    ConsultaDeUnicoChat();
+
+  }, []);
+
+  const ConsultaDeUnicoChat = async () => {
+
+    let url = 'http://localhost:4000/chat/' + props.data + '';
+
+    let consulta = await fetch(url, {
+
+      " method ": ' GET ',
+      " headers ": {
+        " Accept ": ' application/json ',
+        " Content-Type ": ' application/json ',
+      }
+
+    });
+
+    let json = await consulta.json();
+    console.log(json);
+    setChat(json);
+
+  }
+
 
   return (
 
@@ -20,14 +50,7 @@ export default function PageWrapperChat(props) {
                 <div className="job-box-filter">
                   <div className="row">
 
-                    <InfoContribuyenteResumida
-
-                      consultaN="43422"
-                      nombreContribuyente="Garbarino"
-                      cuitContribuyente="231232243"
-                      razonSocial="FEDERACION, PATRONAL SEGUROS S.A"
-
-                    />
+                    {props.children}
 
                   </div>
 
@@ -65,7 +88,43 @@ export default function PageWrapperChat(props) {
                       </div>
 
 
-                      {props.children}
+                      {Object.entries(chats).map(js => {
+
+
+                        let filasChat = js[1];
+                        console.log(filasChat);
+
+                        if (filasChat.rol == "usuario") {
+
+                          return (
+
+                            <Usuario
+                              img={filasChat.img}
+                              nombre={filasChat.usuario}
+                              rol={filasChat.rol}
+                              fecha={filasChat.fecha_mov}
+                              mensaje={filasChat.mensaje}
+                            />
+
+                          )
+
+                        } else if (filasChat.rol == "interno") {
+
+                          return (
+
+                            <Interno
+                              img={filasChat.img}
+                              nombre={filasChat.usuario}
+                              rol={filasChat.rol}
+                              fecha={filasChat.fecha_mov}
+                              mensaje={filasChat.mensaje}
+                            />
+
+                          )
+
+                        }
+
+                      })}
 
 
                     </ul>
