@@ -4,6 +4,7 @@ import Usuario from "./Usuario"
 import InfoContribuyenteResumida from "./InfoContribuyenteResumida";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom"
+import InfoContribuyente from "./InfoContribuyente";
 
 
 export default function Solicitud(props) {
@@ -47,7 +48,7 @@ export default function Solicitud(props) {
 
     */
 
-//-----------------------CAMBIAR ESTE FETCH--------------------------------------
+    //-----------------------CAMBIAR ESTE FETCH--------------------------------------
 
     const infoConsulta = async () => {
 
@@ -66,28 +67,30 @@ export default function Solicitud(props) {
         });
 
         let json = await consulta.json();
-        
+
         let filas = json[0];
 
         setInfo(filas);
 
     }
 
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
 
     return (
 
         <PageWrapperChat data={params.id}>
 
+            <div>
+                <InfoContribuyenteResumida
 
-            <InfoContribuyenteResumida
+                    consultaN={info.num_tramite}
+                    nombreContribuyente={info.nombre_contribuyente}
+                    cuitContribuyente={info.cuit_contribuyente}
+                    razonSocial={info.razon_social}
 
-                consultaN={info.num_tramite}
-                nombreContribuyente={info.nombre_contribuyente}
-                cuitContribuyente={info.cuit_contribuyente}
-                razonSocial={info.razon_social}
+                />
 
-            />
+            </div>
 
         </PageWrapperChat>
 
