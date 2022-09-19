@@ -13,6 +13,8 @@ export default function InicioSesion(props) {
     const [linea1, setUsuario] = useState();
     const [linea2, setContraseña] = useState();
 
+    let datos ={}
+
 
     const usuario = function (evento) {
 
@@ -43,8 +45,8 @@ export default function InicioSesion(props) {
             " headers ": {
                 " Accept ": ' application/json ',
                 " Content-Type ": ' application/json ',
-            }
-
+            },
+        
         });
 
         try {
@@ -97,7 +99,6 @@ export default function InicioSesion(props) {
 
 
     }
-
 
     async function cargar() {
 

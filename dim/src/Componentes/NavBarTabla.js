@@ -1,5 +1,7 @@
 export default function NavBarTabla(props) {
 
+	//const { cerrarSesion } = this.props;
+
 	return (
 
 		<nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom" id="menu-var">
@@ -15,6 +17,7 @@ export default function NavBarTabla(props) {
 			<div className="collapse navbar-collapse m-1" id="menu">
 
 				<ul className="navbar-nav">
+
 
 					<li className="nav-item">
 

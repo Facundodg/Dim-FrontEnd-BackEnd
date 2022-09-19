@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import Cookies from 'universal-cookie';
 import { useNavigate } from "react-router-dom"
 
-
 export default function FilaTabla(props) {
 
     const navigate = useNavigate();
@@ -44,7 +43,7 @@ export default function FilaTabla(props) {
     }
 
     return (
-
+	    
         <tr className={props.estado} data-aos="fade-up">
 
             <td>

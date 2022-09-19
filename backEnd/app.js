@@ -4,7 +4,7 @@ const app = express();
 const { datos } = require('./database/chat.js');
 const { solicitudes } = require('./database/solicitud_persona.js');
 const { usuarios } = require('./database/usuarios.js');
-const {infoSolicitud} = require('./database/infoSolicitud.js');
+const { infoSolicitud } = require('./database/infoSolicitud.js');
 
 const jwt = require("jsonwebtoken");
 const keys = require("./settings/keys");
@@ -15,7 +15,22 @@ app.use(express.json());
 
 //PRUEBA DE LOGIN PARA PROBAR EL TOKEN POR THUNDER CLIENT
 
+/*
+
+  const request = await fetch('api/usuarios', {
+    method: 'POST',
+    headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(datos)
+  });
+  
+*/
+
 app.post("/login", (req, res) => {
+
+    console.log(req.body);
 
     if (req.body.usuario == "admin" && req.body.password == "1234") {
 
@@ -47,34 +62,34 @@ app.post("/login", (req, res) => {
 
 const verificacion = express.Router();
 
-verificacion.use((req,res,next) =>{
+verificacion.use((req, res, next) => {
 
     let token = req.headers["x-access-token"] || req.header["authorization"];
     console.log(token);
 
-    if (!token){
+    if (!token) {
         res.status(401).send({
-            error : ' Es necesario un token de autenticación'
+            error: ' Es necesario un token de autenticación'
         })
         return
     }
-    if(token.startsWith("Bearer ")){
-        token = token.slice(7,token.length);
+    if (token.startsWith("Bearer ")) {
+        token = token.slice(7, token.length);
         console.log(token);
     }
-    if(token){
+    if (token) {
 
-        jwt.verify(token, app.get("key"), (error,decoded) =>{
+        jwt.verify(token, app.get("key"), (error, decoded) => {
 
-            if(error){
+            if (error) {
 
                 return res.json({
 
-                    message:"El token no es valido"
+                    message: "El token no es valido"
 
                 });
 
-            }else{
+            } else {
 
                 req.decoded = decoded;
                 next();
@@ -87,7 +102,7 @@ verificacion.use((req,res,next) =>{
 
 });
 
-app.get("/info", verificacion,(req,res) =>{
+app.get("/info", verificacion, (req, res) => {
     res.json("INFORMACION ENTREGADA");
 })
 
@@ -140,7 +155,7 @@ app.get('/atencion-online', (req, res) => {
 //MUESTRA LOS USUARIOS DESDE EL LADO DEL SERVIDOR http://localhost:4000/usuarios
 
 app.get('/usuarios', (req, res) => {
-    
+
     res.send(JSON.stringify(usuarios));
     console.log(usuarios);
 
@@ -160,6 +175,18 @@ app.get('/usuarios/:nombre_usuario', (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 //FILTRA LOS USUARIOS POR NOMBRE Y CONTRASEÑA http://localhost:4000/usuarios/facundo/1234
 
 app.get('/usuarios/:nombre_usuario/:password', (req, res) => {
@@ -171,11 +198,53 @@ app.get('/usuarios/:nombre_usuario/:password', (req, res) => {
         && dato.nombre_usuario === usuario);
 
     if (resultados.length === 0) {
+
         return res.status(204).send(`No se encontro usuario...`);
+
     }
-    res.json(resultados);
+
+        /*
+
+        // Dominio que tengan acceso (ej. 'http://example.com')
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000/atencion-online');
+
+        // Metodos de solicitud que deseas permitir
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+
+        // Encabecedados que permites (ej. 'X-Requested-With,content-type')
+        res.setHeader('Access-Control-Allow-Headers', '*');
+
+
+        */
+
+        console.log(resultados);
+        res.json(resultados);
+
+        /*
+        res.json({
+
+            message: "AUTENTICADO CON EXITO",
+            token: token
+
+        })
+        */
+
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //FILTRA LOS USUARIOS POR CUIT http://localhost:4000/usuarios/23122132322

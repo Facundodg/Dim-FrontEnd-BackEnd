@@ -54,8 +54,9 @@ export default function PageWrapperChat(props) {
           <path d="M9.972 2.508a.5.5 0 0 0-.16-.556l-.178-.129a5.009 5.009 0 0 0-2.076-.783C6.215.862 4.504 1.229 2.84 3.133H1.786a.5.5 0 0 0-.354.147L.146 4.567a.5.5 0 0 0 0 .706l2.571 2.579a.5.5 0 0 0 .708 0l1.286-1.29a.5.5 0 0 0 .146-.353V5.57l8.387 8.873A.5.5 0 0 0 14 14.5l1.5-1.5a.5.5 0 0 0 .017-.689l-9.129-8.63c.747-.456 1.772-.839 3.112-.839a.5.5 0 0 0 .472-.334z" />
         </svg></a>
 
-        <a className="info" href="" data-toggle="modal" data-target="#exampleModal"><img src=".../img/informacion.png" alt="" width="25px"
-          height="25px" /></a>
+        <a className="info" href="" data-toggle="modal" data-target="#exampleModal"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+        </svg></a>
 
       </nav>
 
@@ -90,13 +91,13 @@ export default function PageWrapperChat(props) {
                             <div className="modal-body">
 
                               <InfoContribuyente
-                                consultaN="2312312312312312312"
+                                consultaN={props.consultaN}
                                 ultimoUsuario="erubio"
-                                fechaInicio="21-08-2022"
-                                cuitContribuyente="32549242421"
-                                razonSocial="FEDERACION, PATRONAL SEGUROS S.A"
-                                dniSolicitante="32549242421"
-                                apinomSolicitante="TORRES, FERNANDO JAVIER"
+                                fechaInicio={props.fecha}
+                                cuitContribuyente={props.cuitContribuyente}
+                                razonSocial={props.razon_social}
+                                dniSolicitante={props.dniUsuario}
+                                apinomSolicitante={props.razonSocial}
                               />
 
                             </div>
@@ -151,10 +152,12 @@ export default function PageWrapperChat(props) {
                       <div className="input-group">
                         <div className="input-group-prepend">
 
-                          <a href="" className="btn btn-outline-secondary" type="button"><img
-                            src="img/enviar.png" width="25" height="25" alt="" /></a>
-                          <a href="" className="btn btn-outline-secondary" type="button"><img
-                            src="img/abrir-documento.png" width="25" height="25" alt="" /></a>
+                          <a href="" className="btn btn-outline-secondary" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
+                            <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zM.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z" />
+                          </svg></a>
+                          <a href="" className="btn btn-outline-secondary" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                          </svg></a>
 
                         </div>
                         <input type="text" className="form-control" placeholder="Escribe Mensaje...."

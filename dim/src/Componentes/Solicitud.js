@@ -78,7 +78,15 @@ export default function Solicitud(props) {
 
     return (
 
-        <PageWrapperChat data={params.id}>
+        <PageWrapperChat 
+        data={params.id}
+        consultaN={info.num_tramite}
+        nombreContribuyente={info.nombre_contribuyente}
+        cuitContribuyente={info.cuit_contribuyente}
+        razonSocial={info.razon_social}
+        fecha={info.fecha}
+        razon_social={info.razon_social}
+        dniUsuario={info.dni}>
 
             <div>
                 <InfoContribuyenteResumida

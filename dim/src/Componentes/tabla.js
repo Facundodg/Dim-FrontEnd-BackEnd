@@ -8,7 +8,7 @@ export default function Tabla(props) {
                 <tr>
                     <th>Apellido y Nombre</th>
                     <th>Cuit</th>
-                    <th>Tipo de Tramite</th>
+                    <th>Tributo</th>
                     <th>Mensajes</th>
                     <th>Vista</th>
                     <th>Opciones</th>
