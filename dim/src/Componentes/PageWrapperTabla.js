@@ -1,16 +1,48 @@
-import NavBarTabla from "./NavBarTabla"
-import FiltrosTablas from "./FiltrosTabla"
-import Tabla from "./tabla"
-import FilaTabla from "./FilaTabla"
-import Footer from "./Footer"
+import NavBarTabla from "./NavBarTabla";
+import FiltrosTablas from "./FiltrosTabla";
+import Tabla from "./tabla";
+import FilaTabla from "./FilaTabla";
+import Footer from "./Footer";
 import Cookies from 'universal-cookie';
-import InfoConsultaTabla from "./InfoConsultaTabla"
-
+import InfoConsultaTabla from "./InfoConsultaTabla";
+import axios from "axios";
 
 import { useState, useEffect } from "react";
-const cookies = new Cookies();
+
 
 export default function PageWrapperTabla(props) {
+
+    const cookies = new Cookies();
+
+    const [buscador, setBuscador] = useState();
+
+    const [filtrosPorTipo, setfiltroPorTipoTributo] = useState();
+
+    const [filtrosPorTipoSolicitu, setfiltroPorTipoSolicitud] = useState();
+
+    
+
+
+    const filtro1 = function (evento) {
+
+        setfiltroPorTipoTributo(evento.target.value)
+        console.log(evento.target.value);
+
+    }
+
+    const filtro2 = function (evento) {
+
+        setfiltroPorTipoSolicitud(evento.target.value)
+        console.log(evento.target.value);
+
+    }
+
+    const busca = function (evento) {
+
+        setBuscador(evento.target.value)
+        console.log(evento.target.value);
+
+    }
 
     //aqui va la veririficacion de la cookie
 
@@ -72,11 +104,123 @@ export default function PageWrapperTabla(props) {
 
     }
 
+    const cargarUsuario = async (cuit) => {
+
+        let url = 'http://localhost:4000/atencion-online/usuario/' + cuit + '';
+
+        console.log(cuit);
+
+        let consulta = await fetch(url, {
+
+            " method ": ' GET ',
+            " headers ": {
+                " Accept ": ' application/json ',
+                " Content-Type ": ' application/json ',
+            }
+
+        });
+
+        let json = await consulta.json();
+
+        console.log(json);
+
+        setData(json);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //+'/'+filtrosPorTipo+'/'+filtrosPorTipoSolicitu+''
+
+  
+    const cargarConsultasUsuariosFiltrada = async () => {
+
+        let url = 'http://localhost:4000/atencion-online/usuario/'+buscador;
+
+        let consulta = await fetch(url, {
+
+            " method ": ' GET ',
+            " headers ": {
+                " Accept ": ' application/json ',
+                " Content-Type ": ' application/json ',
+            }
+
+        });
+
+        let json = await consulta.json();
+
+        console.log(json);
+
+        return json;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const datafixed = {
+
+        id: 5,
+        id_solicitud: 28516,
+        tipo_solicitud: "CISI",
+        caracter: '3',
+        tipo_doc: 9999999999,
+        documento: 9999999999,
+        apellido: 'SALES',
+        nombre: 'JULIETA ROJAS',
+        usuario: 'pruebasmt',
+        ip: '172.20.254.205',
+        fecha_mov: '2018-10-05 13:36:00.663964',
+        cuit: '8678678676',
+        email: 'kjfsf@adas.com',
+        telefono: 1563673657,
+        estado: "tr-bg-vistoNoContestado"
+
+    }
+
+    const [data, setData] = useState(datafixed)
+    
+
+
     return (
 
         <div>
 
-            <InfoConsultaTabla />
+            <InfoConsultaTabla data={data} />
 
             <div>
 
@@ -143,45 +287,43 @@ export default function PageWrapperTabla(props) {
 
                         <div className="container d-flex filtros">
 
-                            <div className="input-group mb-3 d-block w-100">
+                            <div class="input-group mb-3">
                                 <label htmlFor="">Filtrar por Tributo </label>
-                                <button className="btn btn-outline-secondary dropdown-toggle" type="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">Todos</button>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">CISCA</a></li>
-                                    <li><a className="dropdown-item" href="#">CISI</a></li>
-                                    <li><a className="dropdown-item" href="#">Publicidad y Propaganda</a></li>
-                                    <li><a className="dropdown-item" href="#">TEM</a></li>
-                                    <li><a className="dropdown-item" href="#">Todos</a></li>
-                                </ul>
+                                <select class="form-select" onChange={filtro1} id="inputGroupSelect03" aria-label="Example select with button addon">
+                                    <option selected value="0">CISCA</option>
+                                    <option value="1">CISI</option>
+                                    <option value="2">Publicidad y Propaganda</option>
+                                    <option value="3">TEM</option>
+                                    <option value="4">Todos</option>
+                                </select>
                             </div>
 
-                            <div className="input-group mb-3 d-block d-block w-100">
+                            <div class="input-group mb-3">
                                 <label htmlFor="">Filtrar por tipo de Solicitud </label>
-                                <button className="btn btn-outline-secondary dropdown-toggle" type="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">Todos</button>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">Consultas Generales</a></li>
-                                    <li><a className="dropdown-item" href="#">DIM - Comunicacion</a></li>
-                                    <li><a className="dropdown-item" href="#">Seguimiento de Carpetas PFP</a></li>
-                                    <li><a className="dropdown-item" href="#">Solicitud de Empadronamiento</a></li>
-                                    <li><a className="dropdown-item" href="#">Todos</a></li>
-                                    <li><a className="dropdown-item" href="#">Turno General</a></li>
-                                    <li><a className="dropdown-item" href="#">Turno por Expediente</a></li>
-                                </ul>
+                                <select class="form-select" onChange={filtro2} id="inputGroupSelect03" aria-label="Example select with button addon">
+                                    <option selected value="0">Consultas Generales</option>
+                                    <option value="1">DIM - Comunicacion</option>
+                                    <option value="2">Seguimiento de Carpetas PFP</option>
+                                    <option value="3">Solicitud de Empadronamiento</option>
+                                    <option value="4">Todos</option>
+                                    <option value="5">Turno General</option>
+                                    <option value="6">Turno por Expediente</option>
+
+                                </select>
                             </div>
+                            
 
                             <div className="container">
 
                                 <div className="input-group">
                                     <div className="input-group-prepend">
 
-                                        <button className="btn btn-primary border">Buscar</button>
+                                        <button className="btn btn-primary border" onClick={() => cargarConsultasUsuariosFiltrada()}>Buscar</button>
                                         <button className="btn btn-primary border border-start">Actualizar</button>
 
                                     </div>
                                     <input type="text" className="form-control" placeholder="CUIT/DNI" aria-label=""
-                                        aria-describedby="basic-addon1" />
+                                        aria-describedby="basic-addon1" onChange={busca} />
                                 </div>
 
                             </div>
@@ -213,7 +355,9 @@ export default function PageWrapperTabla(props) {
                                     razonConsulta={con.tipo_solicitud}
                                     estado={con.estado}
                                     id_solicitud={con.id_solicitud}
-                                    
+                                    setData={setData}
+                                    cargarUsuario={cargarUsuario}
+
                                 />
 
                             )

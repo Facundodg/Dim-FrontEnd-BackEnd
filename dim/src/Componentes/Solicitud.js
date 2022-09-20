@@ -5,9 +5,12 @@ import InfoContribuyenteResumida from "./InfoContribuyenteResumida";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import InfoContribuyente from "./InfoContribuyente";
+import Cookies from 'universal-cookie';
 
 
 export default function Solicitud(props) {
+
+    const cookies = new Cookies();
 
     //const [chats, setChat] = useState([]);
     const [info, setInfo] = useState([]);

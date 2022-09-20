@@ -5,8 +5,31 @@ import { useNavigate } from "react-router-dom"
 
 export default function FilaTabla(props) {
 
+    //onClick={() => cargarUsuario(props.cuit)}
+
+    const data ={
+
+        id: 5,
+        id_solicitud: 28516,
+        tipo_solicitud: "CISI",
+        caracter: '3',
+        tipo_doc: 9999999999,
+        documento: 9999999999,
+        apellido: 'SALES',
+        nombre: 'JULIETA ROJAS',
+        usuario: 'pruebasmt',
+        ip: '172.20.254.205',
+        fecha_mov: '2018-10-05 13:36:00.663964',
+        cuit: '8678678676',
+        email: 'kjfsf@adas.com',
+        telefono: 1563673657,
+        estado: "tr-bg-vistoNoContestado"
+
+    }
+
     const navigate = useNavigate();
 
+    /*
     const cargarUsuario = async (cuit) => {
 
         let url = 'http://localhost:4000/atencion-online/usuario/' + cuit + '';
@@ -30,6 +53,8 @@ export default function FilaTabla(props) {
         console.log(json);
 
     }
+
+    */
 
     function irChat(url) {
 
@@ -79,7 +104,7 @@ export default function FilaTabla(props) {
 
             <td>
 
-                <a href="" onClick={() => cargarUsuario(props.cuit)} data-toggle="modal" data-target="#exampleModal"><img src="img/ver.png" alt=""
+                <a href="" onClick={() => props.cargarUsuario(props.cuit)} data-toggle="modal" data-target="#exampleModal"><img src="img/ver.png" alt=""
                     width="25px" height="25px" /></a>
             </td>
 

@@ -35,10 +35,14 @@ app.post("/login", (req, res) => {
     if (req.body.usuario == "admin" && req.body.password == "1234") {
 
         const payload = {
+
             ckeck: true
+
         }
+
         const token = jwt.sign(payload, app.get("key"), {
             expiresIn: "2d"
+
         });
         res.json({
 
@@ -125,7 +129,6 @@ app.get('/chat', (req, res) => {
 
 });
 
-
 //creacion de un login de prueba que crea el token
 
 app.get('/chat/:idcabecera', (req, res) => {
@@ -203,38 +206,131 @@ app.get('/usuarios/:nombre_usuario/:password', (req, res) => {
 
     }
 
-        /*
+    /*
 
-        // Dominio que tengan acceso (ej. 'http://example.com')
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000/atencion-online');
+    // Dominio que tengan acceso (ej. 'http://example.com')
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000/atencion-online');
 
-        // Metodos de solicitud que deseas permitir
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    // Metodos de solicitud que deseas permitir
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
 
-        // Encabecedados que permites (ej. 'X-Requested-With,content-type')
-        res.setHeader('Access-Control-Allow-Headers', '*');
+    // Encabecedados que permites (ej. 'X-Requested-With,content-type')
+    res.setHeader('Access-Control-Allow-Headers', '*');
 
 
-        */
+    */
 
-        console.log(resultados);
-        res.json(resultados);
+    console.log(resultados);
+    res.json(resultados);
 
-        /*
-        res.json({
+    /*
+    res.json({
 
-            message: "AUTENTICADO CON EXITO",
-            token: token
+        message: "AUTENTICADO CON EXITO",
+        token: token
 
-        })
-        */
+    })
+    */
 
 
 });
 
 
 
+//FUNCION PARA FILTRAR EN LA TABLA DE SOLICITUDES
+///:filtrotributo/:filtrosolicitud
 
+app.get('/atencion-online/usuario/:cuit', (req, res) => {
+
+    const cuit = req.params.cuit;
+
+    if(cuit.length === 11){
+
+        const resultados = solicitudes.usuarios.filter(dato => dato.cuit == cuit);
+
+        if (resultados.length === 0) {
+
+            return res.status(204).send(`No se encontro el cuit...`);
+
+        }else{
+
+            console.log("encontre el cuit");
+            console.log(cuit);
+
+        }
+
+    }
+
+    //const filtrotributo = req.params.filtrotributo;
+    //const filtrosolicitud = req.params.filtrosolicitud;
+
+
+ 
+    //tipo_solicitud
+
+
+    /*
+    switch (filtrotributo) {
+        case "0":
+            console.log("cisca");
+
+        case "1":
+            console.log("cisi");
+
+        case "3":
+            console.log("TEM");
+
+        case "4":
+            console.log("todo");
+
+    }
+
+    */
+
+    /*
+  const resultados = solicitudes.usuarios.filter(dato => dato.password == contraseña
+      && dato.nombre_usuario === usuario);
+
+  if (resultados.length === 0) {
+
+      return res.status(204).send(`No se encontro usuario...`);
+
+  }
+
+  */
+
+    /*
+
+    // Dominio que tengan acceso (ej. 'http://example.com')
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000/atencion-online');
+
+    // Metodos de solicitud que deseas permitir
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+
+    // Encabecedados que permites (ej. 'X-Requested-With,content-type')
+    res.setHeader('Access-Control-Allow-Headers', '*');
+
+
+    */
+
+    /*
+
+  console.log(resultados);
+  res.json(resultados);
+
+  */
+
+    /*
+    res.json({
+
+        message: "AUTENTICADO CON EXITO",
+        token: token
+
+    })
+    */
+
+
+});
 
 
 
