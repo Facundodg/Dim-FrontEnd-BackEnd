@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require("cors");
 
 const { datos } = require('./database/chat.js');
 const { solicitudes } = require('./database/solicitud_persona.js');
@@ -13,6 +14,8 @@ app.set('key', keys.key);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+
+app.use(cors());
 //PRUEBA DE LOGIN PARA PROBAR EL TOKEN POR THUNDER CLIENT
 
 /*
@@ -28,11 +31,12 @@ app.use(express.json());
   
 */
 
+/*
 app.post("/login", (req, res) => {
 
-    console.log(req.body);
+    console.log(req.body.user);
 
-    if (req.body.usuario == "admin" && req.body.password == "1234") {
+    if (req.body.user.usuario == "admin" && req.body.user.password == "1234") {
 
         const payload = {
 
@@ -44,12 +48,17 @@ app.post("/login", (req, res) => {
             expiresIn: "2d"
 
         });
+
+        
         res.json({
 
             message: "AUTENTICADO CON EXITO",
             token: token
 
         })
+        
+        res.status(200).json({token})
+        
     } else {
 
         res.json({
@@ -59,6 +68,43 @@ app.post("/login", (req, res) => {
         })
 
     }
+
+})
+*/
+
+
+
+//GENERA EL TOKEN 
+
+app.post("/login", (req, res) => {
+
+    const user = req.body.user;
+    const token = jwt.sign(user,"keykey",{expiresIn:"3m"});
+    res.status(200).json({token});
+
+});
+
+//VERIFICA EL TOKEN
+
+app.post("/pruebaToken", (req,res) =>{
+
+    console.log("entre ql carnero");
+
+    const token = req.headers["authorization"]
+    jwt.verify(token, "keykey", (err,user)=>{
+
+        if(err){
+
+            res.status(403).json({msg:"NO AUTORIZADO"});
+
+        }else{
+
+
+            res.status(200).json({msg:"AUTORIZADO",user});
+
+        }
+
+    });
 
 })
 
@@ -240,9 +286,11 @@ app.get('/usuarios/:nombre_usuario/:password', (req, res) => {
 //FUNCION PARA FILTRAR EN LA TABLA DE SOLICITUDES
 ///:filtrotributo/:filtrosolicitud
 
-app.get('/atencion-online/usuario/:cuit', (req, res) => {
+app.get('/atencion-online/consultas/:cuit', (req, res) => {
 
     const cuit = req.params.cuit;
+
+    console.log("entre ql");
 
     if(cuit.length === 11){
 
@@ -256,10 +304,18 @@ app.get('/atencion-online/usuario/:cuit', (req, res) => {
 
             console.log("encontre el cuit");
             console.log(cuit);
+            res.json(resultados);
 
         }
 
+    }else{
+
+        console.log("el cuit no tiene la cantidad de caracteres correcta");
+
     }
+
+
+
 
     //const filtrotributo = req.params.filtrotributo;
     //const filtrosolicitud = req.params.filtrosolicitud;

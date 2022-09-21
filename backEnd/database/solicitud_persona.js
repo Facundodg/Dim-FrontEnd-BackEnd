@@ -19,6 +19,24 @@ let solicitudes = {
 
         },
         {
+            id: 9,
+            id_solicitud: 28511,
+            tipo_solicitud: "TEM",
+            caracter: '3',
+            tipo_doc: 9999999999,
+            documento: 9999999999,
+            apellido: 'SALES',
+            nombre: 'DIAZ FACUNDO',
+            usuario: 'pruebasmt',
+            ip: '172.20.254.205',
+            fecha_mov: '2018-10-05 13:36:00.663964',
+            cuit: '23122132322',
+            email: 'kjfsf@adas.com',
+            telefono: 1563673657,
+            estado: "tr-bg-Novisto"
+
+        },
+        {
             id: 2,
             id_solicitud: 28513,
             tipo_solicitud: "CISI",
@@ -30,7 +48,7 @@ let solicitudes = {
             usuario: 'pruebasmt',
             ip: '172.20.254.205',
             fecha_mov: '2018-10-05 13:36:00.663964',
-            cuit: '3432423423',
+            cuit: '34324234233',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
             estado: "tr-bg-visto"
@@ -48,7 +66,7 @@ let solicitudes = {
             usuario: 'pruebasmt',
             ip: '172.20.254.205',
             fecha_mov: '2018-10-05 13:36:00.663964',
-            cuit: '4354534543',
+            cuit: '43545345431',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
             estado: "tr-bg-vistoNoContestado"
@@ -82,7 +100,7 @@ let solicitudes = {
             usuario: 'pruebasmt',
             ip: '172.20.254.205',
             fecha_mov: '2018-10-05 13:36:00.663964',
-            cuit: '8678678676',
+            cuit: '86786786761',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
             estado: "tr-bg-vistoNoContestado"
@@ -99,7 +117,7 @@ let solicitudes = {
             usuario: 'pruebasmt',
             ip: '172.20.254.205',
             fecha_mov: '2018-10-05 13:36:00.663964',
-            cuit: '6456456554',
+            cuit: '64564565543',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
             estado: "tr-bg-vistoNoContestado"
@@ -116,7 +134,7 @@ let solicitudes = {
             usuario: 'pruebasmt',
             ip: '172.20.254.205',
             fecha_mov: '2018-10-05 13:36:00.663964',
-            cuit: '23423423432',
+            cuit: '234234234321',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
             estado: "tr-bg-vistoNoContestado"
@@ -133,7 +151,7 @@ let solicitudes = {
             usuario: 'pruebasmt',
             ip: '172.20.254.205',
             fecha_mov: '2018-10-05 13:36:00.663964',
-            cuit: '54353453434',
+            cuit: '543534534344',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
             estado: "tr-bg-vistoNoContestado"

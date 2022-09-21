@@ -6,6 +6,8 @@ import Footer from "./Footer";
 import Cookies from 'universal-cookie';
 import InfoConsultaTabla from "./InfoConsultaTabla";
 import axios from "axios";
+import Loading from "./Loading";
+
 
 import { useState, useEffect } from "react";
 
@@ -20,7 +22,7 @@ export default function PageWrapperTabla(props) {
 
     const [filtrosPorTipoSolicitu, setfiltroPorTipoSolicitud] = useState();
 
-    
+    const [loading, setLoading] = useState(false);
 
 
     const filtro1 = function (evento) {
@@ -70,12 +72,15 @@ export default function PageWrapperTabla(props) {
 
     useEffect(() => {
 
-        permiso();
+        verificacion();
+        //permiso();
         cargarConsultasUsuarios();
 
     }, []);
 
     const cargarConsultasUsuarios = async () => {
+
+        setLoading(true);
 
         let url = "http://localhost:4000/atencion-online";
 
@@ -129,10 +134,31 @@ export default function PageWrapperTabla(props) {
     }
 
 
+    //METODO QUE VERIFICA EL TOKEN 
+
+    const verificacion = async () => {
+
+        const token = document.cookie.replace("token=","")
+
+        const request = await fetch('http://localhost:4000/pruebaToken', {
+            method: 'POST',
+            headers: {
+                'authorization':token
+            }
+        }).then((res) => res.json()).then(data =>{
+            console.log(data);
+            console.log(data.msg);
+
+            if(data.msg === "NO AUTORIZADO"){
+
+                window.location.href = "./login";
+
+            }
 
 
+        })
 
-
+    }
 
 
 
@@ -147,10 +173,12 @@ export default function PageWrapperTabla(props) {
 
     //+'/'+filtrosPorTipo+'/'+filtrosPorTipoSolicitu+''
 
-  
-    const cargarConsultasUsuariosFiltrada = async () => {
 
-        let url = 'http://localhost:4000/atencion-online/usuario/'+buscador;
+    const cargarConsultasUsuariosFiltrada = async (buscadorcuit) => {
+
+        let url = 'http://localhost:4000/atencion-online/consultas/' + buscadorcuit;
+
+        console.log(buscadorcuit);
 
         let consulta = await fetch(url, {
 
@@ -166,7 +194,7 @@ export default function PageWrapperTabla(props) {
 
         console.log(json);
 
-        return json;
+        setConsultas(json);
 
     }
 
@@ -213,7 +241,6 @@ export default function PageWrapperTabla(props) {
     }
 
     const [data, setData] = useState(datafixed)
-    
 
 
     return (
@@ -311,15 +338,15 @@ export default function PageWrapperTabla(props) {
 
                                 </select>
                             </div>
-                            
+
 
                             <div className="container">
 
                                 <div className="input-group">
                                     <div className="input-group-prepend">
 
-                                        <button className="btn btn-primary border" onClick={() => cargarConsultasUsuariosFiltrada()}>Buscar</button>
-                                        <button className="btn btn-primary border border-start">Actualizar</button>
+                                        <button className="btn btn-primary border" onClick={() => cargarConsultasUsuariosFiltrada(buscador)}>Buscar</button>
+                                        <button className="btn btn-primary border border-start" onClick={() => cargarConsultasUsuarios()}>Actualizar</button>
 
                                     </div>
                                     <input type="text" className="form-control" placeholder="CUIT/DNI" aria-label=""

@@ -7,6 +7,7 @@ import InicioSesion from './Componentes/InicioSesion';
 import Solicitud from './Componentes/Solicitud';
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Login from './Componentes/Login';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<InicioSesion />} />
 
         <Route path="/atencion-online/solicitud/:id" element={<Solicitud />} />
+        <Route path="/login" element={<Login/>} />
 
       </Routes>
 
