@@ -79,7 +79,7 @@ app.post("/login", (req, res) => {
 app.post("/login", (req, res) => {
 
     const user = req.body.user;
-    const token = jwt.sign(user,"keykey",{expiresIn:"3m"});
+    const token = jwt.sign(user,"keykey",{expiresIn:"60m"});
     res.status(200).json({token});
 
 });

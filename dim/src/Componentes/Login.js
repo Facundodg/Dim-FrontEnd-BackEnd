@@ -43,7 +43,7 @@ export default function Login(props) {
             },
             body: JSON.stringify({ user: data })
         }).then(res => res.json()).then((cred) => {
-            document.cookie = `token=${cred.token}; max-age=${60 * 3}; path=/; samesite=strict`
+            document.cookie = `token=${cred.token}; max-age=${60 * 60}; path=/; samesite=strict`
             console.log(document.cookie);
             window.location.href = "./atencion-online";
         })

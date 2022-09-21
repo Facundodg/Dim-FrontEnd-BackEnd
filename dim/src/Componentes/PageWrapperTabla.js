@@ -52,10 +52,10 @@ export default function PageWrapperTabla(props) {
 
     const cerrarSesion = () => {
 
-//        cookies.remove('name', { path: "/" });
-//        cookies.remove('password', { path: "/" });
+        //        cookies.remove('name', { path: "/" });
+        //        cookies.remove('password', { path: "/" });
 
-          window.location.href = './login';
+        window.location.href = './login';
 
     }
 
@@ -228,21 +228,21 @@ export default function PageWrapperTabla(props) {
 
     const datafixed = {
 
-        id: 5,
-        id_solicitud: 28516,
-        tipo_solicitud: "CISI",
-        caracter: '3',
-        tipo_doc: 9999999999,
-        documento: 9999999999,
-        apellido: 'SALES',
-        nombre: 'JULIETA ROJAS',
-        usuario: 'pruebasmt',
-        ip: '172.20.254.205',
-        fecha_mov: '2018-10-05 13:36:00.663964',
-        cuit: '8678678676',
-        email: 'kjfsf@adas.com',
-        telefono: 1563673657,
-        estado: "tr-bg-vistoNoContestado"
+        id: 1,
+        id_solicitud: 11111,
+        tipo_solicitud: "#",
+        caracter: "#",
+        tipo_doc: 111111,
+        documento: 111111,
+        apellido: "#",
+        nombre: "#",
+        usuario: "#",
+        ip: "#",
+        fecha_mov: "#",
+        cuit: "#",
+        email: "#",
+        telefono: 111111,
+        estado: "#"
 
     }
 

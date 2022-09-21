@@ -1,6 +1,42 @@
 export default function InfoConsultaTabla({ data }) {
 
+    console.log(data);
     console.log(data[0]);
+
+    if (data[0] === undefined) {
+
+        console.log("esta undefined");
+
+        data=[
+
+                {
+                    "id": 1,
+                    "id_solicitud": 11111,
+                    "tipo_solicitud": "#",
+                    "caracter": "#",
+                    "tipo_doc": 111111,
+                    "documento": 111111,
+                    "apellido": "#",
+                    "nombre": "#",
+                    "usuario": "#",
+                    "ip": "#",
+                    "fecha_mov": "#",
+                    "cuit": "#",
+                    "email": "#",
+                    "telefono": 111111,
+                    "estado": "#"
+                }
+
+            ]
+
+        console.log(data);
+    
+    }
+
+    console.log(data[0]);
+
+
+
 
     //cod de tramite : 32132
     //Nro Solicitud : AB392
@@ -29,21 +65,25 @@ export default function InfoConsultaTabla({ data }) {
     "telefono": 1563673657,
     "estado": "tr-bg-vistoNoContestado"
 
-    <pre>
+     {data[0].cuit}-{data[0].nombre} -{data[0].tipo_solicitud} 
+     
+     
+     
 
-        {JSON.stringify(data, null, 2)}
+                            <pre>
 
-    </pre>
+                            {JSON.stringify(data, null, 2)}
+
+                        </pre>
      
      */
 
     return (
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="container text-center modal-title" id="exampleModalLabel">{data[0].cuit}-{data[0].nombre} -{data[0].tipo_solicitud}</h6>
+                        <h6 class="container text-center modal-title" id="exampleModalLabel"> {data[0].cuit}-{data[0].nombre} -{data[0].tipo_solicitud} </h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
