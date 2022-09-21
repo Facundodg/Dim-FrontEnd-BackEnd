@@ -48,24 +48,30 @@ export default function PageWrapperTabla(props) {
 
     //aqui va la veririficacion de la cookie
 
+
+
     const cerrarSesion = () => {
 
-        cookies.remove('id', { path: "/" });
-        cookies.remove('rol', { path: "/" });
-        cookies.remove('nombre_usuario', { path: "/" });
-        window.location.href = './';
+//        cookies.remove('name', { path: "/" });
+//        cookies.remove('password', { path: "/" });
+
+          window.location.href = './login';
 
     }
 
-    const permiso = () => {
+    /*
 
-        if (!cookies.get('nombre_usuario')) {
+        const permiso = () => {
 
-            window.location.href = "./";
+            if (!cookies.get('nombre_usuario')) {
+
+                window.location.href = "./";
+
+            }
 
         }
 
-    }
+    */
 
     const [consultas, setConsultas] = useState([]);
     let filasConsultas;
@@ -138,18 +144,18 @@ export default function PageWrapperTabla(props) {
 
     const verificacion = async () => {
 
-        const token = document.cookie.replace("token=","")
+        const token = document.cookie.replace("token=", "")
 
         const request = await fetch('http://localhost:4000/pruebaToken', {
             method: 'POST',
             headers: {
-                'authorization':token
+                'authorization': token
             }
-        }).then((res) => res.json()).then(data =>{
+        }).then((res) => res.json()).then(data => {
             console.log(data);
             console.log(data.msg);
 
-            if(data.msg === "NO AUTORIZADO"){
+            if (data.msg === "NO AUTORIZADO") {
 
                 window.location.href = "./login";
 
