@@ -3,6 +3,8 @@ export default function InfoConsultaTabla({ data }) {
     console.log(data);
     console.log(data[0]);
 
+    //VERIFICA SI DATA EN UNDEFINED Y SI LO ES LE INGRESA UNOS DATOS GENERICOS PARA QUE EL COMPONENTE NO TIRE ERROR
+
     if (data[0] === undefined) {
 
         console.log("esta undefined");
@@ -35,9 +37,6 @@ export default function InfoConsultaTabla({ data }) {
 
     console.log(data[0]);
 
-
-
-
     //cod de tramite : 32132
     //Nro Solicitud : AB392
     //dni : 23343232234
@@ -46,10 +45,9 @@ export default function InfoConsultaTabla({ data }) {
     //tramite: T.E.M.
     //fecha: 23/08/2022
 
-
     /*
      
-        "id": 3,
+    "id": 3,
     "id_solicitud": 28514,
     "tipo_solicitud": "TEM",
     "caracter": "2",

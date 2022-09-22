@@ -79,7 +79,7 @@ app.post("/login", (req, res) => {
 app.post("/login", (req, res) => {
 
     const user = req.body.user;
-    const token = jwt.sign(user,"keykey",{expiresIn:"60m"});
+    const token = jwt.sign(user,"keykey",{expiresIn:"3m"});
     res.status(200).json({token});
 
 });
@@ -91,7 +91,8 @@ app.post("/pruebaToken", (req,res) =>{
     console.log("entre ql carnero");
 
     const token = req.headers["authorization"]
-    jwt.verify(token, "keykey", (err,user)=>{
+
+    jwt.verify(token,"keykey", (err,user)=>{
 
         if(err){
 
@@ -109,6 +110,8 @@ app.post("/pruebaToken", (req,res) =>{
 })
 
 //PRUEBA DE INICIO SESION CON TOKEN
+
+/*
 
 const verificacion = express.Router();
 
@@ -151,6 +154,8 @@ verificacion.use((req, res, next) => {
     }
 
 });
+
+*/
 
 app.get("/info", verificacion, (req, res) => {
     res.json("INFORMACION ENTREGADA");
@@ -222,18 +227,6 @@ app.get('/usuarios/:nombre_usuario', (req, res) => {
     res.json(resultados);
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //FILTRA LOS USUARIOS POR NOMBRE Y CONTRASEÑA http://localhost:4000/usuarios/facundo/1234
@@ -387,17 +380,6 @@ app.get('/atencion-online/consultas/:cuit', (req, res) => {
 
 
 });
-
-
-
-
-
-
-
-
-
-
-
 
 //FILTRA LOS USUARIOS POR CUIT http://localhost:4000/usuarios/23122132322
 

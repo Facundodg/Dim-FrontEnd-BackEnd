@@ -56,6 +56,8 @@ export default function FilaTabla(props) {
 
     */
 
+    //ACOMODA LA URL
+
     function irChat(url) {
 
         let urlCambiada = "solicitud/" + url;

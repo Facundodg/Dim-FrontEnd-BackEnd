@@ -1,0 +1,21 @@
+#contenedor-informacion {
+
+    width: 100% !important;
+    height: 100px !important;
+    background-color: darkgray;
+
+}
+
+#contenedor-ingreso {
+
+    width: 100% !important;
+    height: 500px !important;
+
+}
+
+#formulario{
+
+    width: 200px;
+    height: 200px;
+
+}

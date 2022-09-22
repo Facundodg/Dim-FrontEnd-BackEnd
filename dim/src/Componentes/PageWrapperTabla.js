@@ -117,6 +117,8 @@ export default function PageWrapperTabla(props) {
 
     const cargarUsuario = async (cuit) => {
 
+        verificacion();
+
         let url = 'http://localhost:4000/atencion-online/usuario/' + cuit + '';
 
         console.log(cuit);
@@ -142,11 +144,14 @@ export default function PageWrapperTabla(props) {
 
     //METODO QUE VERIFICA EL TOKEN 
 
+    //aplication => storage
+
     const verificacion = async () => {
 
         const token = document.cookie.replace("token=", "")
 
         const request = await fetch('http://localhost:4000/pruebaToken', {
+            //credentials: 'include',
             method: 'POST',
             headers: {
                 'authorization': token
@@ -182,6 +187,8 @@ export default function PageWrapperTabla(props) {
 
     const cargarConsultasUsuariosFiltrada = async (buscadorcuit) => {
 
+        verificacion();
+
         let url = 'http://localhost:4000/atencion-online/consultas/' + buscadorcuit;
 
         console.log(buscadorcuit);
@@ -203,24 +210,6 @@ export default function PageWrapperTabla(props) {
         setConsultas(json);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

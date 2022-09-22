@@ -7,16 +7,18 @@ import Cookies from 'universal-cookie';
 
 export default function Login(props) {
 
-    const [linea1, setUsuario] = useState();
-    const [linea2, setContraseña] = useState();
+    const [linea1, setUsuario] = useState(); //USESTATE DE USUARIO 
+    const [linea2, setContraseña] = useState();//USESTATE DE CONTRASEÑA
 
+    //FUNCION QUE SE ENGARGA DE TOMAR LOS EVENTOS DEL IMPUT Y GUARDARLOS EN LINEA1
     const usuario = function (evento) {
 
         setUsuario(evento.target.value)
         console.log(evento.target.value);
 
     }
-
+    
+    //FUNCION QUE SE ENGARGA DE TOMAR LOS EVENTOS DEL IMPUT Y GUARDARLOS EN LINEA2
     const contrasena = function (evento) {
 
         setContraseña(evento.target.value)
@@ -33,6 +35,9 @@ export default function Login(props) {
 
     //https://www.youtube.com/watch?v=wrR9PS4qQcs&t=340s
 
+    //GENERA EL TOKEN AL INICIAR SESION
+    //OJO ESTE METODO FETCH ENVIA UN OBJETO CON USUARIO Y CONTRASEÑA
+
     const login = async () => {
 
         const request = await fetch('http://localhost:4000/login', {
@@ -43,26 +48,12 @@ export default function Login(props) {
             },
             body: JSON.stringify({ user: data })
         }).then(res => res.json()).then((cred) => {
-            document.cookie = `token=${cred.token}; max-age=${60 * 60}; path=/; samesite=strict`
+            document.cookie = `token=${cred.token}; max-age=${60 * 3}; path=/; samesite=strict`
             console.log(document.cookie);
             window.location.href = "./atencion-online";
         })
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /*
     

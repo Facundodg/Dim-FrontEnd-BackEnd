@@ -20,6 +20,7 @@ export default function Solicitud(props) {
 
     useEffect(() => {
 
+        verificacion();
         console.log(params.id);
         infoConsulta();
         //ConsultaDeUnicoChat();
@@ -55,6 +56,8 @@ export default function Solicitud(props) {
 
     const infoConsulta = async () => {
 
+        verificacion();
+
         console.log(params.id);
 
         let url = 'http://localhost:4000/solicitud/' + params.id + '';
@@ -78,6 +81,36 @@ export default function Solicitud(props) {
     }
 
     //------------------------------------------------------------------------------
+
+
+    //METODO QUE VERIFICA EL TOKEN 
+
+    //aplication => storage
+
+    const verificacion = async () => {
+
+        const token = document.cookie.replace("token=", "")
+
+        const request = await fetch('http://localhost:4000/pruebaToken', {
+            //credentials: 'include',
+            method: 'POST',
+            headers: {
+                'authorization': token
+            }
+        }).then((res) => res.json()).then(data => {
+            console.log(data);
+            console.log(data.msg);
+
+            if (data.msg === "NO AUTORIZADO") {
+
+                window.location.href = "/login";
+
+            }
+
+
+        })
+
+    }
 
     return (
 

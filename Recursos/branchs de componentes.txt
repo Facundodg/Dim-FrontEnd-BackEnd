@@ -1,0 +1,14 @@
+<browserRouter>
+
+	<switch>
+
+		<router path='/consultas'>
+                      	
+			<menuBar/>
+			<listadoConsultas/> ==> <pageWrapper/> { ==> <filtros/>
+								|==> <listadoconsultas/> ==> <consultas/>
+		</router>    
+                  
+	</switch>
+
+</browserRouter>
