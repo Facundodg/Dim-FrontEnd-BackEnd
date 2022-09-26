@@ -5,9 +5,11 @@ import Chat from './Componentes/Chat';
 import PageWrapperTabla from './Componentes/PageWrapperTabla';
 import InicioSesion from './Componentes/InicioSesion';
 import Solicitud from './Componentes/Solicitud';
+import Login from './Componentes/Login';
+import Consulta from './Componentes/Consulta';
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Login from './Componentes/Login';
+
 
 
 
@@ -24,6 +26,7 @@ function App() {
 
         <Route path="/atencion-online/solicitud/:id" element={<Solicitud />} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/consulta-online" element={<Consulta/>} />
 
       </Routes>
 
