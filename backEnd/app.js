@@ -7,15 +7,12 @@ app.use(require("./routers/infoSolicitudRouters"));
 app.use(require("./routers/chatRouters"));
 app.use(require("./routers/solicitudPersonaRouters"));
 app.use(require("./routers/usuariosRouters"));
+// app.use(require("./routers/tokenRouter"));
 //-------------------------------------------------
 
 //-------------------------------------------------
 
 const { usuarios } = require('./database/usuarios');//database usuario
-
-
-//-------------------------------------------------
-
 const jwt = require("jsonwebtoken"); //importo el modulo de token o jwt
 
 //middlewares
@@ -26,6 +23,8 @@ app.use(cors()); //activa cors para no producir problema con los servidores loca
 //--------------------------TOKEN---------------------------
 
 //GENERA EL TOKEN 
+
+
 app.post("/login", (req, res) => {
 
     const user = req.body.user;
@@ -60,8 +59,6 @@ app.post("/pruebaToken", (req, res) => {
 
     const token = req.headers["authorization"]
 
-    console.log(token);
-
     jwt.verify(token, "keykey", (err, user) => {
 
         if (err) {
@@ -71,18 +68,60 @@ app.post("/pruebaToken", (req, res) => {
         } else {
 
             res.status(200).json({ msg: "AUTORIZADO", user });
+            console.log("resultado abajo");
+            //return jwt.verify(token, "keykey");
+            const rol = jwt.verify(token, "keykey");
+            verificaRol(rol);
+            console.log("------------------------------");
 
         }
+
     });
 
 })
 
-//---------------------------------------------------------
+//VERIFICA EL TOKEN SI ES USUARIO
+app.post("/pruebaTokenInternOusuario", (req, res) => {
 
-const checkRole = (roles) => async (req,res,next) =>{
+    const token = req.headers["authorization"]
+
+    jwt.verify(token, "keykey", (err, user) => {
+
+        if (err) {
+
+            res.status(403).json({ msg: "NO AUTORIZADO" });
+
+        } else {
+
+            const rol = jwt.verify(token, "keykey");
+
+            if (rol.rol === "interno") {
+
+                res.status(200).json({ msg: "INTERNO", user });
+
+            }else if (rol.rol === "usuario") {
+
+                res.status(200).json({ msg: "USUARIO", user });
+
+            }else{
+
+                res.status(403).json({ msg: "ROLO NO REGISTRADO" });
+
+            }
+
+
+        }
+
+    });
+
+})
+
+//----------------------------------------------------------
+
+const checkRole = (roles) => async (req, res, next) => {
 
     try {
-        
+
         const token = req.headers["authorization"];
 
         console.log(token);
@@ -96,26 +135,26 @@ const checkRole = (roles) => async (req,res,next) =>{
         const resultados = usuarios.usuario.filter(dato => dato.id === tokenData.id);
 
         console.log(resultados);
-    
+
         if (resultados.length === 0) {
-    
+
             return res.status(204).send(`No se encontro usuario por id...`);
-    
+
         }
 
-        if([].concat(roles).includes(tokenData.rol)){
+        if ([].concat(roles).includes(tokenData.rol)) {
 
             next()
 
-        }else{
+        } else {
 
             res.status(409);
-            res.send({error:"No tenes Permisos..."})
+            res.send({ error: "No tenes Permisos..." })
 
         }
 
     } catch (error) {
-        
+
         console.log(error);
 
     }

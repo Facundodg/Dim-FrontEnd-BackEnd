@@ -92,7 +92,7 @@ export default function PageWrapperChat(props) {
 
                               <InfoContribuyente
                                 consultaN={props.consultaN}
-                                ultimoUsuario="erubio"
+                                ultimoUsuario="facundo"
                                 fechaInicio={props.fecha}
                                 cuitContribuyente={props.cuitContribuyente}
                                 razonSocial={props.razon_social}

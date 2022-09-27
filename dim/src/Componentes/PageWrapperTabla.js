@@ -8,6 +8,7 @@ import InfoConsultaTabla from "./InfoConsultaTabla";
 import axios from "axios";
 import Loading from "./Loading";
 
+//<p>{consultas.length === 0 ? <Loading/> : }</p>
 
 import { useState, useEffect } from "react";
 
@@ -150,7 +151,10 @@ export default function PageWrapperTabla(props) {
 
         const token = document.cookie.replace("token=", "")
 
-        const request = await fetch('http://localhost:4000/pruebaToken', {
+        //pruebaTokenInternOusuario
+        //const request = await fetch('http://localhost:4000/pruebaToken',
+
+        const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
             //credentials: 'include',
             method: 'POST',
             headers: {
@@ -164,9 +168,23 @@ export default function PageWrapperTabla(props) {
 
                 window.location.href = "./login";
 
+            }else if(data.msg === "USUARIO"){
+
+                window.location.href = "./consulta-online";
+                console.log("sos usuario")
+
+            }else if(data.msg === "INTERNO"){
+
+                //window.location.href = "./login";
+                console.log("sos interno")
+                
+            }else{
+
+                window.location.href = "./login";
+                console.log("desconozco tu rol")
+
             }
-
-
+        
         })
 
     }
