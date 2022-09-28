@@ -26,7 +26,7 @@ function App() {
 
         <Route path="/atencion-online/solicitud/:id" element={<Solicitud />} />
         <Route path="/login" element={<Login/>} />
-        <Route path="/consulta-online" element={<Consulta/>} />
+        <Route path="/consulta-online/:usuario" element={<Consulta/>} />
 
       </Routes>
 

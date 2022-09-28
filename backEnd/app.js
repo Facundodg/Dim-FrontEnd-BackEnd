@@ -13,7 +13,9 @@ app.use(require("./routers/usuariosRouters"));
 //-------------------------------------------------
 
 const { usuarios } = require('./database/usuarios');//database usuario
+const { consultas } = require('./database/consultas');//database usuario
 const jwt = require("jsonwebtoken"); //importo el modulo de token o jwt
+const { get } = require('./routers/infoSolicitudRouters');
 
 //middlewares
 app.use(express.urlencoded({ extended: false }));//procesa los datos traidos de un formulario y los convierte en objetos 
@@ -23,8 +25,6 @@ app.use(cors()); //activa cors para no producir problema con los servidores loca
 //--------------------------TOKEN---------------------------
 
 //GENERA EL TOKEN 
-
-
 app.post("/login", (req, res) => {
 
     const user = req.body.user;
@@ -54,7 +54,7 @@ app.post("/login", (req, res) => {
 
 });
 
-//VERIFICA EL TOKEN
+//VERIFICA EL TOKEN (NO LO ESTOY USANDO)
 app.post("/pruebaToken", (req, res) => {
 
     const token = req.headers["authorization"]
@@ -78,9 +78,9 @@ app.post("/pruebaToken", (req, res) => {
 
     });
 
-})
+});
 
-//VERIFICA EL TOKEN SI ES USUARIO
+//VERIFICA EL TOKEN SI ES USUARIO (EN USO)
 app.post("/pruebaTokenInternOusuario", (req, res) => {
 
     const token = req.headers["authorization"]
@@ -114,9 +114,25 @@ app.post("/pruebaTokenInternOusuario", (req, res) => {
 
     });
 
-})
+});
+
+app.get("/consultas/:usuario", (req,res) =>{
+
+    const usuario = req.params.usuario;
+
+    const resultados = consultas.consulta.filter(dato => dato.usuario == usuario);
+
+    if (resultados.length === 0) {
+        return res.status(204).send(`No se encontro usuario...`);
+    }
+
+    res.json(resultados);
+
+});
 
 //----------------------------------------------------------
+
+/*
 
 const checkRole = (roles) => async (req, res, next) => {
 
@@ -160,6 +176,8 @@ const checkRole = (roles) => async (req, res, next) => {
     }
 
 }
+
+*/
 
 //----------------ARRANQUE DEL SERVIDOR--------------------
 

@@ -8,6 +8,7 @@ import InfoConsultaTabla from "./InfoConsultaTabla";
 import axios from "axios";
 import Loading from "./Loading";
 
+
 //<p>{consultas.length === 0 ? <Loading/> : }</p>
 
 import { useState, useEffect } from "react";
@@ -170,7 +171,7 @@ export default function PageWrapperTabla(props) {
 
             }else if(data.msg === "USUARIO"){
 
-                window.location.href = "./consulta-online";
+                window.location.href = "./consulta-online/" + data.user.nombre_usuario;
                 console.log("sos usuario")
 
             }else if(data.msg === "INTERNO"){
@@ -188,17 +189,6 @@ export default function PageWrapperTabla(props) {
         })
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
     //+'/'+filtrosPorTipo+'/'+filtrosPorTipoSolicitu+''
 
@@ -327,9 +317,9 @@ export default function PageWrapperTabla(props) {
 
                         <div className="container d-flex filtros">
 
-                            <div class="input-group mb-3">
+                            <div className="input-group mb-3">
                                 <label htmlFor="">Filtrar por Tributo </label>
-                                <select class="form-select" onChange={filtro1} id="inputGroupSelect03" aria-label="Example select with button addon">
+                                <select className="form-select" onChange={filtro1} id="inputGroupSelect03" aria-label="Example select with button addon">
                                     <option selected value="0">CISCA</option>
                                     <option value="1">CISI</option>
                                     <option value="2">Publicidad y Propaganda</option>
@@ -338,9 +328,9 @@ export default function PageWrapperTabla(props) {
                                 </select>
                             </div>
 
-                            <div class="input-group mb-3">
+                            <div className="input-group mb-3">
                                 <label htmlFor="">Filtrar por tipo de Solicitud </label>
-                                <select class="form-select" onChange={filtro2} id="inputGroupSelect03" aria-label="Example select with button addon">
+                                <select className="form-select" onChange={filtro2} id="inputGroupSelect03" aria-label="Example select with button addon">
                                     <option selected value="0">Consultas Generales</option>
                                     <option value="1">DIM - Comunicacion</option>
                                     <option value="2">Seguimiento de Carpetas PFP</option>

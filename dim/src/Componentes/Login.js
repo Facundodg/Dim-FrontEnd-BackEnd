@@ -3,9 +3,11 @@ import { useState } from "react";
 import axios from "axios";
 import md5 from "md5";
 import Cookies from 'universal-cookie';
-
+import { useNavigate } from "react-router-dom"
 
 export default function Login(props) {
+
+    const navigate = useNavigate();
 
     const [linea1, setUsuario] = useState(); //USESTATE DE USUARIO 
     const [linea2, setContraseña] = useState();//USESTATE DE CONTRASEÑA
@@ -50,7 +52,9 @@ export default function Login(props) {
         }).then(res => res.json()).then((cred) => {
             document.cookie = `token=${cred.token}; max-age=${60 * 60}; path=/; samesite=strict`
             console.log(document.cookie);
+            
             window.location.href = "./atencion-online";
+
         })
 
     }
