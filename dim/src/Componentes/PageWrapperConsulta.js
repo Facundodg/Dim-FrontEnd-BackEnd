@@ -2,6 +2,7 @@ import Footer from "./Footer";
 import TablaConsulta from "./TablaConsulta";
 import FilasConsulta from "./FilasConsulta";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"
 
 
 export default function PageWrapperConsulta(props) {
@@ -28,7 +29,9 @@ export default function PageWrapperConsulta(props) {
 
     useEffect(() => {
 
+        verificacion();
         ConsultasPorUsuario();
+        
 
     }, []);
 
@@ -42,7 +45,6 @@ export default function PageWrapperConsulta(props) {
     
     const ConsultasPorUsuario = async () => {
 
-        console.log("estoy entrando");
         console.log(props.usuario);
 
         let filasConsultas;
@@ -73,6 +75,48 @@ export default function PageWrapperConsulta(props) {
 
     }
 
+
+    const verificacion = async () => {
+
+        const token = document.cookie.replace("token=", "")
+
+        const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
+            //credentials: 'include',
+            method: 'POST',
+            headers: {
+                'authorization': token
+            }
+        }).then((res) => res.json()).then(data => {
+            console.log(data);
+            console.log(data.msg);
+
+            if (data.msg === "NO AUTORIZADO") {
+
+                window.location.href = "./";
+
+            }else if(data.msg === "USUARIO"){
+
+                //window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+                console.log("sos usuario")
+
+            }else if(data.msg === "INTERNO"){
+
+                window.location.href = "./";
+                console.log("sos interno")
+                
+            }else{
+
+                window.location.href = "./";
+                console.log("desconozco tu rol")
+
+            }
+        
+        })
+
+    }
+
+
+
     return (
 
         <div>
@@ -92,31 +136,31 @@ export default function PageWrapperConsulta(props) {
 
                     <ul className="navbar-nav">
 
-                        <li className="nav-item">
+                        <li key="uniqueId1" className="nav-item">
 
                             <a className="nav-link" href="#">Sobre Nosotros</a>
 
                         </li>
 
-                        <li className="nav-item">
+                        <li key="uniqueId2" className="nav-item">
 
                             <a className="nav-link" href="#">Servicios</a>
 
                         </li>
 
-                        <li className="nav-item">
+                        <li key="uniqueId3" className="nav-item">
 
                             <a className="nav-link" href="#">Direccion</a>
 
                         </li>
 
-                        <li className="nav-item">
+                        <li key="uniqueId4" className="nav-item">
 
                             <a className="nav-link" href="#">Contacto</a>
 
                         </li>
 
-                        <li className="nav-item">
+                        <li key="uniqueId5" className="nav-item">
 
                             <a className="nav-link" href="#">Agendar Cita</a>
 
@@ -138,7 +182,7 @@ export default function PageWrapperConsulta(props) {
 
                         <div className="input-group mt-3 mb-3 ms-3">
                             <select className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" onChange={tributo}>
-                                <option selected>TRIBUTO</option>
+                                <option value="0">TRIBUTO</option>
                                 <option value="1">T.E.M</option>
 
                             </select>
@@ -146,7 +190,7 @@ export default function PageWrapperConsulta(props) {
 
                         <div className="input-group mt-3 mb-3 ms-3 me-3">
                             <select className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" onChange={motivo}>
-                                <option selected>MOTIVO</option>
+                                <option value="0">MOTIVO</option>
                                 <option value="1">CONSULTA GENERAL</option>
                                 <option value="2">SOLICITUD DE MORATORIA</option>
 
@@ -195,6 +239,7 @@ export default function PageWrapperConsulta(props) {
                                             nroConsulta={con.numConsulta}
                                             motivo={con.motivo}
                                             fecha={con.fecha}
+                                            usuario = {props.usuario}
 
                                         />
                                     )

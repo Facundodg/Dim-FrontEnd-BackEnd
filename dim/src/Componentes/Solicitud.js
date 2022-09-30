@@ -6,11 +6,12 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import InfoContribuyente from "./InfoContribuyente";
 import Cookies from 'universal-cookie';
+import "../Componentes/estilos/style-chat.css"
 
 
 export default function Solicitud(props) {
 
-    const cookies = new Cookies();
+    // const cookies = new Cookies();
 
     //const [chats, setChat] = useState([]);
     const [info, setInfo] = useState([]);
@@ -21,7 +22,7 @@ export default function Solicitud(props) {
     useEffect(() => {
 
         verificacion();
-        console.log(params.id);
+        console.log("params:" + params.id);
         infoConsulta();
         //ConsultaDeUnicoChat();
 
@@ -91,7 +92,10 @@ export default function Solicitud(props) {
 
         const token = document.cookie.replace("token=", "")
 
-        const request = await fetch('http://localhost:4000/pruebaToken', {
+        //pruebaTokenInternOusuario
+        //const request = await fetch('http://localhost:4000/pruebaToken',
+
+        const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
             //credentials: 'include',
             method: 'POST',
             headers: {
@@ -103,14 +107,29 @@ export default function Solicitud(props) {
 
             if (data.msg === "NO AUTORIZADO") {
 
-                window.location.href = "/login";
+                window.location.href = "./";
+
+            }else if(data.msg === "USUARIO"){
+
+                //window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+                console.log("sos usuario")
+
+            }else if(data.msg === "INTERNO"){
+
+                //window.location.href = "./login";
+                console.log("sos interno")
+                
+            }else{
+
+                window.location.href = "./";
+                console.log("desconozco tu rol")
 
             }
-
-
+        
         })
 
     }
+
 
     return (
 

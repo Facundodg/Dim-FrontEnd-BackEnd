@@ -77,20 +77,20 @@ export default function InfoConsultaTabla({ data }) {
      */
 
     return (
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h6 class="container text-center modal-title" id="exampleModalLabel"> {data[0].cuit}-{data[0].nombre} -{data[0].tipo_solicitud} </h6>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h6 className="container text-center modal-title" id="exampleModalLabel"> {data[0].cuit}-{data[0].nombre} -{data[0].tipo_solicitud} </h6>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
 
-                        <div class="container d-block">
+                        <div className="container d-block">
 
-                            <div class="d-flex justify-content-between">
+                            <div className="d-flex justify-content-between">
 
                                 <h6>Cod de Tramite: <span>{data[0].tipo_doc}</span></h6>
 
@@ -98,7 +98,7 @@ export default function InfoConsultaTabla({ data }) {
 
                             </div>
 
-                            <div class="d-flex justify-content-between w-100">
+                            <div className="d-flex justify-content-between w-100">
 
                                 <h6>DNI: <span>{data[0].documento}</span></h6>
 

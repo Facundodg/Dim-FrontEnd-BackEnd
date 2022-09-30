@@ -7,6 +7,9 @@ import Cookies from 'universal-cookie';
 import InfoConsultaTabla from "./InfoConsultaTabla";
 import axios from "axios";
 import Loading from "./Loading";
+import { useParams } from "react-router-dom"
+import "../Componentes/estilos/style-tabla.css"
+
 
 
 //<p>{consultas.length === 0 ? <Loading/> : }</p>
@@ -15,6 +18,8 @@ import { useState, useEffect } from "react";
 
 
 export default function PageWrapperTabla(props) {
+
+    const params = useParams();
 
     const cookies = new Cookies();
 
@@ -181,7 +186,7 @@ export default function PageWrapperTabla(props) {
                 
             }else{
 
-                window.location.href = "./login";
+                window.location.href = "./";
                 console.log("desconozco tu rol")
 
             }
@@ -320,7 +325,7 @@ export default function PageWrapperTabla(props) {
                             <div className="input-group mb-3">
                                 <label htmlFor="">Filtrar por Tributo </label>
                                 <select className="form-select" onChange={filtro1} id="inputGroupSelect03" aria-label="Example select with button addon">
-                                    <option selected value="0">CISCA</option>
+                                    <option selected>CISCA</option>
                                     <option value="1">CISI</option>
                                     <option value="2">Publicidad y Propaganda</option>
                                     <option value="3">TEM</option>
@@ -331,7 +336,7 @@ export default function PageWrapperTabla(props) {
                             <div className="input-group mb-3">
                                 <label htmlFor="">Filtrar por tipo de Solicitud </label>
                                 <select className="form-select" onChange={filtro2} id="inputGroupSelect03" aria-label="Example select with button addon">
-                                    <option selected value="0">Consultas Generales</option>
+                                    <option selected>Consultas Generales</option>
                                     <option value="1">DIM - Comunicacion</option>
                                     <option value="2">Seguimiento de Carpetas PFP</option>
                                     <option value="3">Solicitud de Empadronamiento</option>
@@ -387,6 +392,7 @@ export default function PageWrapperTabla(props) {
                                     id_solicitud={con.id_solicitud}
                                     setData={setData}
                                     cargarUsuario={cargarUsuario}
+                                    usuario = {params.usuario}
 
                                 />
 

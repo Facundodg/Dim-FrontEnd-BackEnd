@@ -52,12 +52,57 @@ export default function Login(props) {
         }).then(res => res.json()).then((cred) => {
             document.cookie = `token=${cred.token}; max-age=${60 * 60}; path=/; samesite=strict`
             console.log(document.cookie);
+
+            verificacion();
             
-            window.location.href = "./atencion-online";
+            // window.location.href = "./atencion-online";
 
         })
 
     }
+    
+    const verificacion = async () => {
+
+        const token = document.cookie.replace("token=", "")
+
+        //pruebaTokenInternOusuario
+        //const request = await fetch('http://localhost:4000/pruebaToken',
+
+        const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
+            //credentials: 'include',
+            method: 'POST',
+            headers: {
+                'authorization': token
+            }
+        }).then((res) => res.json()).then(data => {
+            console.log(data);
+            console.log(data.msg);
+
+            if (data.msg === "NO AUTORIZADO") {
+
+                window.location.href = "./";
+
+            }else if(data.msg === "USUARIO"){
+
+                window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+                console.log("sos usuario")
+
+            }else if(data.msg === "INTERNO"){
+
+                window.location.href = "./atencion-online/" + data.user.nombre_usuario;
+                console.log("sos interno")
+                
+            }else{
+
+                window.location.href = "./login";
+                console.log("desconozco tu rol")
+
+            }
+        
+        })
+
+    }
+
 
     /*
     

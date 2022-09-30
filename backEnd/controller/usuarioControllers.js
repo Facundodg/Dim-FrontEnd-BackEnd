@@ -9,6 +9,7 @@ const getUsuarios = (req, res) => {
 
 const getUsuariosPorNombre = (req, res) => {
     const nombre = req.params.nombre_usuario;
+    console.log("aquiiiiiiiiiiiiii:" + nombre);
     const resultados = usuarios.usuario.filter(dato => dato.nombre_usuario == nombre);
 
     if (resultados.length === 0) {

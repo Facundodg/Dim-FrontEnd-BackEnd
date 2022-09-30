@@ -10,6 +10,18 @@ app.use(require("./routers/usuariosRouters"));
 // app.use(require("./routers/tokenRouter"));
 //-------------------------------------------------
 
+const { Server } = require("socket.io");
+const http = require("http");
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+server.listen(4001, () => {
+
+    console.log("entre ql");
+
+})
+
 //-------------------------------------------------
 
 const { usuarios } = require('./database/usuarios');//database usuario
@@ -21,6 +33,29 @@ const { get } = require('./routers/infoSolicitudRouters');
 app.use(express.urlencoded({ extended: false }));//procesa los datos traidos de un formulario y los convierte en objetos 
 app.use(express.json()); //convertira los objetos en formato json a objetos javaScript
 app.use(cors()); //activa cors para no producir problema con los servidores locales
+
+//-------------------------SOCKET---------------------------
+
+
+
+io.on("connection", (socket) => {
+
+    console.log("Usuario conectado al socket");
+
+    // socket.on("chat", (msg)=>{
+
+    //     console.log("mensaje:" + msg);
+
+    // })
+
+    socket.on("chat", (msg) => {
+
+        console.log("mensaje:" + msg);
+        io.emit("chat", msg);
+        
+    })
+
+})
 
 //--------------------------TOKEN---------------------------
 
@@ -54,6 +89,8 @@ app.post("/login", (req, res) => {
 
 });
 
+/*
+
 //VERIFICA EL TOKEN (NO LO ESTOY USANDO)
 app.post("/pruebaToken", (req, res) => {
 
@@ -80,6 +117,8 @@ app.post("/pruebaToken", (req, res) => {
 
 });
 
+*/
+
 //VERIFICA EL TOKEN SI ES USUARIO (EN USO)
 app.post("/pruebaTokenInternOusuario", (req, res) => {
 
@@ -99,11 +138,11 @@ app.post("/pruebaTokenInternOusuario", (req, res) => {
 
                 res.status(200).json({ msg: "INTERNO", user });
 
-            }else if (rol.rol === "usuario") {
+            } else if (rol.rol === "usuario") {
 
                 res.status(200).json({ msg: "USUARIO", user });
 
-            }else{
+            } else {
 
                 res.status(403).json({ msg: "ROLO NO REGISTRADO" });
 
@@ -116,7 +155,7 @@ app.post("/pruebaTokenInternOusuario", (req, res) => {
 
 });
 
-app.get("/consultas/:usuario", (req,res) =>{
+app.get("/consultas/:usuario", (req, res) => {
 
     const usuario = req.params.usuario;
 
@@ -132,6 +171,10 @@ app.get("/consultas/:usuario", (req,res) =>{
 
 //----------------------------------------------------------
 
+
+
+
+//----------------------------------------------------------
 /*
 
 const checkRole = (roles) => async (req, res, next) => {

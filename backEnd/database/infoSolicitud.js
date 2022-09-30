@@ -16,7 +16,7 @@ let infoSolicitud = {
         {
 
             id: 2,
-            num_tramite: 32312,
+            num_tramite: 28512,
             nombre_contribuyente: "MusiMundo ",
             dni: "231232243",
             razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
@@ -27,7 +27,7 @@ let infoSolicitud = {
         },
         {
             id: 3,
-            num_tramite: 50392,
+            num_tramite: 28513,
             nombre_contribuyente: "Fravega ",
             dni: "231232243",
             razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
