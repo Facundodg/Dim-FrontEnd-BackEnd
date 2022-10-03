@@ -7,36 +7,55 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"
 import io, { Socket } from "socket.io-client";
 
+const socket = io("http://localhost:4001");
+
 export default function PageWrapperChat(props) {
 
-  const socket = io("http://localhost:4001");
+  const params = useParams(); //me permite sacar contenido de las url
 
-  const params = useParams();
+  const [chats, setChat] = useState([]); //hook del chat
 
-  const [chats, setChat] = useState([]);
+  const [usuario, setUsuario] = useState([]); //hook del usuario logueado en ese momento
 
-  const [usuario, setUsuario] = useState([]);
+  const [dia, setDia] = useState();
 
-  const [mensaje, setMensaje] = useState();
+  // const [mensaje, setMensaje] = useState("·");
 
-  const enviar = function (evento) {
+  // const [mensaje, setMensaje] = useState();
 
-    setMensaje(evento.target.value)
-    console.log(evento.target.value);
+  // const enviar = function (evento) {
 
-  }
+  //   setMensaje(evento.target.value)
+  //   //console.log(evento.target.value);
+
+  // }
 
 
   useEffect(() => {
 
-
+    verificacion();
     ConsultaDeUnicoChat();
     ConsultaUsuarioActivo();
-    console.log("estoy aqui pelotudo " + params.usuario);
+    // console.log("estoy aqui pelotudo " + params.usuario);
+    // window.scroll(0, 100000000000000);
+
+    // setInterval(() => {
+
+    //   socket.on("chat", (msg) => {
+
+    //     enviar();
+
+    //   })
+
+    // }, 10000);
+
+    window.scroll(0, 100000000000000);
+
+    let date = new Date();
+    let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
+    setDia(output);
 
   }, []);
-
-  ///consultas/:usuario
 
   const ConsultaUsuarioActivo = async () => {
 
@@ -76,22 +95,173 @@ export default function PageWrapperChat(props) {
     let json = await consulta.json();
     console.log(json);
     setChat(json);
+    console.log("estoy entrando al refresque del chat perroooo");
 
   }
 
-  function EnviarMensaje() {
 
-    socket.emit("chat", mensaje);
+  const EnviarMensaje = async () => {
 
-    return true;
+    verificacion();
+
+    // var hoy = new Date();
+
+    // var hora = hoy.getHours+":"+hoy.getMinutes;
+
+    // console.log(hora);
+
+    const imput = document.getElementById("campoMensaje").value
+
+    if (imput.length != 0) {
+
+      console.log("me estoy curtiendo");
+
+      const data = {
+
+        id: 29,
+        idcabecera: params.id,
+        mensaje: document.getElementById("campoMensaje").value,
+        motivo: '1',
+        usuario: params.usuario,
+        ip: '172.20.254.205',
+        fecha_mov: dia,
+        leido: true,
+        token_borrar: '6527',
+        tipoorigen: '6527',
+        fecha_leido: '2020-08-21 10:57:19.821493',
+        usuario_leido: 'false',
+        privado: null,
+        html: null,
+        adjunto: null,
+        interno: true,
+        tipo_adjunto: null,
+        idusuario: null,
+        rol: usuario.rol,
+        img: "https://bootdey.com/img/Content/avatar/avatar7.png"
+
+      }
+
+      enviarMensaje(data);
+
+      socket.emit("chat", document.getElementById("campoMensaje").value);
+      document.getElementById("campoMensaje").value = "";
+
+    } else {
+
+      alert("Escribe un Mensaje Antes de Mandar...");
+
+    }
 
   }
+
+  // function enviar() {
+
+
+  //   socket.on("chat", (msg) => {
+
+  //     const data = {
+
+  //       id: 29,
+  //       idcabecera: params.id,
+  //       mensaje: "",
+  //       motivo: '1',
+  //       usuario: params.usuario,
+  //       ip: '172.20.254.205',
+  //       fecha_mov: '2018-12-04 11:11:04.076532',
+  //       leido: true,
+  //       token_borrar: '6527',
+  //       tipoorigen: '6527',
+  //       fecha_leido: '2020-08-21 10:57:19.821493',
+  //       usuario_leido: 'false',
+  //       privado: null,
+  //       html: null,
+  //       adjunto: null,
+  //       interno: true,
+  //       tipo_adjunto: null,
+  //       idusuario: null,
+  //       rol: usuario.rol,
+  //       img: "https://bootdey.com/img/Content/avatar/avatar7.png"
+
+  //     }
+
+  //     data.mensaje = msg;
+
+  //     if (data.mensaje.length === 0) {
+
+  //       alert("Escribe algo para mandar Mensaje...");
+
+  //     } else {
+
+  //       enviarMensaje(data);
+  //       // ConsultaDeUnicoChat();
+
+  //       document.getElementById("campoMensaje").value = "";
+  //       // window.scroll(0, 100000000000000);
+  //       window.location.reload(true);
+  //     }
+
+  //   })
+
+  // }
 
   socket.on("chat", (msg) => {
 
-    console.log(msg);
+    ConsultaDeUnicoChat();
 
   })
+
+  const enviarMensaje = async (data) => {
+
+    const request = await fetch('http://localhost:4000/agregarMensaje', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+  }
+
+  const verificacion = async () => {
+
+    const token = document.cookie.replace("token=", "")
+
+    const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
+        //credentials: 'include',
+        method: 'POST',
+        headers: {
+            'authorization': token
+        }
+    }).then((res) => res.json()).then(data => {
+        console.log(data);
+        console.log(data.msg);
+
+        if (data.msg === "NO AUTORIZADO") {
+
+            window.location.href = "./";
+
+        }else if(data.msg === "USUARIO"){
+
+            //window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+            console.log("sos usuario")
+
+        }else if(data.msg === "INTERNO"){
+
+            console.log("sos interno")
+            
+        }else{
+
+            window.location.href = "./";
+            console.log("desconozco tu rol")
+
+        }
+    
+    })
+
+}
+
+  //{EnviarMensaje() === true ? <Usuario mensaje="hola perro" /> : ""}
 
   return (
 
@@ -183,7 +353,6 @@ export default function PageWrapperChat(props) {
 
                       })}
 
-                      { EnviarMensaje()===true ? <Usuario mensaje="hola perro"/>:  ""}
 
                     </ul>
 
@@ -200,8 +369,8 @@ export default function PageWrapperChat(props) {
                           </svg></a>
 
                         </div>
-                        <input type="text" className="form-control" placeholder="Escribe Mensaje...."
-                          aria-label="" aria-describedby="basic-addon1" onChange={enviar} />
+                        <input type="text" id="campoMensaje" className="form-control" placeholder="Escribe Mensaje...."
+                          aria-label="" aria-describedby="basic-addon1" />
                       </div>
 
                     </div>

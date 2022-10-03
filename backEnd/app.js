@@ -16,6 +16,8 @@ const http = require("http");
 const server = http.createServer(app);
 const io = new Server(server);
 
+conexions = 0;
+
 server.listen(4001, () => {
 
     console.log("entre ql");
@@ -26,6 +28,8 @@ server.listen(4001, () => {
 
 const { usuarios } = require('./database/usuarios');//database usuario
 const { consultas } = require('./database/consultas');//database usuario
+const { datos } = require("./database/chat")
+
 const jwt = require("jsonwebtoken"); //importo el modulo de token o jwt
 const { get } = require('./routers/infoSolicitudRouters');
 
@@ -52,7 +56,18 @@ io.on("connection", (socket) => {
 
         console.log("mensaje:" + msg);
         io.emit("chat", msg);
-        
+
+    })
+
+    conexions++;
+
+    console.log(conexions);
+
+    socket.on("disconnect", ()=>{
+
+        conexions--;
+        console.log(conexions);
+
     })
 
 })
@@ -88,6 +103,16 @@ app.post("/login", (req, res) => {
     res.status(200).json({ token });
 
 });
+
+app.post('/agregarMensaje', (req, res) => {
+    console.log("entreeeeeeeeeeeeeeeee")
+    let mensaje = req.body;
+    datos.chat.push(mensaje);
+    console.log("-----Mensaje------")
+    res.json(datos);
+    console.log("------------------")
+});
+
 
 /*
 

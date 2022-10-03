@@ -11,7 +11,6 @@ import { useParams } from "react-router-dom"
 import "../Componentes/estilos/style-tabla.css"
 
 
-
 //<p>{consultas.length === 0 ? <Loading/> : }</p>
 
 import { useState, useEffect } from "react";
@@ -261,7 +260,7 @@ export default function PageWrapperTabla(props) {
 
                 <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom" id="menu-var">
 
-                    <a className="navbar-brand m-1" href="index.html"><img src="./img/logo.png" width="100px" height="45px"
+                    <a className="navbar-brand m-1" href="index.html"><img src="img/logo.png" width="100px" height="45px"
                         alt="icono" /><span className="text-primary fs-5 fw-bold"></span></a>
 
                     <button className="navbar-toggler m-1" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
