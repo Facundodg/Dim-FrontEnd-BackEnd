@@ -3,14 +3,20 @@ import TablaConsulta from "./TablaConsulta";
 import FilasConsulta from "./FilasConsulta";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 
 export default function PageWrapperConsulta(props) {
 
+    const params = useParams(); //me permite sacar contenido de las url
+
     const [filtrosPorTributo, setfiltrosPorTributo] = useState();
     const [filtrosPorMotivo, setfiltrosPorMotivo] = useState();
     const [consultas, setConsultas] = useState([]);
-    const [mensaje, setMensaje] = useState(); 
+    const [mensaje, setMensaje] = useState("");
+    const [dia, setDia] = useState();
+    const [usuario, setUsuario] = useState([]); //hook del usuario logueado en ese momento
+
 
 
     const tributo = function (evento) {
@@ -31,7 +37,13 @@ export default function PageWrapperConsulta(props) {
 
         verificacion();
         ConsultasPorUsuario();
-        
+
+        ConsultaUsuarioActivo();
+
+        let date = new Date();
+        let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
+        setDia(output);
+
 
     }, []);
 
@@ -42,7 +54,7 @@ export default function PageWrapperConsulta(props) {
         console.log(evento.target.value);
 
     }
-    
+
     const ConsultasPorUsuario = async () => {
 
         console.log(props.usuario);
@@ -94,27 +106,180 @@ export default function PageWrapperConsulta(props) {
 
                 window.location.href = "./";
 
-            }else if(data.msg === "USUARIO"){
+            } else if (data.msg === "USUARIO") {
 
                 //window.location.href = "./consulta-online/" + data.user.nombre_usuario;
                 console.log("sos usuario")
 
-            }else if(data.msg === "INTERNO"){
+            } else if (data.msg === "INTERNO") {
 
                 window.location.href = "./";
                 console.log("sos interno")
-                
-            }else{
+
+            } else {
 
                 window.location.href = "./";
                 console.log("desconozco tu rol")
 
             }
-        
+
         })
 
     }
 
+    const ConsultaUsuarioActivo = async () => {
+
+        let url = 'http://localhost:4000/usuarios/' + params.usuario + '';
+
+        let consulta = await fetch(url, {
+
+            " method ": ' GET ',
+            " headers ": {
+                " Accept ": ' application/json ',
+                " Content-Type ": ' application/json ',
+            }
+
+        });
+
+        let json = await consulta.json();
+        console.log("----------------");
+        console.log(json);
+        setUsuario(json[0]);
+
+    }
+
+    //Math.random()
+
+    const enviarMensaje = async () => {
+
+        if(mensaje.length != 0){
+
+        let id = (Math.floor(Math.random() * (9999 - 1 + 1)) + 1);
+        let idcabecera = (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
+
+        let data = {
+
+            id: id,
+            idcabecera: idcabecera,
+            mensaje: document.getElementById("campoMensaje").value,
+            motivo: '1',
+            usuario: params.usuario,
+            ip: '172.20.254.205',
+            fecha_mov: dia,
+            leido: true,
+            token_borrar: '6527',
+            tipoorigen: '6527',
+            fecha_leido: '2020-08-21 10:57:19.821493',
+            usuario_leido: 'false',
+            privado: null,
+            html: null,
+            adjunto: null,
+            interno: true,
+            tipo_adjunto: null,
+            idusuario: null,
+            rol: usuario.rol,
+            img: "https://bootdey.com/img/Content/avatar/avatar7.png"
+
+        }
+
+        let dataSolicitud = {
+
+            id: id,
+            id_solicitud: idcabecera,
+            tipo_solicitud: "TEM",
+            caracter: '5',
+            tipo_doc: 9999999999,
+            documento: 9999999999,
+            apellido: 'SALES',
+            nombre: usuario.nombre_usuario,
+            usuario: usuario.nombre_usuario,
+            ip: '172.20.254.205',
+            fecha_mov: dia,
+            cuit: usuario.cuit,
+            email: usuario.email,
+            telefono: usuario.telefono,
+            estado: "tr-bg-Novisto"
+
+        }
+
+        let datainfoSolicitud = {
+
+            id: id,
+            num_tramite: idcabecera,
+            nombre_contribuyente: "Fravega ",
+            dni: usuario.cuit,
+            razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
+            fecha: dia,
+            cuit_contribuyente: usuario.cuit,
+            apynom: usuario.nombre_usuario
+
+        }
+
+        let dataconsulta = {
+
+                id: id,
+                usuario:usuario.nombre_usuario,
+                tributo:"T.E.M",
+                padron: usuario.cuit,
+                numConsulta: idcabecera,
+                motivo: "Solicitud Moratoria",
+                fecha:dia
+                
+        }
+
+        const request_mensaje = await fetch('http://localhost:4000/agregarMensaje', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        console.log("Mensaje Enviado");
+
+        const request_dataSolicitud = await fetch('http://localhost:4000/agregarInfoSolicitud', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataSolicitud)
+        });
+
+        console.log("Agregadad InfoSolicitud");
+
+        const request_dataSolicitudParaModal = await fetch('http://localhost:4000/agregarInfoSolicitudParaModal', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datainfoSolicitud)
+        });
+
+        console.log("Agregadad InfoSolicitud Para ventana Modal");
+
+        const request_consultas = await fetch('http://localhost:4000/agregarConsulta', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataconsulta)
+        });
+
+        console.log("Mostrada Consulta");
+
+        window.location.href = "./"+usuario.nombre_usuario+"/"+idcabecera;
+
+    }else{
+
+        alert("Falta Escribir un Mensaje...");
+
+    }
+
+    }
 
 
     return (
@@ -197,14 +362,14 @@ export default function PageWrapperConsulta(props) {
                             </select>
                         </div>
 
-                        <button className="btn btn-primary ms-3 me-3 mt-3" type="button">Nueva Consulta</button>
+                        <button onClick={enviarMensaje} className="btn btn-primary ms-3 me-3 mt-3" type="button">Nueva Consulta</button>
 
                     </div>
 
                     <div className="input-group mt-3">
 
                         <label>Mensaje:</label>
-                        <textarea className="form-control mb-3" aria-label="With textarea" onChange={EscuchaMensaje}></textarea>
+                        <textarea className="form-control mb-3" id="campoMensaje" aria-label="With textarea" onChange={EscuchaMensaje}></textarea>
 
                     </div>
 
@@ -239,7 +404,7 @@ export default function PageWrapperConsulta(props) {
                                             nroConsulta={con.numConsulta}
                                             motivo={con.motivo}
                                             fecha={con.fecha}
-                                            usuario = {props.usuario}
+                                            usuario={props.usuario}
 
                                         />
                                     )

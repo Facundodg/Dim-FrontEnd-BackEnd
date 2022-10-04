@@ -171,11 +171,13 @@ export default function PageWrapperTabla(props) {
 
             if (data.msg === "NO AUTORIZADO") {
 
-                window.location.href = "./login";
+                window.location.href = "./";
 
             }else if(data.msg === "USUARIO"){
 
-                window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+                // window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+                window.location.href = "./";
+
                 console.log("sos usuario")
 
             }else if(data.msg === "INTERNO"){

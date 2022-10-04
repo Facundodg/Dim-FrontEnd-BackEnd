@@ -30,6 +30,8 @@ export default function Solicitud(props) {
 
     console.log(info);
 
+    
+
     /*
 
     const ConsultaDeUnicoChat = async () => {

@@ -29,6 +29,10 @@ server.listen(4001, () => {
 const { usuarios } = require('./database/usuarios');//database usuario
 const { consultas } = require('./database/consultas');//database usuario
 const { datos } = require("./database/chat")
+const { solicitudes } = require('./database/solicitud_persona'); //database infoSolicitud
+const { infoSolicitud } = require('./database/infoSolicitud'); //database infoSolicitudParaModal
+
+//-------------------------------------------------
 
 const jwt = require("jsonwebtoken"); //importo el modulo de token o jwt
 const { get } = require('./routers/infoSolicitudRouters');
@@ -104,14 +108,46 @@ app.post("/login", (req, res) => {
 
 });
 
+//---------------METODOS POST PARA AGERGAR EN LOS ROUTERS LUEGO--------------------------
+
 app.post('/agregarMensaje', (req, res) => {
-    console.log("entreeeeeeeeeeeeeeeee")
+
     let mensaje = req.body;
     datos.chat.push(mensaje);
     console.log("-----Mensaje------")
     res.json(datos);
     console.log("------------------")
+
 });
+
+app.post('/agregarInfoSolicitud', (req, res) => {
+
+    let InfoSolicitudCuerpo = req.body;
+    solicitudes.usuarios.push(InfoSolicitudCuerpo);
+    res.json(solicitudes);
+    console.log(solicitudes);
+
+});
+
+app.post('/agregarInfoSolicitudParaModal', (req, res) => {
+
+    let InfoSolicitudCuerpoParaModal = req.body;
+    infoSolicitud.solicitud.push(InfoSolicitudCuerpoParaModal);
+    res.json(infoSolicitud);
+    console.log(infoSolicitud);
+
+});
+
+app.post('/agregarConsulta', (req, res) => {
+
+    let InfoConsulta= req.body;
+    consultas.consulta.push(InfoConsulta);
+    res.json(consultas);
+    console.log(consultas);
+
+});
+
+//agregarConsulta
 
 
 /*
