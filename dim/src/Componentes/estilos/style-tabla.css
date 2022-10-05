@@ -36,11 +36,14 @@ tbody .tr-bg-vistoNoContestado {
 
 }
 
+.filtros {
+
+    display: block !important;
+
+}
+
 
 /*Nocontestado*/
-
-
-
 
 /*Estilos de la notificacion*/
 .container .notify::before {
@@ -202,16 +205,19 @@ body {
 
 }
 
-@media (max-width:940px) {
+/* @media (max-width:1500px) {
 
-    .filtros {
 
-        display: block !important;
+
+    select{
+
+        max-width: 480px;
+        color: #1A237E;
 
     }
 
 
-}
+} */
 
 
 @media (max-width:430px) {

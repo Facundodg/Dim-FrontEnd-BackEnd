@@ -9,12 +9,12 @@ import axios from "axios";
 import Loading from "./Loading";
 import { useParams } from "react-router-dom"
 import "../Componentes/estilos/style-tabla.css"
-
-
-//<p>{consultas.length === 0 ? <Loading/> : }</p>
-
+import io, { Socket } from "socket.io-client";
 import { useState, useEffect } from "react";
 
+const socket = io("http://localhost:4001");
+
+//<p>{consultas.length === 0 ? <Loading/> : }</p>
 
 export default function PageWrapperTabla(props) {
 
@@ -52,10 +52,10 @@ export default function PageWrapperTabla(props) {
 
     }
 
+
+
+
     //aqui va la veririficacion de la cookie
-
-
-
     const cerrarSesion = () => {
 
         //        cookies.remove('name', { path: "/" });
@@ -121,6 +121,17 @@ export default function PageWrapperTabla(props) {
 
     }
 
+
+    // const request = await fetch('api/usuarios', {
+    //     method: 'POST',
+    //     headers: {
+    //           'Accept': 'application/json',
+    //           'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(datos)
+    //   });
+
+
     const cargarUsuario = async (cuit) => {
 
         verificacion();
@@ -149,9 +160,7 @@ export default function PageWrapperTabla(props) {
 
 
     //METODO QUE VERIFICA EL TOKEN 
-
     //aplication => storage
-
     const verificacion = async () => {
 
         const token = document.cookie.replace("token=", "")
@@ -173,25 +182,25 @@ export default function PageWrapperTabla(props) {
 
                 window.location.href = "./";
 
-            }else if(data.msg === "USUARIO"){
+            } else if (data.msg === "USUARIO") {
 
                 // window.location.href = "./consulta-online/" + data.user.nombre_usuario;
                 window.location.href = "./";
 
                 console.log("sos usuario")
 
-            }else if(data.msg === "INTERNO"){
+            } else if (data.msg === "INTERNO") {
 
                 //window.location.href = "./login";
                 console.log("sos interno")
-                
-            }else{
+
+            } else {
 
                 window.location.href = "./";
                 console.log("desconozco tu rol")
 
             }
-        
+
         })
 
     }
@@ -199,34 +208,39 @@ export default function PageWrapperTabla(props) {
     //+'/'+filtrosPorTipo+'/'+filtrosPorTipoSolicitu+''
 
 
-    const cargarConsultasUsuariosFiltrada = async (buscadorcuit) => {
+    const cargarConsultasUsuariosFiltrada = async (buscadorcuit, filtrosPorTipo, filtrosPorTipoSolicitu) => {
 
         verificacion();
 
-        let url = 'http://localhost:4000/atencion-online/consultas/' + buscadorcuit;
+        let url = 'http://localhost:4000/atencion-online/consultas/' + buscadorcuit + '/' + filtrosPorTipo + '/' + filtrosPorTipoSolicitu;
 
         console.log(buscadorcuit);
 
-        let consulta = await fetch(url, {
+        try {
 
-            " method ": ' GET ',
-            " headers ": {
-                " Accept ": ' application/json ',
-                " Content-Type ": ' application/json ',
-            }
+            let consulta = await fetch(url, {
 
-        });
+                " method ": ' GET ',
+                " headers ": {
+                    " Accept ": ' application/json ',
+                    " Content-Type ": ' application/json ',
+                }
 
-        let json = await consulta.json();
+            });
 
-        console.log(json);
+            let json = await consulta.json();
 
-        setConsultas(json);
+            console.log(json);
+
+            setConsultas(json);
+
+        } catch (error) {
+
+            alert("No se Encontro consulta con ese Cuit");
+
+        }
 
     }
-
-
-
 
 
     const datafixed = {
@@ -251,6 +265,16 @@ export default function PageWrapperTabla(props) {
 
     const [data, setData] = useState(datafixed)
 
+    socket.on("mensaje", (msg) => {
+
+        if (msg) {
+
+            cargarConsultasUsuarios();
+
+        }
+
+    })
+
 
     return (
 
@@ -262,8 +286,8 @@ export default function PageWrapperTabla(props) {
 
                 <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom" id="menu-var">
 
-                    <a className="navbar-brand m-1" href="index.html"><img src="img/logo.png" width="100px" height="45px"
-                        alt="icono" /><span className="text-primary fs-5 fw-bold"></span></a>
+                    <a className="navbar-brand m-1" href="#">
+                        <img src={require('./img/logo.png')} width="100px" height="45px" alt="icono" /><span className="text-primary fs-5 fw-bold"></span></a>
 
                     <button className="navbar-toggler m-1" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
                         aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -273,7 +297,6 @@ export default function PageWrapperTabla(props) {
                     <div className="collapse navbar-collapse m-1" id="menu">
 
                         <ul className="navbar-nav">
-
 
                             <li className="nav-item">
 
@@ -324,9 +347,9 @@ export default function PageWrapperTabla(props) {
                         <div className="container d-flex filtros">
 
                             <div className="input-group mb-3">
-                                <label htmlFor="">Filtrar por Tributo </label>
+                                <label className="pe-3 pt-2" htmlFor="">Filtrar por Tributo</label>
                                 <select className="form-select" onChange={filtro1} id="inputGroupSelect03" aria-label="Example select with button addon">
-                                    <option selected>CISCA</option>
+                                    <option selected value="0">CISCA</option>
                                     <option value="1">CISI</option>
                                     <option value="2">Publicidad y Propaganda</option>
                                     <option value="3">TEM</option>
@@ -335,9 +358,9 @@ export default function PageWrapperTabla(props) {
                             </div>
 
                             <div className="input-group mb-3">
-                                <label htmlFor="">Filtrar por tipo de Solicitud </label>
+                                <label className="pe-3 pt-2" htmlFor="">Filtrar por tipo de Solicitud </label>
                                 <select className="form-select" onChange={filtro2} id="inputGroupSelect03" aria-label="Example select with button addon">
-                                    <option selected>Consultas Generales</option>
+                                    <option selected value="0">Consultas Generales</option>
                                     <option value="1">DIM - Comunicacion</option>
                                     <option value="2">Seguimiento de Carpetas PFP</option>
                                     <option value="3">Solicitud de Empadronamiento</option>
@@ -348,19 +371,24 @@ export default function PageWrapperTabla(props) {
                                 </select>
                             </div>
 
-
-                            <div className="container">
+                            <div className="container mb-3">
 
                                 <div className="input-group">
                                     <div className="input-group-prepend">
 
-                                        <button className="btn btn-primary border" onClick={() => cargarConsultasUsuariosFiltrada(buscador)}>Buscar</button>
+                                        <button className="btn btn-primary border" onClick={() => cargarConsultasUsuariosFiltrada(buscador, filtrosPorTipo, filtrosPorTipoSolicitu)}>Buscar</button>
                                         <button className="btn btn-primary border border-start" onClick={() => cargarConsultasUsuarios()}>Actualizar</button>
-
+                                        <button className="btn btn-primary border border-start">Generar Ticket</button>
                                     </div>
                                     <input type="text" className="form-control" placeholder="CUIT/DNI" aria-label=""
                                         aria-describedby="basic-addon1" onChange={busca} />
                                 </div>
+
+                            </div>
+
+                            <div className="container d-flex justify-content-center w-100 border">
+
+                                
 
                             </div>
 
@@ -379,6 +407,9 @@ export default function PageWrapperTabla(props) {
 
                     <Tabla>
 
+
+                        {consultas.length === 0 ? <Loading /> : ""}
+
                         {consultas.map(con => {
 
                             return (
@@ -393,7 +424,7 @@ export default function PageWrapperTabla(props) {
                                     id_solicitud={con.id_solicitud}
                                     setData={setData}
                                     cargarUsuario={cargarUsuario}
-                                    usuario = {params.usuario}
+                                    usuario={params.usuario}
 
                                 />
 

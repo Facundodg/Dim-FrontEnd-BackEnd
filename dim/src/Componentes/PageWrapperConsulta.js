@@ -4,6 +4,9 @@ import FilasConsulta from "./FilasConsulta";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
+import io, { Socket } from "socket.io-client";
+
+const socket = io("http://localhost:4001");
 
 
 export default function PageWrapperConsulta(props) {
@@ -37,7 +40,6 @@ export default function PageWrapperConsulta(props) {
 
         verificacion();
         ConsultasPorUsuario();
-
         ConsultaUsuarioActivo();
 
         let date = new Date();
@@ -271,7 +273,10 @@ export default function PageWrapperConsulta(props) {
 
         console.log("Mostrada Consulta");
 
+        socket.emit("mensaje", true);
+
         window.location.href = "./"+usuario.nombre_usuario+"/"+idcabecera;
+
 
     }else{
 

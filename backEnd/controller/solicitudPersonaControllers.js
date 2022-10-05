@@ -10,32 +10,141 @@ const getSolicitudes = (req, res) => {
 const getSolicitudPorCuit = (req, res) => {
 
     const cuit = req.params.cuit;
-    
+    let tributo = req.params.tipoTributo;
+    const solicitud = req.params.tipoSolcitud;
+    let tributofiltrar = "";
+
+    console.log(tributo);
+
+    switch (tributo) {
+
+        case "0":
+            tributofiltrar = "CISCA"
+            break;
+        case "1":
+            tributofiltrar = "CISI"
+            break;
+        case "2":
+            tributofiltrar = "PYP"
+            break;
+        case "3":
+            tributofiltrar = "TEM"
+            break;
+        case "4":
+            tributofiltrar = "TODO"
+            break;
+    }
+
+    console.log(cuit.length);
+
     if (cuit.length === 11) {
 
-        const resultados = solicitudes.usuarios.filter(dato => dato.cuit == cuit);
+        if(tributofiltrar.length != 0){
 
-        if (resultados.length === 0) {
+            if(tributofiltrar === "TODO"){
 
-            return res.status(204).send(`No se encontro el cuit...`);
+                const resultados = solicitudes.usuarios.filter(dato => dato.cuit == cuit);
 
-        } else {
+                if (resultados.length === 0) {
+        
+                    return res.status(204).send(`No se encontro el cuit...`);
+        
+                } else {
+        
+                    console.log("encontre el cuit");
+                    console.log(cuit);
+                    res.json(resultados);
+        
+                }
 
-            console.log("encontre el cuit");
-            console.log(cuit);
-            res.json(resultados);
+            }else{
 
+                const resultados = solicitudes.usuarios.filter(dato => dato.cuit == cuit && dato.tipo_solicitud == tributofiltrar);
+
+                if (resultados.length === 0) {
+        
+                    return res.status(204).send(`No se encontro el cuit...`);
+        
+                } else {
+        
+                    console.log("encontre el cuit");
+                    console.log(cuit);
+                    res.json(resultados);
+        
+                }
+
+            }
+
+
+        }else{
+
+            const resultados = solicitudes.usuarios.filter(dato => dato.cuit == cuit);
+    
+            if (resultados.length === 0) {
+    
+                return res.status(204).send(`No se encontro el cuit...`);
+    
+            } else {
+    
+                console.log("encontre el cuit");
+                console.log(cuit);
+                res.json(resultados);
+    
+            }
+    
         }
 
-    } else {
 
-        console.log("el cuit no tiene la cantidad de caracteres correcta");
+    }else if(cuit.length < 11 || cuit == "#" || cuit ==""){
 
+        if(tributofiltrar.length != 0){
+
+            if(tributofiltrar === "TODO"){
+
+                const resultados = solicitudes.usuarios.filter(dato => dato.tipo_solicitud);
+
+                if (resultados.length === 0) {
+        
+                    return res.status(204).send(`No se encontro el cuit...`);
+        
+                } else {
+        
+                    console.log("encontre el cuit");
+                    console.log(cuit);
+                    res.json(resultados);
+        
+                }
+
+            }else{
+
+                const resultados = solicitudes.usuarios.filter(dato => dato.tipo_solicitud == tributofiltrar);
+
+                if (resultados.length === 0) {
+        
+                    return res.status(204).send(`No se encontro el cuit...`);
+        
+                } else {
+        
+                    console.log("encontre el cuit");
+                    console.log(cuit);
+                    res.json(resultados);
+        
+                }
+
+            }
+
+
+        }else{
+
+            console.log("Seleccione tipo de filtro");
+
+        }
+     
     }
 
 }
 
-const getUsuarioPorCuit =(req, res) => {
+const getUsuarioPorCuit = (req, res) => {
 
     const cuit = req.params.cuit;
 
@@ -49,7 +158,7 @@ const getUsuarioPorCuit =(req, res) => {
 
 }
 
-module.exports ={
+module.exports = {
 
     getSolicitudes,
     getSolicitudPorCuit,
