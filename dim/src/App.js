@@ -7,9 +7,9 @@ import InicioSesion from './Componentes/InicioSesion';
 import Solicitud from './Componentes/Solicitud';
 import Login from './Componentes/Login';
 import Consulta from './Componentes/Consulta';
+import Pruebas from "./Componentes/Pruebas"
 
 import { BrowserRouter, Routes, Route} from "react-router-dom";
-import io, {Socket} from "socket.io-client";
 
 
 //<Route path="/chat" element={<Chat />} />
@@ -18,8 +18,6 @@ import io, {Socket} from "socket.io-client";
 //<Route path="/atencion-online/:usuario/:id" element={<Solicitud/>} />
 
 function App() {
-
-  const socket = io("http://localhost:4001");
 
   return (
 
@@ -35,7 +33,7 @@ function App() {
         <Route path="/consulta-online/:usuario" element={<Consulta/>} />
         <Route path="/chat" element={<Chat />} />
 
-
+        {/* <Route path="/pruebas" element={<Pruebas />} /> */}
 
       </Routes>
 

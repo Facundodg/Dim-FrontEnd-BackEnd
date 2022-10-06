@@ -494,3 +494,31 @@ app.get('/solicitud/:num_tramite', (req, res) => {
 
 });
 */
+
+--------------------------------------------------------------------------
+
+
+            // console.log("DATA MSG: " + data.msg);
+
+            // if (data.msg === "NO AUTORIZADO") {
+
+            //     window.location.href = "./";
+
+            // } else if (data.msg === "USUARIO") {
+
+            //     // window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+            //     window.location.href = "./";
+
+            //     console.log("sos usuario")
+
+            // } else if (data.msg === "INTERNO") {
+
+            //     //window.location.href = "./login";
+            //     console.log("sos interno")
+
+            // } else {
+
+            //     window.location.href = "./";
+            //     console.log("desconozco tu rol")
+
+            // }

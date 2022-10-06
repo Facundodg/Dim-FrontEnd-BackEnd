@@ -165,43 +165,35 @@ export default function PageWrapperTabla(props) {
 
         const token = document.cookie.replace("token=", "")
 
-        //pruebaTokenInternOusuario
-        //const request = await fetch('http://localhost:4000/pruebaToken',
+        try {
 
-        const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
-            //credentials: 'include',
-            method: 'POST',
-            headers: {
-                'authorization': token
-            }
-        }).then((res) => res.json()).then(data => {
-            console.log(data);
-            console.log(data.msg);
+            const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
 
-            if (data.msg === "NO AUTORIZADO") {
+                method: 'POST',
+                headers: {
+                    'authorization': token
+                }
+            }).then((res) => res.json()).then(data => {
+                console.log(data.user.rol);
+    
+                if(data.user.rol == "usuario"){
+    
+                    window.location.href = "/";
+    
+                }else if(data.user.rol == "interno"){
+    
+                    console.log("Bienvenido Interno!!!");
+    
+                }
+    
+            })
+            
+        } catch (error) {
 
-                window.location.href = "./";
-
-            } else if (data.msg === "USUARIO") {
-
-                // window.location.href = "./consulta-online/" + data.user.nombre_usuario;
-                window.location.href = "./";
-
-                console.log("sos usuario")
-
-            } else if (data.msg === "INTERNO") {
-
-                //window.location.href = "./login";
-                console.log("sos interno")
-
-            } else {
-
-                window.location.href = "./";
-                console.log("desconozco tu rol")
-
-            }
-
-        })
+            console.log("NO AUTORIZADO PARA ESTAR AQUI");
+            window.location.href = "/";
+            
+        }
 
     }
 
@@ -348,7 +340,7 @@ export default function PageWrapperTabla(props) {
 
                             <div className="input-group mb-3">
                                 <label className="pe-3 pt-2" htmlFor="">Filtrar por Tributo</label>
-                                <select className="form-select" onChange={filtro1} id="inputGroupSelect03" aria-label="Example select with button addon">
+                                <select className="form-select" onChange={filtro1} id="inputGroupSelect03" >
                                     <option selected value="0">CISCA</option>
                                     <option value="1">CISI</option>
                                     <option value="2">Publicidad y Propaganda</option>
@@ -359,9 +351,9 @@ export default function PageWrapperTabla(props) {
 
                             <div className="input-group mb-3">
                                 <label className="pe-3 pt-2" htmlFor="">Filtrar por tipo de Solicitud </label>
-                                <select className="form-select" onChange={filtro2} id="inputGroupSelect03" aria-label="Example select with button addon">
+                                <select className="form-select" onChange={filtro2} id="inputGroupSelect03">
                                     <option selected value="0">Consultas Generales</option>
-                                    <option value="1">DIM - Comunicacion</option>
+                                    <option value="1">DIM - Comu nicacion</option>
                                     <option value="2">Seguimiento de Carpetas PFP</option>
                                     <option value="3">Solicitud de Empadronamiento</option>
                                     <option value="4">Todos</option>
@@ -414,17 +406,17 @@ export default function PageWrapperTabla(props) {
 
                             return (
 
-                                <FilaTabla
+                                <FilaTabla con = {con} setData={setData} cargarUsuario={cargarUsuario} usuario={params.usuario}
 
-                                    id={con.id}
-                                    apyNom={con.nombre}
-                                    cuit={con.cuit}
-                                    razonConsulta={con.tipo_solicitud}
-                                    estado={con.estado}
-                                    id_solicitud={con.id_solicitud}
-                                    setData={setData}
-                                    cargarUsuario={cargarUsuario}
-                                    usuario={params.usuario}
+                                    // id={con.id}
+                                    // apyNom={con.nombre}
+                                    // cuit={con.cuit}
+                                    // razonConsulta={con.tipo_solicitud}
+                                    // estado={con.estado}
+                                    // id_solicitud={con.id_solicitud}
+                                    // setData={setData}
+                                    // cargarUsuario={cargarUsuario}
+                                    // usuario={params.usuario}
 
                                 />
 

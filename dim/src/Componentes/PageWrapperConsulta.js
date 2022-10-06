@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import io, { Socket } from "socket.io-client";
+import Loading from "./Loading";
 
 const socket = io("http://localhost:4001");
 
@@ -94,40 +95,38 @@ export default function PageWrapperConsulta(props) {
 
         const token = document.cookie.replace("token=", "")
 
-        const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
-            //credentials: 'include',
-            method: 'POST',
-            headers: {
-                'authorization': token
-            }
-        }).then((res) => res.json()).then(data => {
-            console.log(data);
-            console.log(data.msg);
+        try {
 
-            if (data.msg === "NO AUTORIZADO") {
+            const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
 
-                window.location.href = "./";
+                method: 'POST',
+                headers: {
+                    'authorization': token
+                }
+            }).then((res) => res.json()).then(data => {
+                console.log(data.user.rol);
+    
+                if(data.user.rol == "usuario"){
+    
+                    console.log("Bienvenido Usuario!!!");
+                    
+                }else if(data.user.rol == "interno"){
+    
+                    window.location.href = "/";
+    
+                }
+    
+            })
+            
+        } catch (error) {
 
-            } else if (data.msg === "USUARIO") {
-
-                //window.location.href = "./consulta-online/" + data.user.nombre_usuario;
-                console.log("sos usuario")
-
-            } else if (data.msg === "INTERNO") {
-
-                window.location.href = "./";
-                console.log("sos interno")
-
-            } else {
-
-                window.location.href = "./";
-                console.log("desconozco tu rol")
-
-            }
-
-        })
+            console.log("NO AUTORIZADO PARA ESTAR AQUI");
+            window.location.href = "/";
+            
+        }
 
     }
+
 
     const ConsultaUsuarioActivo = async () => {
 
@@ -398,18 +397,20 @@ export default function PageWrapperConsulta(props) {
 
                             <TablaConsulta>
 
+                            {consultas.length === 0 ? <Loading /> : ""}
+
                                 {consultas.map(con => {
 
                                     return (
 
-                                        <FilasConsulta
+                                        <FilasConsulta con = {con}
 
-                                            tributo={con.tributo}
-                                            padron={con.padron}
-                                            nroConsulta={con.numConsulta}
-                                            motivo={con.motivo}
-                                            fecha={con.fecha}
-                                            usuario={props.usuario}
+                                            // tributo={con.tributo}
+                                            // padron={con.padron}
+                                            // nroConsulta={con.numConsulta}
+                                            // motivo={con.motivo}
+                                            // fecha={con.fecha}
+                                            // usuario={props.usuario}
 
                                         />
                                     )

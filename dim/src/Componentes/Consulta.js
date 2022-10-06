@@ -9,6 +9,8 @@ export default function Consulta(props) {
 
         <PageWrapperConsulta usuario = {params.usuario}>
 
+            
+
         </PageWrapperConsulta>
 
     );

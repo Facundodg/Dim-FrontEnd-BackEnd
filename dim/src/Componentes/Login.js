@@ -3,14 +3,11 @@ import { useState } from "react";
 import axios from "axios";
 import md5 from "md5";
 import Cookies from 'universal-cookie';
-import { useNavigate } from "react-router-dom"
 
 export default function Login(props) {
 
-    const navigate = useNavigate();
-
-    const [linea1, setUsuario] = useState(); //USESTATE DE USUARIO 
-    const [linea2, setContraseña] = useState();//USESTATE DE CONTRASEÑA
+    const [linea1, setUsuario] = useState(""); //USESTATE DE USUARIO 
+    const [linea2, setContraseña] = useState("");//USESTATE DE CONTRASEÑA
 
     //FUNCION QUE SE ENGARGA DE TOMAR LOS EVENTOS DEL IMPUT Y GUARDARLOS EN LINEA1
     const usuario = function (evento) {
@@ -19,7 +16,7 @@ export default function Login(props) {
         console.log(evento.target.value);
 
     }
-    
+
     //FUNCION QUE SE ENGARGA DE TOMAR LOS EVENTOS DEL IMPUT Y GUARDARLOS EN LINEA2
     const contrasena = function (evento) {
 
@@ -42,92 +39,69 @@ export default function Login(props) {
 
     const login = async () => {
 
-        const request = await fetch('http://localhost:4000/login', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ user: data })
-        }).then(res => res.json()).then((cred) => {
-            document.cookie = `token=${cred.token}; max-age=${60 * 60}; path=/; samesite=strict`
-            console.log(document.cookie);
+        console.log(data);
 
-            verificacion();
+        try {
+
+            const request = await fetch('http://localhost:4000/login', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user: data })
+            }).then(res => res.json()).then((cred) => {
+                document.cookie = `token=${cred.token}; max-age=${60 * 60}; path=/; samesite=strict`
+                console.log(document.cookie);
+    
+                verificacion();
+    
+            })
             
-            // window.location.href = "./atencion-online";
+        } catch (error) {
 
-        })
+            alert("Usuario o Contraseña Incorrecta...");
+            
+        }
 
     }
-    
+
     const verificacion = async () => {
 
         const token = document.cookie.replace("token=", "")
 
-        //pruebaTokenInternOusuario
-        //const request = await fetch('http://localhost:4000/pruebaToken',
+        try {
 
-        const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
-            //credentials: 'include',
-            method: 'POST',
-            headers: {
-                'authorization': token
-            }
-        }).then((res) => res.json()).then(data => {
-            console.log(data);
-            console.log(data.msg);
+            const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
 
-            if (data.msg === "NO AUTORIZADO") {
+                method: 'POST',
+                headers: {
+                    'authorization': token
+                }
+            }).then((res) => res.json()).then(data => {
+                console.log(data.user.rol);
 
-                window.location.href = "./";
+                if (data.user.rol == "usuario") {
 
-            }else if(data.msg === "USUARIO"){
+                    window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+                    console.log("Bienvenido Al Chat Usuario!!!");
 
-                window.location.href = "./consulta-online/" + data.user.nombre_usuario;
-                console.log("sos usuario")
+                } else if (data.user.rol == "interno") {
 
-            }else if(data.msg === "INTERNO"){
+                    window.location.href = "./atencion-online/" + data.user.nombre_usuario;
+                    console.log("Bienvenido Al Chat Interno!!!");
+                }
 
-                window.location.href = "./atencion-online/" + data.user.nombre_usuario;
-                console.log("sos interno")
-                
-            }else{
+            })
 
-                window.location.href = "./login";
-                console.log("desconozco tu rol")
+        } catch (error) {
 
-            }
-        
-        })
+            console.log("NO AUTORIZADO PARA ESTAR AQUI");
+            window.location.href = "/";
+
+        }
 
     }
-
-
-    /*
-    
-    
-        const login = async () => {
-    
-            console.log("entre");
-    
-            let url = 'http://localhost:4000/login';
-    
-            let consulta = await fetch(url, {
-    
-                " method ": ' POST ',
-                " headers ": {
-                    " Content-Type ": ' application/json ',
-                },
-                body: JSON.stringify({ user: data })
-    
-            }).then(res => res.json()).then((cred) => {
-                document.cookie = `token=${cred.token}; max-age=${60 * 3}; path=/; samesite=strict`
-                console.log(document.cookie);
-            })
-        }
-    
-        */
 
     return (
 

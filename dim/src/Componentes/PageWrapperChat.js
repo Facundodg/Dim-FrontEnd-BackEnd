@@ -41,11 +41,7 @@ export default function PageWrapperChat(props) {
 
     // setInterval(() => {
 
-    //   socket.on("chat", (msg) => {
-
-    //     enviar();
-
-    //   })
+    //   verificacion();
 
     // }, 10000);
 
@@ -104,12 +100,6 @@ export default function PageWrapperChat(props) {
 
     verificacion();
 
-    // var hoy = new Date();
-
-    // var hora = hoy.getHours+":"+hoy.getMinutes;
-
-    // console.log(hora);
-
     const imput = document.getElementById("campoMensaje").value
 
     if (imput.length != 0) {
@@ -154,56 +144,6 @@ export default function PageWrapperChat(props) {
 
   }
 
-  // function enviar() {
-
-
-  //   socket.on("chat", (msg) => {
-
-  //     const data = {
-
-  //       id: 29,
-  //       idcabecera: params.id,
-  //       mensaje: "",
-  //       motivo: '1',
-  //       usuario: params.usuario,
-  //       ip: '172.20.254.205',
-  //       fecha_mov: '2018-12-04 11:11:04.076532',
-  //       leido: true,
-  //       token_borrar: '6527',
-  //       tipoorigen: '6527',
-  //       fecha_leido: '2020-08-21 10:57:19.821493',
-  //       usuario_leido: 'false',
-  //       privado: null,
-  //       html: null,
-  //       adjunto: null,
-  //       interno: true,
-  //       tipo_adjunto: null,
-  //       idusuario: null,
-  //       rol: usuario.rol,
-  //       img: "https://bootdey.com/img/Content/avatar/avatar7.png"
-
-  //     }
-
-  //     data.mensaje = msg;
-
-  //     if (data.mensaje.length === 0) {
-
-  //       alert("Escribe algo para mandar Mensaje...");
-
-  //     } else {
-
-  //       enviarMensaje(data);
-  //       // ConsultaDeUnicoChat();
-
-  //       document.getElementById("campoMensaje").value = "";
-  //       // window.scroll(0, 100000000000000);
-  //       window.location.reload(true);
-  //     }
-
-  //   })
-
-  // }
-
   socket.on("chat", (msg) => {
 
     ConsultaDeUnicoChat();
@@ -227,39 +167,36 @@ export default function PageWrapperChat(props) {
 
     const token = document.cookie.replace("token=", "")
 
-    const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
-        //credentials: 'include',
+    try {
+
+      const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
+
         method: 'POST',
         headers: {
-            'authorization': token
+          'authorization': token
         }
-    }).then((res) => res.json()).then(data => {
-        console.log(data);
-        console.log(data.msg);
+      }).then((res) => res.json()).then(data => {
+        console.log(data.user.rol);
 
-        if (data.msg === "NO AUTORIZADO") {
+        if (data.user.rol == "usuario") {
 
-            window.location.href = "./";
+          console.log("Bienvenido Al Chat Usuario!!!");
 
-        }else if(data.msg === "USUARIO"){
+        } else if (data.user.rol == "interno") {
 
-            //window.location.href = "./consulta-online/" + data.user.nombre_usuario;
-            console.log("sos usuario")
-
-        }else if(data.msg === "INTERNO"){
-
-            console.log("sos interno")
-            
-        }else{
-
-            window.location.href = "./";
-            console.log("desconozco tu rol")
-
+          console.log("Bienvenido Al Chat Interno!!!");
         }
-    
-    })
 
-}
+      })
+
+    } catch (error) {
+
+      console.log("NO AUTORIZADO PARA ESTAR AQUI");
+      window.location.href = "/";
+
+    }
+
+  }
 
   //{EnviarMensaje() === true ? <Usuario mensaje="hola perro" /> : ""}
 
