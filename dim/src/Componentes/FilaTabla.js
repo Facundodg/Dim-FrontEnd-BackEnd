@@ -10,7 +10,7 @@ export default function FilaTabla(props) {
     //ACOMODA LA URL
     function irChat(url) {
 
-        let urlCambiada = "./" + url;
+        let urlCambiada = "./chat/" + url;
 
         //window.location.href = urlCambiada;
         console.log(url);

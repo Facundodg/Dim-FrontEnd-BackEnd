@@ -12,7 +12,7 @@ export default function FormMensaje(props) {
     const [dia, setDia] = useState("");
     const [usuarioCuit, setCuitUsuario] = useState("");
 
-    console.log(props.btnVisable);
+    // console.log("BTN VISABLE:" + props.btnVisable);
 
 
     useEffect(() => {
@@ -198,7 +198,9 @@ export default function FormMensaje(props) {
 
             // socket.emit("mensaje", true);
 
-            window.location.href = "./" + props.rol.user.nombre_usuario + "/" + idcabecera;
+            // window.location.href = "./" + props.rol.user.nombre_usuario + "/" + idcabecera;
+
+            window.location.href = "/atencion-online/chat/" + idcabecera;
 
 
         } else {

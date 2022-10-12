@@ -103,10 +103,11 @@ export default function PageWrapperTabla(props) {
     //aqui va la veririficacion de la cookie
     const cerrarSesion = () => {
 
-        //        cookies.remove('name', { path: "/" });
-        //        cookies.remove('password', { path: "/" });
+        // document.cookies = ('name', { path: "/" });
+        // document.cookies = ('password', { path: "/" });
 
-        window.location.href = './login';
+        // document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // // window.location.href = '/';
 
     }
 
@@ -318,7 +319,7 @@ export default function PageWrapperTabla(props) {
 
                             <li className="nav-item">
 
-                                <a onClick={cerrarSesion} className="nav-link" href="#">Salir</a>
+                                <a onClick={() => cerrarSesion()} className="nav-link" href="#">Salir</a>
 
                             </li>
 
@@ -407,7 +408,9 @@ export default function PageWrapperTabla(props) {
 
                             return (
 
-                                <FilaTabla con={con} setData={setData} cargarUsuario={cargarUsuario} usuario={params.usuario}
+                                // usuario={params.usuario}
+
+                                <FilaTabla con={con} setData={setData} cargarUsuario={cargarUsuario}
 
                                 // id={con.id}
                                 // apyNom={con.nombre}

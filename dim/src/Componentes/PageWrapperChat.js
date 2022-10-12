@@ -33,7 +33,7 @@ export default function PageWrapperChat(props) {
 
     verificacion();
     ConsultaDeUnicoChat();
-    ConsultaUsuarioActivo();
+    // ConsultaUsuarioActivo();
 
     // setInterval(() => {
 
@@ -41,7 +41,7 @@ export default function PageWrapperChat(props) {
 
     // }, 10000);
 
-    window.scroll(0, 100000000000000);
+    // window.scroll(0, 100000000000000);
 
     let date = new Date();
     let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
@@ -49,12 +49,12 @@ export default function PageWrapperChat(props) {
 
   }, []);
 
-//---------------------------------------------------------------
+  //---------------------------------------------------------------
 
   //CAMBIAR YA QUE TRABAJA CON PARAMS (NO SEGURO / SE TIENE QUE CAMBIAR / SACAR PARAMS)
-  const ConsultaUsuarioActivo = async () => {
+  const ConsultaUsuarioActivo = async (nombreUsuario) => {
 
-    let url = 'http://localhost:4000/usuarios/' + params.usuario + '';
+    let url = 'http://localhost:4000/usuarios/' + nombreUsuario + '';
 
     let consulta = await fetch(url, {
 
@@ -98,7 +98,7 @@ export default function PageWrapperChat(props) {
   //METODO QUE SE ENCARGA DE ENVIAR EL MENSAJE (NO SEGURO / SE TIENE QUE CAMBIAR / SACAR PARAMS)
   const EnviarMensaje = async () => {
 
-    verificacion();
+    // verificacion();
 
     const imput = document.getElementById("campoMensaje").value
 
@@ -112,7 +112,7 @@ export default function PageWrapperChat(props) {
         idcabecera: params.id,
         mensaje: document.getElementById("campoMensaje").value,
         motivo: '1',
-        usuario: params.usuario,
+        usuario: usuario.nombre_usuario,
         ip: '172.20.254.205',
         fecha_mov: dia,
         leido: true,
@@ -179,16 +179,21 @@ export default function PageWrapperChat(props) {
         headers: {
           'authorization': token
         }
+
       }).then((res) => res.json()).then(data => {
         console.log(data.user.rol);
 
         if (data.user.rol == "usuario") {
 
           console.log("Bienvenido Al Chat Usuario!!!");
+          console.log(data.user.nombre_usuario);
+          ConsultaUsuarioActivo(data.user.nombre_usuario);
 
         } else if (data.user.rol == "interno") {
 
           console.log("Bienvenido Al Chat Interno!!!");
+          ConsultaUsuarioActivo(data.user.nombre_usuario);
+          console.log(data.user.nombre_usuario);
         }
 
       })

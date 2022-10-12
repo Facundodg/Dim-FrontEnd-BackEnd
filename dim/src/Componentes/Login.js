@@ -83,12 +83,14 @@ export default function Login(props) {
 
                 if (data.user.rol == "usuario") {
 
-                    window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+                    // window.location.href = "./consulta-online/" + data.user.nombre_usuario;
+                    window.location.href = "./consulta-online";
                     console.log("Bienvenido Al Chat Usuario!!!");
 
                 } else if (data.user.rol == "interno") {
 
-                    window.location.href = "./atencion-online/" + data.user.nombre_usuario;
+                    // window.location.href = "./atencion-online/" + data.user.nombre_usuario;
+                    window.location.href = "./atencion-online";
                     console.log("Bienvenido Al Chat Interno!!!");
                 }
 

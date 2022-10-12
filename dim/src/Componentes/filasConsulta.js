@@ -7,7 +7,7 @@ export default function FilasConsulta(props) {
     //ACOMODA LA URL
     function irChat(nroConsulta) {
 
-        let urlCambiada ="/consulta-online/" + props.con.usuario +"/"+ nroConsulta;
+        let urlCambiada ="/consulta-online/chat/"+ nroConsulta;
 
         //window.location.href = urlCambiada;
         console.log(urlCambiada);

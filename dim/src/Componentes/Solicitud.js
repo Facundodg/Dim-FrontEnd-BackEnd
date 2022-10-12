@@ -9,11 +9,7 @@ import Cookies from 'universal-cookie';
 import "../Componentes/estilos/style-chat.css"
 
 
-export default function Solicitud(props) {
-
-    //-----------------------VARIABLES--------------------------------------
-
-    let filasChat;
+export default function Solicitud() {
 
     //-----------------------HOOKS--------------------------------------
 

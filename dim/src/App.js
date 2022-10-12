@@ -25,12 +25,24 @@ function App() {
 
       <Routes>
 
-        <Route path='/atencion-online/:usuario' element={<PageWrapperTabla />} />
+        {/* <Route path='/atencion-online/:usuario' element={<PageWrapperTabla />} /> */}
 
-        <Route path="/atencion-online/:usuario/:id" element={<Solicitud />} />
-        <Route path="/consulta-online/:usuario/:id" element={<Solicitud />} />
-        <Route path="/" element={<Login/>} />
+        <Route path='/atencion-online' element={<PageWrapperTabla />} />
+
+        {/* <Route path="/atencion-online/:usuario/:id" element={<Solicitud />} /> */}
+
+        <Route path="/atencion-online/chat/:id" element={<Solicitud />} />
+
+        <Route path="/consulta-online/chat/:id" element={<Solicitud />} />
+
+        {/* <Route path="/consulta-online/:usuario/:id" element={<Solicitud />} /> */}
+
+        <Route path="/" element={<Login/>}/>
+
         <Route path="/consulta-online/:usuario" element={<Consulta/>} />
+
+        <Route path="/consulta-online" element={<Consulta/>} />
+
         <Route path="/chat" element={<Chat />} />
 
         {/* <Route path="/pruebas" element={<Pruebas />} /> */}

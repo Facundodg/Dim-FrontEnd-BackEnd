@@ -13,6 +13,7 @@ const socket = io("http://localhost:4001");
 export default function PageWrapperConsulta(props) {
 
     //-------------------HOOKS------------------------------------------
+
     const params = useParams(); //me permite sacar contenido de las url
     const [filtrosPorTributo, setfiltrosPorTributo] = useState();
     const [filtrosPorMotivo, setfiltrosPorMotivo] = useState();
@@ -24,8 +25,8 @@ export default function PageWrapperConsulta(props) {
     useEffect(() => {
 
         verificacion();
-        ConsultasPorUsuario();
-        ConsultaUsuarioActivo();
+        // ConsultasPorUsuario();
+        // ConsultaUsuarioActivo();
 
         let date = new Date();
         let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
@@ -41,7 +42,6 @@ export default function PageWrapperConsulta(props) {
     }, []);
 
     //---------------------EVENTOS DE HOOKS------------------------------
-
 
     const tributo = function (evento) {
 
@@ -68,13 +68,13 @@ export default function PageWrapperConsulta(props) {
 
     //---------------------CONSULTAS------------------------------
 
-    const ConsultasPorUsuario = async () => {
+    const ConsultasPorUsuario = async (nombreUsuario) => {
 
-        console.log(props.usuario);
+        // console.log(props.usuario);
 
         let filasConsultas;
 
-        let url = 'http://localhost:4000/consultas/' + props.usuario + '';
+        let url = 'http://localhost:4000/consultas/' + nombreUsuario + '';
 
         let consulta = await fetch(url, {
 
@@ -100,9 +100,9 @@ export default function PageWrapperConsulta(props) {
 
     }
 
-    const ConsultaUsuarioActivo = async () => {
+    const ConsultaUsuarioActivo = async (nombreUsuario) => {
 
-        let url = 'http://localhost:4000/usuarios/' + params.usuario + '';
+        let url = 'http://localhost:4000/usuarios/' + nombreUsuario + '';
 
         let consulta = await fetch(url, {
 
@@ -134,7 +134,7 @@ export default function PageWrapperConsulta(props) {
                 idcabecera: idcabecera,
                 mensaje: document.getElementById("campoMensaje").value,
                 motivo: '1',
-                usuario: params.usuario,
+                usuario: usuario.nombre_usuario,
                 ip: '172.20.254.205',
                 fecha_mov: dia,
                 leido: true,
@@ -244,7 +244,9 @@ export default function PageWrapperConsulta(props) {
 
             socket.emit("mensaje", true);
 
-            window.location.href = "./" + usuario.nombre_usuario + "/" + idcabecera;
+            // window.location.href = "./" + usuario.nombre_usuario + "/" + idcabecera;
+
+            window.location.href = "/consulta-online/chat/" + idcabecera;
 
 
         } else {
@@ -254,7 +256,6 @@ export default function PageWrapperConsulta(props) {
         }
 
     }
-
 
     //---------------------VERIFICA TOKEN------------------------------
 
@@ -276,6 +277,8 @@ export default function PageWrapperConsulta(props) {
                 if (data.user.rol == "usuario") {
 
                     console.log("Bienvenido Usuario!!!");
+                    ConsultasPorUsuario(data.user.nombre_usuario);
+                    ConsultaUsuarioActivo(data.user.nombre_usuario);
 
                 } else if (data.user.rol == "interno") {
 

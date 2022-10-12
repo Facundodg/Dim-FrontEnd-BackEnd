@@ -7,9 +7,9 @@ export default function Consulta(props) {
 
     return (
 
-        <PageWrapperConsulta usuario = {params.usuario}>
+        //  usuario = {params.usuario}
 
-            
+        <PageWrapperConsulta>
 
         </PageWrapperConsulta>
 
