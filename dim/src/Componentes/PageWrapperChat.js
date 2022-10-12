@@ -1,15 +1,25 @@
+//------------------COMPONENTES--------------------------------------
 import Usuario from './Usuario';
 import Interno from './Interno';
 import Opciones from './Opciones';
 import InfoContribuyente from './InfoContribuyente';
 import InfoContribuyenteResumida from './InfoContribuyenteResumida';
+
+//-------------------HOOKS------------------------------------------
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"
 import io, { Socket } from "socket.io-client";
 
+//---------------PARTES DEL SOCKET---------------------------------
+
 const socket = io("http://localhost:4001");
 
+//----------------------------------------------------------------- (NO SEGURO / SE TIENE QUE CAMBIAR / SACAR PARAMS)
+
 export default function PageWrapperChat(props) {
+
+  //-------------------------HOOKS EN USO----------------------------------
 
   const params = useParams(); //me permite sacar contenido de las url
 
@@ -19,25 +29,11 @@ export default function PageWrapperChat(props) {
 
   const [dia, setDia] = useState();
 
-  // const [mensaje, setMensaje] = useState("·");
-
-  // const [mensaje, setMensaje] = useState();
-
-  // const enviar = function (evento) {
-
-  //   setMensaje(evento.target.value)
-  //   //console.log(evento.target.value);
-
-  // }
-
-
   useEffect(() => {
 
     verificacion();
     ConsultaDeUnicoChat();
     ConsultaUsuarioActivo();
-    // console.log("estoy aqui pelotudo " + params.usuario);
-    // window.scroll(0, 100000000000000);
 
     // setInterval(() => {
 
@@ -53,6 +49,9 @@ export default function PageWrapperChat(props) {
 
   }, []);
 
+//---------------------------------------------------------------
+
+  //CAMBIAR YA QUE TRABAJA CON PARAMS (NO SEGURO / SE TIENE QUE CAMBIAR / SACAR PARAMS)
   const ConsultaUsuarioActivo = async () => {
 
     let url = 'http://localhost:4000/usuarios/' + params.usuario + '';
@@ -74,6 +73,7 @@ export default function PageWrapperChat(props) {
 
   }
 
+  //CONSULTA QUE TRAE UNA UNICA CHARLA
   const ConsultaDeUnicoChat = async () => {
 
     let url = 'http://localhost:4000/chat/' + props.data + '';
@@ -95,7 +95,7 @@ export default function PageWrapperChat(props) {
 
   }
 
-
+  //METODO QUE SE ENCARGA DE ENVIAR EL MENSAJE (NO SEGURO / SE TIENE QUE CAMBIAR / SACAR PARAMS)
   const EnviarMensaje = async () => {
 
     verificacion();
@@ -133,23 +133,26 @@ export default function PageWrapperChat(props) {
 
       enviarMensaje(data);
 
+      //EMISOR DEL SOCKET 
       socket.emit("chat", document.getElementById("campoMensaje").value);
       document.getElementById("campoMensaje").value = "";
 
     } else {
 
-      alert("Escribe un Mensaje Antes de Mandar...");
+      alert("Se Produjo un Problema a la Hora de Enviar el Mensaje....");
 
     }
 
   }
 
+  //RECEPTOR DE EL SOCKET (REVISAR SI ES QUE ES NECESARIO EL CAMBIO)
   socket.on("chat", (msg) => {
 
     ConsultaDeUnicoChat();
 
   })
 
+  //METODO QUE SE ENCARGA DE ENVIAR MENSAJE A LA BD
   const enviarMensaje = async (data) => {
 
     const request = await fetch('http://localhost:4000/agregarMensaje', {
@@ -163,6 +166,7 @@ export default function PageWrapperChat(props) {
 
   }
 
+  //METODO QUE VERIFICA EL TOCKEN Y EL TIPO DE USUARIO
   const verificacion = async () => {
 
     const token = document.cookie.replace("token=", "")

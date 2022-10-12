@@ -7,6 +7,12 @@ app.use(require("./routers/infoSolicitudRouters"));
 app.use(require("./routers/chatRouters"));
 app.use(require("./routers/solicitudPersonaRouters"));
 app.use(require("./routers/usuariosRouters"));
+
+app.use(cors({
+
+    origin:"http://localhost:4001"
+
+})); //activa cors para no producir problema con los servidores locales
 // app.use(require("./routers/tokenRouter"));
 //-------------------------------------------------
 
@@ -40,7 +46,7 @@ const { get } = require('./routers/infoSolicitudRouters');
 //middlewares
 app.use(express.urlencoded({ extended: false }));//procesa los datos traidos de un formulario y los convierte en objetos 
 app.use(express.json()); //convertira los objetos en formato json a objetos javaScript
-app.use(cors()); //activa cors para no producir problema con los servidores locales
+
 
 //-------------------------SOCKET---------------------------
 

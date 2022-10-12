@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom"
 import "../Componentes/estilos/style-tabla.css"
 import io, { Socket } from "socket.io-client";
 import { useState, useEffect } from "react";
+import FormMensaje from "./FormMensaje";
 
 const socket = io("http://localhost:4001");
 
@@ -18,6 +19,32 @@ const socket = io("http://localhost:4001");
 
 export default function PageWrapperTabla(props) {
 
+    //-----------------------OBJETOS------------------------------------------
+
+
+    const datafixed = {
+
+        id: 1,
+        id_solicitud: 11111,
+        tipo_solicitud: "#",
+        caracter: "#",
+        tipo_doc: 111111,
+        documento: 111111,
+        apellido: "#",
+        nombre: "#",
+        usuario: "#",
+        ip: "#",
+        fecha_mov: "#",
+        cuit: "#",
+        email: "#",
+        telefono: 111111,
+        estado: "#"
+
+    }
+
+    let filasConsultas;
+
+    //-------------------HOOKS------------------------------------------
     const params = useParams();
 
     const cookies = new Cookies();
@@ -30,6 +57,24 @@ export default function PageWrapperTabla(props) {
 
     const [loading, setLoading] = useState(false);
 
+    const [ticket, setTicket] = useState(false);
+
+    const [InfoInterno, setInfoInterno] = useState([]);
+
+    const [consultas, setConsultas] = useState([]);
+
+    const [data, setData] = useState(datafixed)
+
+    useEffect(() => {
+
+        verificacion();
+        //permiso();
+        cargarConsultasUsuarios();
+
+    }, []);
+
+
+    //-------------------EVENTOS DE LOS HOOKS--------------------------
 
     const filtro1 = function (evento) {
 
@@ -52,7 +97,7 @@ export default function PageWrapperTabla(props) {
 
     }
 
-
+    //------------------------LOGICA APARTE---------------------------------------
 
 
     //aqui va la veririficacion de la cookie
@@ -65,30 +110,22 @@ export default function PageWrapperTabla(props) {
 
     }
 
-    /*
+    function generarUnTicket(ticket) {
 
-        const permiso = () => {
+        if (ticket) {
 
-            if (!cookies.get('nombre_usuario')) {
+            setTicket(false);
 
-                window.location.href = "./";
+        } else {
 
-            }
+            setTicket(true);
 
         }
 
-    */
+    }
 
-    const [consultas, setConsultas] = useState([]);
-    let filasConsultas;
 
-    useEffect(() => {
-
-        verificacion();
-        //permiso();
-        cargarConsultasUsuarios();
-
-    }, []);
+    //----------------------CONSULTAS-------------------------------------------
 
     const cargarConsultasUsuarios = async () => {
 
@@ -121,17 +158,6 @@ export default function PageWrapperTabla(props) {
 
     }
 
-
-    // const request = await fetch('api/usuarios', {
-    //     method: 'POST',
-    //     headers: {
-    //           'Accept': 'application/json',
-    //           'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(datos)
-    //   });
-
-
     const cargarUsuario = async (cuit) => {
 
         verificacion();
@@ -157,48 +183,6 @@ export default function PageWrapperTabla(props) {
         setData(json);
 
     }
-
-
-    //METODO QUE VERIFICA EL TOKEN 
-    //aplication => storage
-    const verificacion = async () => {
-
-        const token = document.cookie.replace("token=", "")
-
-        try {
-
-            const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
-
-                method: 'POST',
-                headers: {
-                    'authorization': token
-                }
-            }).then((res) => res.json()).then(data => {
-                console.log(data.user.rol);
-    
-                if(data.user.rol == "usuario"){
-    
-                    window.location.href = "/";
-    
-                }else if(data.user.rol == "interno"){
-    
-                    console.log("Bienvenido Interno!!!");
-    
-                }
-    
-            })
-            
-        } catch (error) {
-
-            console.log("NO AUTORIZADO PARA ESTAR AQUI");
-            window.location.href = "/";
-            
-        }
-
-    }
-
-    //+'/'+filtrosPorTipo+'/'+filtrosPorTipoSolicitu+''
-
 
     const cargarConsultasUsuariosFiltrada = async (buscadorcuit, filtrosPorTipo, filtrosPorTipoSolicitu) => {
 
@@ -235,27 +219,46 @@ export default function PageWrapperTabla(props) {
     }
 
 
-    const datafixed = {
+    //----------------------VERIFICA TOKEN-------------------------------------
 
-        id: 1,
-        id_solicitud: 11111,
-        tipo_solicitud: "#",
-        caracter: "#",
-        tipo_doc: 111111,
-        documento: 111111,
-        apellido: "#",
-        nombre: "#",
-        usuario: "#",
-        ip: "#",
-        fecha_mov: "#",
-        cuit: "#",
-        email: "#",
-        telefono: 111111,
-        estado: "#"
+    const verificacion = async () => {
+
+        const token = document.cookie.replace("token=", "")
+
+        try {
+
+            const request = await fetch('http://localhost:4000/pruebaTokenInternOusuario', {
+
+                method: 'POST',
+                headers: {
+                    'authorization': token
+                }
+            }).then((res) => res.json()).then(data => {
+                console.log(data.user.rol);
+
+                if (data.user.rol == "usuario") {
+
+                    window.location.href = "/";
+
+                } else if (data.user.rol == "interno") {
+
+                    console.log("Bienvenido Interno!!!");
+                    setInfoInterno(data);
+
+                }
+
+            })
+
+        } catch (error) {
+
+            console.log("NO AUTORIZADO PARA ESTAR AQUI");
+            window.location.href = "/";
+
+        }
 
     }
 
-    const [data, setData] = useState(datafixed)
+    //----------------------SOCKET-------------------------------------
 
     socket.on("mensaje", (msg) => {
 
@@ -266,7 +269,6 @@ export default function PageWrapperTabla(props) {
         }
 
     })
-
 
     return (
 
@@ -370,19 +372,18 @@ export default function PageWrapperTabla(props) {
 
                                         <button className="btn btn-primary border" onClick={() => cargarConsultasUsuariosFiltrada(buscador, filtrosPorTipo, filtrosPorTipoSolicitu)}>Buscar</button>
                                         <button className="btn btn-primary border border-start" onClick={() => cargarConsultasUsuarios()}>Actualizar</button>
-                                        <button className="btn btn-primary border border-start">Generar Ticket</button>
+                                        <button className="btn btn-primary border border-start" onClick={() => generarUnTicket(ticket)}>Generar Ticket</button>
                                     </div>
                                     <input type="text" className="form-control" placeholder="CUIT/DNI" aria-label=""
                                         aria-describedby="basic-addon1" onChange={busca} />
                                 </div>
 
                             </div>
-
+                            {/* 
                             <div className="container d-flex justify-content-center w-100 border">
+                            </div> */}
 
-                                
-
-                            </div>
+                            {ticket ? <FormMensaje rol={InfoInterno} /> : ""}
 
                         </div>
 
@@ -406,17 +407,17 @@ export default function PageWrapperTabla(props) {
 
                             return (
 
-                                <FilaTabla con = {con} setData={setData} cargarUsuario={cargarUsuario} usuario={params.usuario}
+                                <FilaTabla con={con} setData={setData} cargarUsuario={cargarUsuario} usuario={params.usuario}
 
-                                    // id={con.id}
-                                    // apyNom={con.nombre}
-                                    // cuit={con.cuit}
-                                    // razonConsulta={con.tipo_solicitud}
-                                    // estado={con.estado}
-                                    // id_solicitud={con.id_solicitud}
-                                    // setData={setData}
-                                    // cargarUsuario={cargarUsuario}
-                                    // usuario={params.usuario}
+                                // id={con.id}
+                                // apyNom={con.nombre}
+                                // cuit={con.cuit}
+                                // razonConsulta={con.tipo_solicitud}
+                                // estado={con.estado}
+                                // id_solicitud={con.id_solicitud}
+                                // setData={setData}
+                                // cargarUsuario={cargarUsuario}
+                                // usuario={params.usuario}
 
                                 />
 

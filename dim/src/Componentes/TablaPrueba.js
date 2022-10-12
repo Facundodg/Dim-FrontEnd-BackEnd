@@ -18,7 +18,6 @@ export default function TablaPrueba(props) {
             </tbody>
         </table>
 
-
     )
 
 }
