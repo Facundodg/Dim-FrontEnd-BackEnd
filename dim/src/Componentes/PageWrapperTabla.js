@@ -99,15 +99,13 @@ export default function PageWrapperTabla(props) {
 
     //------------------------LOGICA APARTE---------------------------------------
 
-
-    //aqui va la veririficacion de la cookie
     const cerrarSesion = () => {
 
-        // document.cookies = ('name', { path: "/" });
-        // document.cookies = ('password', { path: "/" });
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        });
 
-        // document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        // // window.location.href = '/';
+        window.location.href = '/';
 
     }
 

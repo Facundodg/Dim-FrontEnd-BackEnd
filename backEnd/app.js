@@ -20,13 +20,15 @@ const { Server } = require("socket.io");
 const http = require("http");
 
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server,{
+
+    cors:"http://localhost:4000"
+
+});
 
 conexions = 0;
 
 server.listen(4001, () => {
-
-    console.log("entre ql");
 
 })
 

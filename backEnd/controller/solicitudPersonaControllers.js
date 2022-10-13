@@ -1,5 +1,6 @@
 const { solicitudes } = require('../database/solicitud_persona');//database solicitud persona
 
+
 const getSolicitudes = (req, res) => {
 
     res.send(JSON.stringify(solicitudes));

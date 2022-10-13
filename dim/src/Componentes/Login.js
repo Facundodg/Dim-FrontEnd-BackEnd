@@ -8,6 +8,7 @@ export default function Login(props) {
 
     const [linea1, setUsuario] = useState(""); //USESTATE DE USUARIO 
     const [linea2, setContraseña] = useState("");//USESTATE DE CONTRASEÑA
+    const [registrate, setRegistrarte] = useState(true) //BOOLEANO QUE SE ENCARGA DE MOSTRAR EL FORMULARIO
 
     //FUNCION QUE SE ENGARGA DE TOMAR LOS EVENTOS DEL IMPUT Y GUARDARLOS EN LINEA1
     const usuario = function (evento) {
@@ -25,10 +26,141 @@ export default function Login(props) {
 
     }
 
+    function registrarte() {
+
+        if (registrate) {
+
+            setRegistrarte(false);
+            console.log(registrate);
+
+        } else {
+
+            setRegistrarte(true);
+            console.log(registrate);
+
+        }
+
+    }
+
     const data = {
 
         name: linea1,
         password: linea2
+
+    }
+
+    //------------------------------REGISTRARTE-----------------------------------
+
+    const [nombreRegistro, setNombreRegistro] = useState(""); //
+    const [apellidoRegistro, setApellidoRegistro] = useState("");//
+    const [dniRegistro, setDniRegistro] = useState(""); //
+    const [correoRegistro, setCorreoRegistro] = useState("");//
+    const [telefonoRegistro, setTelefonoRegistro] = useState("");//
+    const [contraseñaRegistro, setContraseñaRegistro] = useState("");//
+    const [contraseñaRegistroConfirmar, setContraseñaRegistroConfirmar] = useState("");//
+
+    //-----------------------EVENTOS HOOKS REGISTRARTE----------------------------
+
+    const nombre = function (evento) {
+
+        setNombreRegistro(evento.target.value)
+        console.log(evento.target.value);
+
+    }
+
+    const apellido = function (evento) {
+
+        setApellidoRegistro(evento.target.value)
+        console.log(evento.target.value);
+
+    }
+    const dni = function (evento) {
+
+        setDniRegistro(evento.target.value)
+        console.log(evento.target.value);
+
+    }
+
+    const correo = function (evento) {
+
+        setCorreoRegistro(evento.target.value)
+        console.log(evento.target.value);
+
+    }
+
+    const telefono = function (evento) {
+
+        setTelefonoRegistro(evento.target.value)
+        console.log(evento.target.value);
+
+    }
+
+    const contraseñaR = function (evento) {
+
+        setContraseñaRegistro(evento.target.value)
+        console.log(evento.target.value);
+
+    }
+    const contraseñaRConfirmar = function (evento) {
+
+        setContraseñaRegistroConfirmar(evento.target.value)
+        console.log(evento.target.value);
+
+    }
+
+
+    //registraUsuario
+    const registraUsuario = async () => {
+
+        let id = (Math.floor(Math.random() * (99 - 1 + 1)) + 1);
+
+        if(contraseñaRegistro.length === 0 && contraseñaRegistroConfirmar.length ){
+
+
+
+        if(contraseñaRegistro === contraseñaRegistroConfirmar){
+
+            const contraseñaFiel = contraseñaRegistroConfirmar;
+
+            const datos = {
+
+                id: id,
+                rol: "usuario",
+                nombre_usuario: nombreRegistro + " " + apellidoRegistro,
+                password: contraseñaRegistroConfirmar,
+                email: correoRegistro,
+                cuit: dniRegistro,
+                telefono: telefonoRegistro
+    
+            }
+    
+            console.log(datos);
+
+        }else{
+
+            alert("Las contraseñas No son Iguales");
+
+        }
+
+        
+    }
+
+
+        // const request = await fetch('/registrar', {
+
+        //     method: 'POST',
+        //     headers: {
+
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+
+        //     },
+
+        //     body: JSON.stringify(datos)
+
+        // });
+
+  
 
     }
 
@@ -53,15 +185,15 @@ export default function Login(props) {
             }).then(res => res.json()).then((cred) => {
                 document.cookie = `token=${cred.token}; max-age=${60 * 60}; path=/; samesite=strict`
                 console.log(document.cookie);
-    
+
                 verificacion();
-    
+
             })
-            
+
         } catch (error) {
 
             alert("Usuario o Contraseña Incorrecta...");
-            
+
         }
 
     }
@@ -122,46 +254,132 @@ export default function Login(props) {
 
             </div>
 
+            {registrate ?
 
-            <div className="container d-flex border justify-content-center align-items-center" id="contenedor-ingreso" data-aos="fade-up">
+                <div className="container d-flex border justify-content-center align-items-center" id="contenedor-ingreso" data-aos="fade-up">
 
-                <div className="container border border-3" id="formulario">
+                    <div className="container border border-3" id="formulario">
 
-                    <div className="container w-100 text-center pt-3">
+                        <div className="container w-100 text-center pt-3">
 
-                        <h3>Inicio de Sesión</h3>
+                            <h3>Inicio de Sesión</h3>
+
+                        </div>
+
+                        <form action="/auth" method="POST">
+
+                            <div className="input-group input-group-sm mb-3">
+
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Usuario</span>
+                                <input type="text" className="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-sm" name="user" onChange={usuario} />
+
+                            </div>
+
+                            <div className="input-group input-group-sm mb-3">
+
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Contraseña</span>
+                                <input type="password" className="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-sm" name="password" onChange={contrasena} />
+
+                            </div>
+
+                            <div className="input-group mb-3 d-flex justify-content-center">
+
+                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => login()}>Ingresar</button>
+                                 <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registrarte()}>Registrarte</button>
+
+                            </div>
+
+                        </form>
 
                     </div>
 
-                    <form action="/auth" method="POST">
+                </div>
 
-                        <div className="input-group input-group-sm mb-3">
+                :
 
-                            <span className="input-group-text" id="inputGroup-sizing-sm">Usuario</span>
-                            <input type="text" className="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" name="user" onChange={usuario} />
+                <div className="container d-flex border justify-content-center align-items-center" id="contenedor-ingreso" data-aos="fade-up">
 
-                        </div>
+                    <div className="container border border-3" id="formulario-registro">
 
-                        <div className="input-group input-group-sm mb-3">
+                        <div className="container w-100 text-center pt-3">
 
-                            <span className="input-group-text" id="inputGroup-sizing-sm">Contraseña</span>
-                            <input type="password" className="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" name="password" onChange={contrasena} />
+                            <h3>Registrate</h3>
 
                         </div>
 
-                        <div className="input-group mb-3 d-flex justify-content-center">
+                        <form action="/auth" method="POST">
 
-                            <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => login()}>Ingresar</button>
+                            <div className="input-group input-group-sm mb-3">
 
-                        </div>
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Nombre</span>
+                                <input type="text" className="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-sm" name="user" onChange={nombre} />
 
-                    </form>
+                            </div>
+
+                            <div className="input-group input-group-sm mb-3">
+
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Apellido</span>
+                                <input type="text" className="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={apellido} />
+
+                            </div>
+
+                            <div className="input-group input-group-sm mb-3">
+
+                                <span className="input-group-text" id="inputGroup-sizing-sm">DNI/CUIT</span>
+                                <input type="text" className="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={dni} />
+
+                            </div>
+
+                            <div className="input-group input-group-sm mb-3">
+
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Correo</span>
+                                <input type="text" className="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={correo} />
+
+                            </div>
+
+                            <div className="input-group input-group-sm mb-3">
+
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Telefono</span>
+                                <input type="text" className="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={telefono} />
+
+                            </div>
+
+                            <div className="input-group input-group-sm mb-3">
+
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Contraseña</span>
+                                <input type="password" className="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={contraseñaR} />
+
+                            </div>
+
+                            <div className="input-group input-group-sm mb-3">
+
+                                <span className="input-group-text" id="inputGroup-sizing-sm">Confirmar Contraseña</span>
+                                <input type="password" className="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={contraseñaRConfirmar} />
+
+                            </div>
+                            <div className="input-group mb-3 d-flex justify-content-center">
+
+                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registraUsuario()}>Registrarte</button>
+                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registrarte()}>Atras</button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
-            </div>
+            }
 
             <Footer />
 
