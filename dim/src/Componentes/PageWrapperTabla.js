@@ -1,6 +1,6 @@
 import NavBarTabla from "./NavBarTabla";
 import FiltrosTablas from "./FiltrosTabla";
-import Tabla from "./tabla";
+import Tabla from "./Tabla";
 import FilaTabla from "./FilaTabla";
 import Footer from "./Footer";
 import Cookies from 'universal-cookie';

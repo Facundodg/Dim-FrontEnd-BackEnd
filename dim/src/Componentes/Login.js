@@ -32,12 +32,13 @@ export default function Login(props) {
 
             setRegistrarte(false);
             console.log(registrate);
+            limpiarErrores();
 
         } else {
 
             setRegistrarte(true);
             console.log(registrate);
-
+            limpiarErrores();
         }
 
     }
@@ -58,6 +59,13 @@ export default function Login(props) {
     const [telefonoRegistro, setTelefonoRegistro] = useState("");//
     const [contraseñaRegistro, setContraseñaRegistro] = useState("");//
     const [contraseñaRegistroConfirmar, setContraseñaRegistroConfirmar] = useState("");//
+
+    //----------------------------------------------------------------------------
+
+    const [correoValido, setCorreoValido] = useState(false);
+    const [dniCuitValido, setdniCuitValido] = useState(false);
+    const [telefonoValido, settelefonoValido] = useState(false);
+
 
     //-----------------------EVENTOS HOOKS REGISTRARTE----------------------------
 
@@ -114,55 +122,134 @@ export default function Login(props) {
 
         let id = (Math.floor(Math.random() * (99 - 1 + 1)) + 1);
 
-        if(contraseñaRegistro.length === 0 && contraseñaRegistroConfirmar.length ){
+        if (contraseñaRegistro.length != 0 &&
+            contraseñaRegistroConfirmar.length != 0 &&
+            telefonoRegistro.length != 0 &&
+            correoRegistro.length != 0 &&
+            dniRegistro.length != 0 &&
+            apellidoRegistro.length != 0 &&
+            nombreRegistro.length != 0) {
+
+            if (validrDniCut(dniRegistro) &&
+                validarTelefono(telefonoRegistro) &&
+                validarCorreo(correoRegistro)
+            ) {
+
+                if (contraseñaRegistro === contraseñaRegistroConfirmar) {
+
+                    const datos = {
+
+                        id: id,
+                        rol: "usuario",
+                        nombre_usuario: nombreRegistro + " " + apellidoRegistro,
+                        password: contraseñaRegistroConfirmar,
+                        email: correoRegistro,
+                        cuit: dniRegistro,
+                        telefono: telefonoRegistro
+
+                    }
+
+                    console.log(datos);
+                    alert("Registrado con Exito");
+
+                } else {
+
+                    alert("Las contraseñas No son Iguales");
+
+                }
 
 
+            } else {
 
-        if(contraseñaRegistro === contraseñaRegistroConfirmar){
+                console.log("salida:" + dniRegistro);
 
-            const contraseñaFiel = contraseñaRegistroConfirmar;
-
-            const datos = {
-
-                id: id,
-                rol: "usuario",
-                nombre_usuario: nombreRegistro + " " + apellidoRegistro,
-                password: contraseñaRegistroConfirmar,
-                email: correoRegistro,
-                cuit: dniRegistro,
-                telefono: telefonoRegistro
-    
             }
-    
-            console.log(datos);
 
-        }else{
 
-            alert("Las contraseñas No son Iguales");
+            // const request = await fetch('/registrar', {
+
+            //     method: 'POST',
+            //     headers: {
+
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+
+            //     },
+
+            //     body: JSON.stringify(datos)
+
+            // });
+
+        } else {
+
+            alert("Falta un Completar Campos...");
 
         }
 
-        
     }
 
+    function validarCorreo(correo) {
 
-        // const request = await fetch('/registrar', {
+        var expReg = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 
-        //     method: 'POST',
-        //     headers: {
+        var validar = expReg.test(correo);
 
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
+        if (validar) {
 
-        //     },
+            setCorreoValido(false);
+            return validar;
 
-        //     body: JSON.stringify(datos)
+        } else {
 
-        // });
+            setCorreoValido(true);
+            return validar;
 
-  
+        }
 
     }
+
+    function validrDniCut(dnioCuit) {
+
+        if (dnioCuit.length === 8 || dnioCuit.length === 11) {
+
+            setdniCuitValido(false);
+            console.log("entre")
+            return false;
+
+        } else {
+
+            setdniCuitValido(true);
+            return true;
+
+        }
+
+    }
+
+    function validarTelefono(telefono) {
+
+        console.log("entro ql")
+
+        if (telefono.length === 10) {
+
+            settelefonoValido(false);
+            return false;
+
+        } else {
+
+            settelefonoValido(true);
+            return true;
+
+        }
+
+    }
+
+    function limpiarErrores(){
+
+        setCorreoValido(false);
+        setdniCuitValido(false);
+        settelefonoValido(false);
+    }
+
 
     //https://www.youtube.com/watch?v=wrR9PS4qQcs&t=340s
 
@@ -287,7 +374,7 @@ export default function Login(props) {
                             <div className="input-group mb-3 d-flex justify-content-center">
 
                                 <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => login()}>Ingresar</button>
-                                 <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registrarte()}>Registrarte</button>
+                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registrarte()}>Registrarte</button>
 
                             </div>
 
@@ -330,10 +417,11 @@ export default function Login(props) {
                             <div className="input-group input-group-sm mb-3">
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">DNI/CUIT</span>
-                                <input type="text" className="form-control" aria-label="Sizing example input"
+                                <input type="number" className="form-control" aria-label="Sizing example input"
                                     aria-describedby="inputGroup-sizing-sm" name="text" onChange={dni} />
 
                             </div>
+                            {dniCuitValido ? <p className="text-danger">DNI No valido</p> : ""}
 
                             <div className="input-group input-group-sm mb-3">
 
@@ -342,14 +430,17 @@ export default function Login(props) {
                                     aria-describedby="inputGroup-sizing-sm" name="text" onChange={correo} />
 
                             </div>
+                            {correoValido ? <p className="text-danger">Correo No valido</p> : ""}
 
                             <div className="input-group input-group-sm mb-3">
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">Telefono</span>
-                                <input type="text" className="form-control" aria-label="Sizing example input"
+                                <input type="number" className="form-control" aria-label="Sizing example input"
                                     aria-describedby="inputGroup-sizing-sm" name="text" onChange={telefono} />
 
                             </div>
+
+                            {telefonoValido ? <p className="text-danger">Telefono no Valido</p> : ""}
 
                             <div className="input-group input-group-sm mb-3">
 
