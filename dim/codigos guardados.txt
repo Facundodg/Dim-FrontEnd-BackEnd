@@ -564,3 +564,204 @@ app.get('/solicitud/:num_tramite', (req, res) => {
                         </pre>
      
      */
+
+     //--------------------------------------------------------------
+
+
+         // const [nombreRegistro, setNombreRegistro] = useState(""); //
+    // const [apellidoRegistro, setApellidoRegistro] = useState("");//
+    // const [dniRegistro, setDniRegistro] = useState(""); //
+    // const [correoRegistro, setCorreoRegistro] = useState("");//
+    // const [telefonoRegistro, setTelefonoRegistro] = useState("");//
+    // const [contraseñaRegistro, setContraseñaRegistro] = useState("");//
+    // const [contraseñaRegistroConfirmar, setContraseñaRegistroConfirmar] = useState("");//
+
+    //----------------------------------------------------------------------------
+
+    // const [correoValido, setCorreoValido] = useState(false);
+    // const [dniCuitValido, setdniCuitValido] = useState(false);
+    // const [telefonoValido, settelefonoValido] = useState(false);
+
+
+    //-----------------------EVENTOS HOOKS REGISTRARTE----------------------------
+
+    // const nombre = function (evento) {
+
+    //     setNombreRegistro(evento.target.value)
+    //     console.log(evento.target.value);
+
+    // }
+
+    // const apellido = function (evento) {
+
+    //     setApellidoRegistro(evento.target.value)
+    //     console.log(evento.target.value);
+
+    // }
+    // const dni = function (evento) {
+
+    //     setDniRegistro(evento.target.value)
+    //     console.log(evento.target.value);
+
+    // }
+
+    // const correo = function (evento) {
+
+    //     setCorreoRegistro(evento.target.value)
+    //     console.log(evento.target.value);
+
+    // }
+
+    // const telefono = function (evento) {
+
+    //     setTelefonoRegistro(evento.target.value)
+    //     console.log(evento.target.value);
+
+    // }
+
+    // const contraseñaR = function (evento) {
+
+    //     setContraseñaRegistro(evento.target.value)
+    //     console.log(evento.target.value);
+
+    // }
+    // const contraseñaRConfirmar = function (evento) {
+
+    //     setContraseñaRegistroConfirmar(evento.target.value)
+    //     console.log(evento.target.value);
+
+    // }
+
+
+    // //registraUsuario
+    // const registraUsuario = async () => {
+
+    //     let id = (Math.floor(Math.random() * (99 - 1 + 1)) + 1);
+
+    //     if (contraseñaRegistro.length != 0 &&
+    //         contraseñaRegistroConfirmar.length != 0 &&
+    //         telefonoRegistro.length != 0 &&
+    //         correoRegistro.length != 0 &&
+    //         dniRegistro.length != 0 &&
+    //         apellidoRegistro.length != 0 &&
+    //         nombreRegistro.length != 0) {
+
+    //         if (validrDniCut(dniRegistro) &&
+    //             validarTelefono(telefonoRegistro) &&
+    //             validarCorreo(correoRegistro)
+    //         ) {
+
+    //             if (contraseñaRegistro === contraseñaRegistroConfirmar) {
+
+    //                 const datos = {
+
+    //                     id: id,
+    //                     rol: "usuario",
+    //                     nombre_usuario: nombreRegistro + " " + apellidoRegistro,
+    //                     password: contraseñaRegistroConfirmar,
+    //                     email: correoRegistro,
+    //                     cuit: dniRegistro,
+    //                     telefono: telefonoRegistro
+
+    //                 }
+
+    //                 console.log(datos);
+    //                 alert("Registrado con Exito");
+
+    //             } else {
+
+    //                 alert("Las contraseñas No son Iguales");
+
+    //             }
+
+
+    //         } else {
+
+    //             console.log("salida:" + dniRegistro);
+
+    //         }
+
+
+    //         // const request = await fetch('/registrar', {
+
+    //         //     method: 'POST',
+    //         //     headers: {
+
+    //         //         'Accept': 'application/json',
+    //         //         'Content-Type': 'application/json'
+
+    //         //     },
+
+    //         //     body: JSON.stringify(datos)
+
+    //         // });
+
+    //     } else {
+
+    //         alert("Falta un Completar Campos...");
+
+    //     }
+
+    // }
+
+    // function validarCorreo(correo) {
+
+    //     var expReg = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+
+    //     var validar = expReg.test(correo);
+
+    //     if (validar) {
+
+    //         setCorreoValido(false);
+    //         return validar;
+
+    //     } else {
+
+    //         setCorreoValido(true);
+    //         return validar;
+
+    //     }
+
+    // }
+
+    // function validrDniCut(dnioCuit) {
+
+    //     if (dnioCuit.length === 8 || dnioCuit.length === 11) {
+
+    //         setdniCuitValido(false);
+    //         console.log("entre")
+    //         return false;
+
+    //     } else {
+
+    //         setdniCuitValido(true);
+    //         return true;
+
+    //     }
+
+    // }
+
+    // function validarTelefono(telefono) {
+
+    //     console.log("entro ql")
+
+    //     if (telefono.length === 10) {
+
+    //         settelefonoValido(false);
+    //         return false;
+
+    //     } else {
+
+    //         settelefonoValido(true);
+    //         return true;
+
+    //     }
+
+    // }
+
+    // function limpiarErrores(){
+
+    //     setCorreoValido(false);
+    //     setdniCuitValido(false);
+    //     settelefonoValido(false);
+    // }

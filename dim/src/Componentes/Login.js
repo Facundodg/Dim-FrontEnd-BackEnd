@@ -1,5 +1,5 @@
 import Footer from "./Footer"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import md5 from "md5";
 import Cookies from 'universal-cookie';
@@ -32,13 +32,13 @@ export default function Login(props) {
 
             setRegistrarte(false);
             console.log(registrate);
-            limpiarErrores();
+            // limpiarErrores();
 
         } else {
 
             setRegistrarte(true);
             console.log(registrate);
-            limpiarErrores();
+            // limpiarErrores();
         }
 
     }
@@ -52,137 +52,64 @@ export default function Login(props) {
 
     //------------------------------REGISTRARTE-----------------------------------
 
-    const [nombreRegistro, setNombreRegistro] = useState(""); //
-    const [apellidoRegistro, setApellidoRegistro] = useState("");//
-    const [dniRegistro, setDniRegistro] = useState(""); //
-    const [correoRegistro, setCorreoRegistro] = useState("");//
-    const [telefonoRegistro, setTelefonoRegistro] = useState("");//
-    const [contraseñaRegistro, setContraseñaRegistro] = useState("");//
-    const [contraseñaRegistroConfirmar, setContraseñaRegistroConfirmar] = useState("");//
+    //https://www.youtube.com/watch?v=EYpdEYK25Dc&t=12s
 
-    //----------------------------------------------------------------------------
+    const usuarioRegistrar = {
 
-    const [correoValido, setCorreoValido] = useState(false);
-    const [dniCuitValido, setdniCuitValido] = useState(false);
-    const [telefonoValido, settelefonoValido] = useState(false);
+        nombre: "",
+        apellido: "",
+        dni: "",
+        correo: "",
+        telefono: "",
+        contraseña: "",
+        contraseñaConfirmar: ""
 
+    };
 
-    //-----------------------EVENTOS HOOKS REGISTRARTE----------------------------
+    const [formValues, setFormValues] = useState(usuarioRegistrar);
+    const [formErrors, setFormErrors] = useState({});
+    // const [isSubmit, setIsSubmit] = useState();
 
-    const nombre = function (evento) {
+    const ingresoValoresFormulario = (e) => {
 
-        setNombreRegistro(evento.target.value)
-        console.log(evento.target.value);
-
-    }
-
-    const apellido = function (evento) {
-
-        setApellidoRegistro(evento.target.value)
-        console.log(evento.target.value);
-
-    }
-    const dni = function (evento) {
-
-        setDniRegistro(evento.target.value)
-        console.log(evento.target.value);
+        console.log(formErrors);
+        const { name, value } = e.target;
+        setFormValues({ ...formValues, [name]: value });
+        console.log(formValues);
+        setFormErrors(validate(formValues));
+        
 
     }
 
-    const correo = function (evento) {
+    const validate = (values) => {
 
-        setCorreoRegistro(evento.target.value)
-        console.log(evento.target.value);
+        const errors = {};
 
-    }
+        errors.nombre = validarNombre(values.nombre);
+        errors.correo = validarCorreo(values.correo);
+        errors.dni = validarDniCuit(values.dni);
+        errors.telefono = validarTelefono(values.telefono);
+        errors.contraseña = validarContraseña(values.contraseña);
+        errors.contraseñaConfirmar = validarContraseña(values.contraseñaConfirmar);
 
-    const telefono = function (evento) {
+        return errors;
 
-        setTelefonoRegistro(evento.target.value)
-        console.log(evento.target.value);
-
-    }
-
-    const contraseñaR = function (evento) {
-
-        setContraseñaRegistro(evento.target.value)
-        console.log(evento.target.value);
-
-    }
-    const contraseñaRConfirmar = function (evento) {
-
-        setContraseñaRegistroConfirmar(evento.target.value)
-        console.log(evento.target.value);
+        console.log(errors.nombre);
+        console.log(errors.correo);
+        console.log(errors.dni);
+        console.log(errors.telefono);
 
     }
 
+    function validarNombre(nombre) {
 
-    //registraUsuario
-    const registraUsuario = async () => {
+        if (nombre) {
 
-        let id = (Math.floor(Math.random() * (99 - 1 + 1)) + 1);
-
-        if (contraseñaRegistro.length != 0 &&
-            contraseñaRegistroConfirmar.length != 0 &&
-            telefonoRegistro.length != 0 &&
-            correoRegistro.length != 0 &&
-            dniRegistro.length != 0 &&
-            apellidoRegistro.length != 0 &&
-            nombreRegistro.length != 0) {
-
-            if (validrDniCut(dniRegistro) &&
-                validarTelefono(telefonoRegistro) &&
-                validarCorreo(correoRegistro)
-            ) {
-
-                if (contraseñaRegistro === contraseñaRegistroConfirmar) {
-
-                    const datos = {
-
-                        id: id,
-                        rol: "usuario",
-                        nombre_usuario: nombreRegistro + " " + apellidoRegistro,
-                        password: contraseñaRegistroConfirmar,
-                        email: correoRegistro,
-                        cuit: dniRegistro,
-                        telefono: telefonoRegistro
-
-                    }
-
-                    console.log(datos);
-                    alert("Registrado con Exito");
-
-                } else {
-
-                    alert("Las contraseñas No son Iguales");
-
-                }
-
-
-            } else {
-
-                console.log("salida:" + dniRegistro);
-
-            }
-
-
-            // const request = await fetch('/registrar', {
-
-            //     method: 'POST',
-            //     headers: {
-
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-
-            //     },
-
-            //     body: JSON.stringify(datos)
-
-            // });
+            return false;
 
         } else {
 
-            alert("Falta un Completar Campos...");
+            return true;
 
         }
 
@@ -196,60 +123,61 @@ export default function Login(props) {
 
         if (validar) {
 
-            setCorreoValido(false);
-            return validar;
-
-        } else {
-
-            setCorreoValido(true);
-            return validar;
-
-        }
-
-    }
-
-    function validrDniCut(dnioCuit) {
-
-        if (dnioCuit.length === 8 || dnioCuit.length === 11) {
-
-            setdniCuitValido(false);
-            console.log("entre")
             return false;
 
         } else {
 
-            setdniCuitValido(true);
             return true;
 
         }
 
     }
 
-    function validarTelefono(telefono) {
+    function validarDniCuit(dni){
 
-        console.log("entro ql")
+        if(dni.length === 7 ){
 
-        if (telefono.length === 10) {
-
-            settelefonoValido(false);
             return false;
 
-        } else {
+        }else{
 
-            settelefonoValido(true);
+            return true;
+
+        }
+
+    }
+    
+    function validarTelefono(telefono){
+
+        if(telefono.length === 9){
+
+            return false;
+
+        }else{
+
             return true;
 
         }
 
     }
 
-    function limpiarErrores(){
+    function validarContraseña(contraseña){
 
-        setCorreoValido(false);
-        setdniCuitValido(false);
-        settelefonoValido(false);
+        if(contraseña.length >=5){
+
+            return false;
+
+        }else{
+
+            return true;
+
+        }
+
     }
 
+//------------------------------------------------------
+//--              HACER CAMBIO EN CASA                --
+//------------------------------------------------------
 
     //https://www.youtube.com/watch?v=wrR9PS4qQcs&t=340s
 
@@ -321,6 +249,28 @@ export default function Login(props) {
             window.location.href = "/";
 
         }
+
+    }
+
+    const registra = async (errores,data) =>{
+
+        if(errores.nombre == false &&
+        errores.correo == false &&
+        errores.dni === false && 
+        errores.telefono == false &&
+        errores.contraseña == false &&
+        errores.contraseñaConfirmar == false){
+
+            console.log(errores);
+            console.log(data);
+            alert("ME REGISTRE CON EXITO");
+
+        }else{
+
+            alert("FALTAN DATOS PARA REGISTRARTE");
+
+        }
+        
 
     }
 
@@ -402,15 +352,19 @@ export default function Login(props) {
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">Nombre</span>
                                 <input type="text" className="form-control" aria-label="Sizing example input"
-                                    aria-describedby="inputGroup-sizing-sm" name="user" onChange={nombre} />
+                                    aria-describedby="inputGroup-sizing-sm" name="nombre" value={usuarioRegistrar.nombreR} onChange={ingresoValoresFormulario} />
+                                {/* onChange={nombre} */}
 
                             </div>
+
+                            {formErrors.nombre ? <p className="text-danger">Ingrese Nombre</p> : ""}
 
                             <div className="input-group input-group-sm mb-3">
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">Apellido</span>
                                 <input type="text" className="form-control" aria-label="Sizing example input"
-                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={apellido} />
+                                    aria-describedby="inputGroup-sizing-sm" name="apellido" value={usuarioRegistrar.apellidoR} onChange={ingresoValoresFormulario} />
+                                {/* onChange={apellido} */}
 
                             </div>
 
@@ -418,48 +372,66 @@ export default function Login(props) {
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">DNI/CUIT</span>
                                 <input type="number" className="form-control" aria-label="Sizing example input"
-                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={dni} />
+                                    aria-describedby="inputGroup-sizing-sm" name="dni" value={usuarioRegistrar.dniR} onChange={ingresoValoresFormulario} />
+                                {/* onChange={dni} */}
 
                             </div>
-                            {dniCuitValido ? <p className="text-danger">DNI No valido</p> : ""}
+                            {formErrors.dni ? <p className="text-danger">Ingrese CUIT/DNI</p> : ""}
+                            {/* {dniCuitValido ? <p className="text-danger">DNI No valido</p> : ""} */}
 
                             <div className="input-group input-group-sm mb-3">
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">Correo</span>
                                 <input type="text" className="form-control" aria-label="Sizing example input"
-                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={correo} />
+                                    aria-describedby="inputGroup-sizing-sm" name="correo" value={usuarioRegistrar.correoR} onChange={ingresoValoresFormulario} />
+
+                                {/* onChange={correo}  */}
 
                             </div>
-                            {correoValido ? <p className="text-danger">Correo No valido</p> : ""}
+
+                            {formErrors.correo ? <p className="text-danger">Ingrese Correo</p> : ""}
+                            {/* {correoValido ? <p className="text-danger">Correo No valido</p> : ""} */}
 
                             <div className="input-group input-group-sm mb-3">
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">Telefono</span>
                                 <input type="number" className="form-control" aria-label="Sizing example input"
-                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={telefono} />
+                                    aria-describedby="inputGroup-sizing-sm" name="telefono" value={usuarioRegistrar.telefonoR} onChange={ingresoValoresFormulario} />
+                                {/* onChange={telefono} */}
 
                             </div>
 
-                            {telefonoValido ? <p className="text-danger">Telefono no Valido</p> : ""}
+                            {formErrors.telefono ? <p className="text-danger">Ingrese Telefono</p> : ""}
+
+                            {/* {telefonoValido ? <p className="text-danger">Telefono no Valido</p> : ""} */}
 
                             <div className="input-group input-group-sm mb-3">
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">Contraseña</span>
                                 <input type="password" className="form-control" aria-label="Sizing example input"
-                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={contraseñaR} />
+                                    aria-describedby="inputGroup-sizing-sm" name="contraseña" value={usuarioRegistrar.contraseñaR} onChange={ingresoValoresFormulario} />
+                                {/* onChange={contraseñaR} */}
 
                             </div>
+
+                            {formErrors.contraseña ? <p className="text-danger">Contraseña Muy Corta</p> : ""}
 
                             <div className="input-group input-group-sm mb-3">
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">Confirmar Contraseña</span>
                                 <input type="password" className="form-control" aria-label="Sizing example input"
-                                    aria-describedby="inputGroup-sizing-sm" name="text" onChange={contraseñaRConfirmar} />
+                                    aria-describedby="inputGroup-sizing-sm" name="contraseñaConfirmar" value={usuarioRegistrar.contraseñaConfirmarR} onChange={ingresoValoresFormulario} />
+                                {/* onChange={contraseñaRConfirmar}  */}
 
                             </div>
+
+                            {formErrors.contraseñaConfirmar ? <p className="text-danger">Contraseña Muy Corta</p> : ""}
+
                             <div className="input-group mb-3 d-flex justify-content-center">
 
-                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registraUsuario()}>Registrarte</button>
+                                {/* onClick={() => registraUsuario()} */}
+
+                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registra(formErrors,formValues)}>Registrarte</button>
                                 <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registrarte()}>Atras</button>
 
                             </div>
