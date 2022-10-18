@@ -146,6 +146,14 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* esto es parte de la pestaña de consulta  */
+
+#NoConsulta{
+
+    position: absolute !important;
+    width: 55% !important;
+}
+
 
 /*PARTE RESPONSIVE DE LAS CARDS llega a 560px la media */
 

@@ -24,7 +24,7 @@ export default function FormMensaje(props) {
 
     }, []);
 
-    
+
     //----------------------------EVENTOS--------------------------------------
 
 
@@ -36,7 +36,7 @@ export default function FormMensaje(props) {
     }
 
     const motivo = function (evento) {
-        
+
         setfiltrosPorMotivo(evento.target.value)
         console.log(evento.target.value);
 
@@ -50,7 +50,7 @@ export default function FormMensaje(props) {
     }
 
     //------------------------METODOS------------------------------
-    
+
     const mensajeEvento = function (evento) {
 
         setMensaje(evento.target.value)
@@ -71,7 +71,7 @@ export default function FormMensaje(props) {
 
     }
 
-    
+
     //------------------------CONSULTAS------------------------------
 
     const enviarMensaje = async () => {
@@ -211,7 +211,7 @@ export default function FormMensaje(props) {
 
     }
 
-    
+
     //---------------------------------------------------------------
 
     console.log("PRUEBA DE ROL:")
@@ -229,6 +229,10 @@ export default function FormMensaje(props) {
                         <select onChange={tributo} className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon">
                             <option value="0">TRIBUTO</option>
                             <option value="1">T.E.M</option>
+                            <option value="1">CISI</option>
+                            <option value="2">Publicidad y Propaganda</option>
+                            <option value="3">CISCA</option>
+                            <option value="4">Todos</option>
 
                         </select>
                     </div>

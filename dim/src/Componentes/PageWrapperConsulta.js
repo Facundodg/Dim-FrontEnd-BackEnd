@@ -364,10 +364,16 @@ export default function PageWrapperConsulta(props) {
 
                     <div className="d-flex justify-content-center">
 
+                       {/* https://www.youtube.com/watch?v=3lpVqgLh7vw */}
+
                         <div className="input-group mt-3 mb-3 ms-3">
                             <select className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" onChange={tributo}>
                                 <option value="0">TRIBUTO</option>
                                 <option value="1">T.E.M</option>
+                                <option value="2">CISI</option>
+                                <option value="3">Publicidad y Propaganda</option>
+                                <option value="4">CISCA</option>
+                                <option value="5">Todos</option>
 
                             </select>
                         </div>
@@ -404,7 +410,7 @@ export default function PageWrapperConsulta(props) {
 
                         <div className="container text-center">
 
-                            <h1>Consultas Abiertas</h1>
+                            <h1>Consultas Abiertas De {usuario.nombre_usuario}</h1>
 
                         </div>
 
@@ -412,22 +418,19 @@ export default function PageWrapperConsulta(props) {
 
                             <TablaConsulta>
 
-                                {consultas.length === 0 ? <Loading /> : ""}
+                                {consultas.length === 0 ?
+
+                                    <div className="alert alert-primary" id="NoConsulta" role="alert">
+                                        Aun No Tienes Consultas Pendientes...
+                                    </div>
+
+                                    : ""}
 
                                 {consultas.map(con => {
 
                                     return (
 
-                                        <FilasConsulta con={con}
-
-                                        // tributo={con.tributo}
-                                        // padron={con.padron}
-                                        // nroConsulta={con.numConsulta}
-                                        // motivo={con.motivo}
-                                        // fecha={con.fecha}
-                                        // usuario={props.usuario}
-
-                                        />
+                                        <FilasConsulta con={con} />
                                     )
 
                                 })}

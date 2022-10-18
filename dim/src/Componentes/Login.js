@@ -10,6 +10,13 @@ export default function Login(props) {
     const [linea2, setContraseña] = useState("");//USESTATE DE CONTRASEÑA
     const [registrate, setRegistrarte] = useState(true) //BOOLEANO QUE SE ENCARGA DE MOSTRAR EL FORMULARIO
 
+    useEffect(() =>{
+
+        setUsuario(document.getElementById("user"));
+        setContraseña(document.getElementById("password"));
+
+    }, []);
+
     //FUNCION QUE SE ENGARGA DE TOMAR LOS EVENTOS DEL IMPUT Y GUARDARLOS EN LINEA1
     const usuario = function (evento) {
 
@@ -32,14 +39,32 @@ export default function Login(props) {
 
             setRegistrarte(false);
             console.log(registrate);
-            // limpiarErrores();
+            limpiarErrores();
 
         } else {
 
             setRegistrarte(true);
             console.log(registrate);
-            // limpiarErrores();
+            limpiarErrores();
         }
+
+    }
+
+    function limpiarErrores(){
+
+        const limpiadoErrores = {
+
+            nombre: false,
+            apellido: false,
+            dni: false,
+            correo: false,
+            telefono: false,
+            contraseña: false,
+            contraseñaConfirmar: false
+    
+        };
+
+        setFormErrors(limpiadoErrores);
 
     }
 
@@ -202,10 +227,6 @@ export default function Login(props) {
 
     }
 
-    //------------------------------------------------------
-    //--              HACER CAMBIO EN CASA                --
-    //------------------------------------------------------
-
     //https://www.youtube.com/watch?v=wrR9PS4qQcs&t=340s
 
     //GENERA EL TOKEN AL INICIAR SESION
@@ -315,6 +336,7 @@ export default function Login(props) {
 
             console.log(dataSubir);
             alert("ME REGISTRESTE CON EXITO!!!");
+            setRegistrarte(true);
 
         } else {
 

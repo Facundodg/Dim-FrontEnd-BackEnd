@@ -1,7 +1,7 @@
 
 let usuarios = {
 
-    "usuario":[
+    "usuario": [
         {
             id: 1,
             rol: "usuario",
@@ -9,7 +9,7 @@ let usuarios = {
             password: "1234",
             email: "facundo_dg10@hotmail.com",
             cuit: "12345678901",
-            telefono:3816487545
+            telefono: 3816487545
 
         },
         {
@@ -19,17 +19,27 @@ let usuarios = {
             password: "1234",
             email: "facundo_dg10@hotmail.com",
             cuit: "12345678901",
-            telefono:3816487545
+            telefono: 3816487545
 
         },
         {
             id: 3,
+            rol: "interno",
+            nombre_usuario: "admin2",
+            password: "1234",
+            email: "facundo_dg10@hotmail.com",
+            cuit: "12345678901",
+            telefono: 3816487545
+
+        },
+        {
+            id: 4,
             rol: "usuario",
             nombre_usuario: "diego",
             password: "1234",
             email: "facundo_dg10@hotmail.com",
             cuit: "12345678901",
-            telefono:3816487545
+            telefono: 3816487545
 
         }
 
