@@ -76,34 +76,31 @@ export default function Login(props) {
         const { name, value } = e.target;
         setFormValues({ ...formValues, [name]: value });
         console.log(formValues);
-        setFormErrors(validate(formValues));
-        
+        // setFormErrors(validate(formValues));
 
     }
 
-    const validate = (values) => {
+    const validate = (valores) => {
 
         const errors = {};
 
-        errors.nombre = validarNombre(values.nombre);
-        errors.correo = validarCorreo(values.correo);
-        errors.dni = validarDniCuit(values.dni);
-        errors.telefono = validarTelefono(values.telefono);
-        errors.contraseña = validarContraseña(values.contraseña);
-        errors.contraseñaConfirmar = validarContraseña(values.contraseñaConfirmar);
+        errors.nombre = validarNombre(valores.nombre);
+        errors.apellido = validarApellido(valores.apellido);
+        errors.dni = validarDniCuit(valores.dni);
+        errors.telefono = validarTelefono(valores.telefono);
+        errors.correo = validarCorreo(valores.correo);
+        errors.contraseña = validarContraseña(valores.contraseña);
+        errors.contraseñaConfirmar = validarContraseñaRepetida(valores.contraseñaConfirmar);
+
+        console.log(formErrors);
 
         return errors;
-
-        console.log(errors.nombre);
-        console.log(errors.correo);
-        console.log(errors.dni);
-        console.log(errors.telefono);
 
     }
 
     function validarNombre(nombre) {
 
-        if (nombre) {
+        if (nombre.length >= 5) {
 
             return false;
 
@@ -114,6 +111,22 @@ export default function Login(props) {
         }
 
     }
+
+
+    function validarApellido(apellido) {
+
+        if (apellido.length > 5) {
+
+            return false;
+
+        } else {
+
+            return true;
+
+        }
+
+    }
+
 
     function validarCorreo(correo) {
 
@@ -133,27 +146,13 @@ export default function Login(props) {
 
     }
 
-    function validarDniCuit(dni){
+    function validarDniCuit(dni) {
 
-        if(dni.length === 7 ){
-
-            return false;
-
-        }else{
-
-            return true;
-
-        }
-
-    }
-    
-    function validarTelefono(telefono){
-
-        if(telefono.length === 9){
+        if (dni.length === 8) {
 
             return false;
 
-        }else{
+        } else {
 
             return true;
 
@@ -161,13 +160,13 @@ export default function Login(props) {
 
     }
 
-    function validarContraseña(contraseña){
+    function validarTelefono(telefono) {
 
-        if(contraseña.length >=5){
+        if (telefono.length === 10) {
 
             return false;
 
-        }else{
+        } else {
 
             return true;
 
@@ -175,9 +174,37 @@ export default function Login(props) {
 
     }
 
-//------------------------------------------------------
-//--              HACER CAMBIO EN CASA                --
-//------------------------------------------------------
+    function validarContraseña(contraseña) {
+
+        if (contraseña.length >= 5) {
+
+            return false;
+
+        } else {
+
+            return true;
+
+        }
+
+    }
+
+    function validarContraseñaRepetida(contraseña) {
+
+        if (contraseña.length >= 5) {
+
+            return false;
+
+        } else {
+
+            return true;
+
+        }
+
+    }
+
+    //------------------------------------------------------
+    //--              HACER CAMBIO EN CASA                --
+    //------------------------------------------------------
 
     //https://www.youtube.com/watch?v=wrR9PS4qQcs&t=340s
 
@@ -252,25 +279,49 @@ export default function Login(props) {
 
     }
 
-    const registra = async (errores,data) =>{
+    const registra = async (data) => {
 
-        if(errores.nombre == false &&
-        errores.correo == false &&
-        errores.dni === false && 
-        errores.telefono == false &&
-        errores.contraseña == false &&
-        errores.contraseñaConfirmar == false){
+        setFormErrors(validate(data));
 
-            console.log(errores);
-            console.log(data);
-            alert("ME REGISTRE CON EXITO");
+        console.log(data.contraseña)
+        console.log(data.contraseñaConfirmar)
 
-        }else{
+        if (data.contraseña === data.contraseñaConfirmar) {
 
-            alert("FALTAN DATOS PARA REGISTRARTE");
+            let id = (Math.floor(Math.random() * (9999 - 1 + 1)) + 1);
+
+            const dataSubir = {
+
+                id: id,
+                rol:"usuario",
+                nombre_usuario: data.nombre + " " + data.apellido,
+                password: data.contraseña,
+                email: data.correo,
+                cuit: data.dni,
+                telefono: data.telefono
+                
+            }
+
+            const request = await fetch('http://localhost:4000/registrar', {
+
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataSubir)
+
+            });
+
+            console.log(dataSubir);
+            alert("ME REGISTRESTE CON EXITO!!!");
+
+        } else {
+
+            alert("No son Iguales las Constraseñas");
 
         }
-        
+
 
     }
 
@@ -368,6 +419,8 @@ export default function Login(props) {
 
                             </div>
 
+                            {formErrors.apellido ? <p className="text-danger">Ingrese Apellido</p> : ""}
+
                             <div className="input-group input-group-sm mb-3">
 
                                 <span className="input-group-text" id="inputGroup-sizing-sm">DNI/CUIT</span>
@@ -431,7 +484,7 @@ export default function Login(props) {
 
                                 {/* onClick={() => registraUsuario()} */}
 
-                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registra(formErrors,formValues)}>Registrarte</button>
+                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registra(formValues)}>Registrarte</button>
                                 <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registrarte()}>Atras</button>
 
                             </div>
@@ -443,6 +496,12 @@ export default function Login(props) {
                 </div>
 
             }
+
+            <pre>
+
+                {JSON.stringify(formValues, null, 2)}
+
+            </pre>
 
             <Footer />
 

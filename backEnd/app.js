@@ -162,6 +162,17 @@ app.post('/agregarConsulta', (req, res) => {
 
 });
 
+app.post('/registrar', (req, res) => {
+
+    console.log("entoy entrando turro")
+
+    let InfoConsulta = req.body;
+    usuarios.usuario.push(InfoConsulta);
+    res.json(usuarios);
+    console.log(consultas);
+
+})
+
 //agregarConsulta
 
 
