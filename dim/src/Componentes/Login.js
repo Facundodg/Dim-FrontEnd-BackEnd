@@ -10,7 +10,7 @@ export default function Login(props) {
     const [linea2, setContraseña] = useState("");//USESTATE DE CONTRASEÑA
     const [registrate, setRegistrarte] = useState(true) //BOOLEANO QUE SE ENCARGA DE MOSTRAR EL FORMULARIO
 
-    useEffect(() =>{
+    useEffect(() => {
 
         setUsuario(document.getElementById("user"));
         setContraseña(document.getElementById("password"));
@@ -50,7 +50,7 @@ export default function Login(props) {
 
     }
 
-    function limpiarErrores(){
+    function limpiarErrores() {
 
         const limpiadoErrores = {
 
@@ -61,7 +61,7 @@ export default function Login(props) {
             telefono: false,
             contraseña: false,
             contraseñaConfirmar: false
-    
+
         };
 
         setFormErrors(limpiadoErrores);
@@ -314,29 +314,37 @@ export default function Login(props) {
             const dataSubir = {
 
                 id: id,
-                rol:"usuario",
+                rol: "usuario",
                 nombre_usuario: data.nombre + " " + data.apellido,
                 password: data.contraseña,
                 email: data.correo,
                 cuit: data.dni,
                 telefono: data.telefono
-                
+
             }
 
-            const request = await fetch('http://localhost:4000/registrar', {
+            try {
 
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataSubir)
+                const request = await fetch('http://localhost:4000/registrar', {
 
-            });
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataSubir)
 
-            console.log(dataSubir);
-            alert("ME REGISTRESTE CON EXITO!!!");
-            setRegistrarte(true);
+                });
+
+                console.log(dataSubir);
+                alert("ME REGISTRESTE CON EXITO!!!");
+                setRegistrarte(true);
+
+            } catch (error) {
+
+                alert("Problemas a la hora de Registrarte...");    
+
+            }
 
         } else {
 

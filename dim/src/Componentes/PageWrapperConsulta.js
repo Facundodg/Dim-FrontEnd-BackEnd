@@ -15,12 +15,13 @@ export default function PageWrapperConsulta(props) {
     //-------------------HOOKS------------------------------------------
 
     const params = useParams(); //me permite sacar contenido de las url
+    const [usuario, setUsuario] = useState([]); //hook del usuario logueado en ese momento
     const [filtrosPorTributo, setfiltrosPorTributo] = useState();
     const [filtrosPorMotivo, setfiltrosPorMotivo] = useState();
     const [consultas, setConsultas] = useState([]);
     const [mensaje, setMensaje] = useState("");
     const [dia, setDia] = useState();
-    const [usuario, setUsuario] = useState([]); //hook del usuario logueado en ese momento
+    const [tributosPermisos, setTributosPermisos] = useState([]);
 
     useEffect(() => {
 
@@ -37,7 +38,6 @@ export default function PageWrapperConsulta(props) {
             ConsultasPorUsuario();
 
         }, 60000);
-
 
     }, []);
 
@@ -56,7 +56,6 @@ export default function PageWrapperConsulta(props) {
         console.log(evento.target.value);
 
     }
-
 
     //FUNCION QUE SE ENGARGA DE TOMAR LOS EVENTOS DEL IMPUT Y GUARDARLOS EN LINEA1
     const EscuchaMensaje = function (evento) {
@@ -297,6 +296,19 @@ export default function PageWrapperConsulta(props) {
 
     }
 
+    //----------------------------------------------------------------
+
+    const tributosVista = {
+
+        0: "TRIBUTO",
+        1: "T.E.M",
+        2: "CICI",
+        3: "Publicidad y Propaganda",
+        4: "CISCA",
+        5: "Todos"
+
+    }
+
     //-----------------------------------------------------------------
 
     return (
@@ -364,22 +376,39 @@ export default function PageWrapperConsulta(props) {
 
                     <div className="d-flex justify-content-center">
 
-                       {/* https://www.youtube.com/watch?v=3lpVqgLh7vw */}
+                        {/* https://www.youtube.com/watch?v=3lpVqgLh7vw */}
 
                         <div className="input-group mt-3 mb-3 ms-3">
                             <select className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" onChange={tributo}>
-                                <option value="0">TRIBUTO</option>
+                                
+
+                                {/* <option value="0">TRIBUTO</option>
                                 <option value="1">T.E.M</option>
                                 <option value="2">CISI</option>
                                 <option value="3">Publicidad y Propaganda</option>
                                 <option value="4">CISCA</option>
-                                <option value="5">Todos</option>
+                                <option value="5">Todos</option> */}
+
+                                {/* ----------------CAMBIAR EN CASA----------------- */}
+
+                                {consultas.map(con => {
+
+                                    return (
+
+                                        <option value="1">{con.tributo}</option>
+
+                                    )
+
+                                })}
+                                
+                                {/* ------------------------------------------------ */}
 
                             </select>
                         </div>
 
                         <div className="input-group mt-3 mb-3 ms-3 me-3">
                             <select className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" onChange={motivo}>
+                                
                                 <option value="0">MOTIVO</option>
                                 <option value="1">CONSULTA GENERAL</option>
                                 <option value="2">SOLICITUD DE MORATORIA</option>

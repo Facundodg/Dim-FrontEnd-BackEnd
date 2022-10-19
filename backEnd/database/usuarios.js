@@ -9,7 +9,8 @@ let usuarios = {
             password: "1234",
             email: "facundo_dg10@hotmail.com",
             cuit: "12345678901",
-            telefono: 3816487545
+            telefono: 3816487545,
+            tributos:[1,2]
 
         },
         {
@@ -19,7 +20,8 @@ let usuarios = {
             password: "1234",
             email: "facundo_dg10@hotmail.com",
             cuit: "12345678901",
-            telefono: 3816487545
+            telefono: 3816487545,
+            tributos:[1,2,3,4,5]
 
         },
         {
@@ -29,7 +31,8 @@ let usuarios = {
             password: "1234",
             email: "facundo_dg10@hotmail.com",
             cuit: "12345678901",
-            telefono: 3816487545
+            telefono: 3816487545,
+            tributos:[1,2,3,4,5]
 
         },
         {
@@ -39,7 +42,8 @@ let usuarios = {
             password: "1234",
             email: "facundo_dg10@hotmail.com",
             cuit: "12345678901",
-            telefono: 3816487545
+            telefono: 3816487545,
+            tributos:[4]
 
         }
 
