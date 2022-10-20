@@ -63,7 +63,11 @@ export default function PageWrapperTabla(props) {
 
     const [consultas, setConsultas] = useState([]);
 
-    const [data, setData] = useState(datafixed)
+    const [data, setData] = useState(datafixed);
+
+    const [tributosPermisos, setTributosPermisos] = useState([]);
+
+
 
     useEffect(() => {
 
@@ -101,7 +105,7 @@ export default function PageWrapperTabla(props) {
 
     const cerrarSesion = () => {
 
-        document.cookie.split(";").forEach(function(c) {
+        document.cookie.split(";").forEach(function (c) {
             document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
         });
 
@@ -217,6 +221,15 @@ export default function PageWrapperTabla(props) {
 
     }
 
+    const tributosVista = {
+
+        1: "T.E.M",
+        2: "CICI",
+        3: "Publicidad y Propaganda",
+        4: "CISCA",
+        5: "Todos"
+
+    }
 
     //----------------------VERIFICA TOKEN-------------------------------------
 
@@ -242,6 +255,7 @@ export default function PageWrapperTabla(props) {
                 } else if (data.user.rol == "interno") {
 
                     console.log("Bienvenido Interno!!!");
+                    setTributosPermisos(data.user.tributos);
                     setInfoInterno(data);
 
                 }
@@ -339,16 +353,33 @@ export default function PageWrapperTabla(props) {
 
                         <div className="container d-flex filtros">
 
-                        {/* https://www.youtube.com/watch?v=3lpVqgLh7vw */}
+                            {/* https://www.youtube.com/watch?v=3lpVqgLh7vw */}
 
                             <div className="input-group mb-3">
                                 <label className="pe-3 pt-2" htmlFor="">Filtrar por Tributo</label>
                                 <select className="form-select" onChange={filtro1} id="inputGroupSelect03" >
-                                    <option selected value="0">CISCA</option>
+
+                                    <option value="0">TRIBUTO</option>
+
+                                    {
+                                        tributosPermisos.map(numero => {
+
+                                            return (
+
+                                                <option value={numero}>{tributosVista[numero]}</option>
+
+                                            )
+
+                                        })
+                                    }
+
+
+
+                                    {/* <option selected value="0">CISCA</option>
                                     <option value="1">CISI</option>
                                     <option value="2">Publicidad y Propaganda</option>
                                     <option value="3">TEM</option>
-                                    <option value="4">Todos</option>
+                                    <option value="4">Todos</option> */}
                                 </select>
                             </div>
 

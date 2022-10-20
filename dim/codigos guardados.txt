@@ -765,3 +765,18 @@ app.get('/solicitud/:num_tramite', (req, res) => {
     //     setdniCuitValido(false);
     //     settelefonoValido(false);
     // }
+
+    -------------------------------------------------------------------------------------------
+
+
+    
+                                {/* <option value="0">TRIBUTO</option>
+                                <option value="1">T.E.M</option>
+                                <option value="2">CISI</option>
+                                <option value="3">Publicidad y Propaganda</option>
+                                <option value="4">CISCA</option>
+                                <option value="5">Todos</option> */}
+
+                                {/* ----------------CAMBIAR EN CASA----------------- */}
+
+                                {/* <option value="0">TRIBUTOS</option> */}

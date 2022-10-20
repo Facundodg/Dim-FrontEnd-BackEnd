@@ -2,7 +2,7 @@ import Footer from "./Footer";
 import TablaConsulta from "./TablaConsulta";
 import FilasConsulta from "./FilasConsulta";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"
+import { renderMatches, useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import io, { Socket } from "socket.io-client";
 import Loading from "./Loading";
@@ -116,7 +116,9 @@ export default function PageWrapperConsulta(props) {
         let json = await consulta.json();
         console.log("----------------");
         console.log(json);
+        setTributosPermisos(json[0].tributos);
         setUsuario(json[0]);
+
 
     }
 
@@ -132,7 +134,7 @@ export default function PageWrapperConsulta(props) {
                 id: id,
                 idcabecera: idcabecera,
                 mensaje: document.getElementById("campoMensaje").value,
-                motivo: '1',
+                motivo: filtrosPorTributo,
                 usuario: usuario.nombre_usuario,
                 ip: '172.20.254.205',
                 fecha_mov: dia,
@@ -156,7 +158,7 @@ export default function PageWrapperConsulta(props) {
 
                 id: id,
                 id_solicitud: idcabecera,
-                tipo_solicitud: "TEM",
+                tipo_solicitud: filtrosPorTributo,
                 caracter: '5',
                 tipo_doc: 9999999999,
                 documento: 9999999999,
@@ -189,7 +191,7 @@ export default function PageWrapperConsulta(props) {
 
                 id: id,
                 usuario: usuario.nombre_usuario,
-                tributo: "T.E.M",
+                tributo: filtrosPorTributo,
                 padron: usuario.cuit,
                 numConsulta: idcabecera,
                 motivo: "Solicitud Moratoria",
@@ -300,7 +302,6 @@ export default function PageWrapperConsulta(props) {
 
     const tributosVista = {
 
-        0: "TRIBUTO",
         1: "T.E.M",
         2: "CICI",
         3: "Publicidad y Propaganda",
@@ -380,27 +381,22 @@ export default function PageWrapperConsulta(props) {
 
                         <div className="input-group mt-3 mb-3 ms-3">
                             <select className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" onChange={tributo}>
-                                
 
-                                {/* <option value="0">TRIBUTO</option>
-                                <option value="1">T.E.M</option>
-                                <option value="2">CISI</option>
-                                <option value="3">Publicidad y Propaganda</option>
-                                <option value="4">CISCA</option>
-                                <option value="5">Todos</option> */}
+                            <option value="0">TRIBUTO</option>
 
-                                {/* ----------------CAMBIAR EN CASA----------------- */}
+                                {
+                                    tributosPermisos.map(numero => {
 
-                                {consultas.map(con => {
+                                        return(
 
-                                    return (
+                                                
+                                                <option value={numero}>{tributosVista[numero]}</option>
 
-                                        <option value="1">{con.tributo}</option>
+                                            )
 
-                                    )
+                                    })
+                                }
 
-                                })}
-                                
                                 {/* ------------------------------------------------ */}
 
                             </select>
@@ -408,7 +404,7 @@ export default function PageWrapperConsulta(props) {
 
                         <div className="input-group mt-3 mb-3 ms-3 me-3">
                             <select className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" onChange={motivo}>
-                                
+
                                 <option value="0">MOTIVO</option>
                                 <option value="1">CONSULTA GENERAL</option>
                                 <option value="2">SOLICITUD DE MORATORIA</option>
