@@ -2,6 +2,13 @@ import { useNavigate } from "react-router-dom"
 
 export default function FilasConsulta(props) {
 
+    const motivoVista = {
+
+        1: "Consulta General",
+        2: "Solicitud Moratoria"
+
+    }
+
     const navigate = useNavigate();
 
     //ACOMODA LA URL
@@ -29,7 +36,8 @@ export default function FilasConsulta(props) {
                     <h6 className="mb-0">{props.con.numConsulta}</h6>
                 </td>
                 <td>
-                    <h6 className="mb-0">{props.con.motivo}</h6>
+                    {/* <h6 className="mb-0">{props.con.motivo}</h6> */}
+                    <h6 className="mb-0">{motivoVista[props.con.motivo]}</h6>
                 </td>
                 <td>
                     <h6 className="mb-0">{props.con.fecha}</h6>

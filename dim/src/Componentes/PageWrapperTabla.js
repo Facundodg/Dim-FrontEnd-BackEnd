@@ -373,13 +373,6 @@ export default function PageWrapperTabla(props) {
                                         })
                                     }
 
-
-
-                                    {/* <option selected value="0">CISCA</option>
-                                    <option value="1">CISI</option>
-                                    <option value="2">Publicidad y Propaganda</option>
-                                    <option value="3">TEM</option>
-                                    <option value="4">Todos</option> */}
                                 </select>
                             </div>
 
@@ -411,9 +404,6 @@ export default function PageWrapperTabla(props) {
                                 </div>
 
                             </div>
-                            {/* 
-                            <div className="container d-flex justify-content-center w-100 border">
-                            </div> */}
 
                             {ticket ? <FormMensaje rol={InfoInterno} /> : ""}
 
@@ -439,21 +429,7 @@ export default function PageWrapperTabla(props) {
 
                             return (
 
-                                // usuario={params.usuario}
-
-                                <FilaTabla con={con} setData={setData} cargarUsuario={cargarUsuario}
-
-                                // id={con.id}
-                                // apyNom={con.nombre}
-                                // cuit={con.cuit}
-                                // razonConsulta={con.tipo_solicitud}
-                                // estado={con.estado}
-                                // id_solicitud={con.id_solicitud}
-                                // setData={setData}
-                                // cargarUsuario={cargarUsuario}
-                                // usuario={params.usuario}
-
-                                />
+                                <FilaTabla con={con} setData={setData} cargarUsuario={cargarUsuario}/>
 
                             )
 

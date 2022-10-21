@@ -319,7 +319,8 @@ export default function Login(props) {
                 password: data.contraseña,
                 email: data.correo,
                 cuit: data.dni,
-                telefono: data.telefono
+                telefono: data.telefono,
+                tributos:[1,2,3,4,5]
 
             }
 

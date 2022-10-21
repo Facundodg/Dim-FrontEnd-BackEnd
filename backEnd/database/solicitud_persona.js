@@ -3,8 +3,8 @@ let solicitudes = {
         {
             id: 1,
             id_solicitud: 28511,
-            tipo_solicitud: "TEM",
-            caracter: '3',
+            tipo_solicitud: "3", //MOTIVO ES EL TRIBUTO
+            caracter: '1',
             tipo_doc: 9999999999,
             documento: 9999999999,
             apellido: 'SALES',
@@ -21,8 +21,8 @@ let solicitudes = {
         {
             id: 9,
             id_solicitud: 28511,
-            tipo_solicitud: "TEM",
-            caracter: '3',
+            tipo_solicitud: "2", //MOTIVO ES EL TRIBUTO
+            caracter: '2',
             tipo_doc: 9999999999,
             documento: 9999999999,
             apellido: 'SALES',
@@ -39,8 +39,8 @@ let solicitudes = {
         {
             id: 2,
             id_solicitud: 28513,
-            tipo_solicitud: "CISI",
-            caracter: '3',
+            tipo_solicitud: "1", //MOTIVO ES EL TRIBUTO
+            caracter: '1',
             tipo_doc: 9999999999,
             documento: 9999999999,
             apellido: 'SALES',
@@ -57,7 +57,7 @@ let solicitudes = {
         {
             id: 3,
             id_solicitud: 28514,
-            tipo_solicitud: "TEM",
+            tipo_solicitud: "5", //MOTIVO ES EL TRIBUTO
             caracter: '2',
             tipo_doc: 9999999999,
             documento: 9999999999,
@@ -74,8 +74,8 @@ let solicitudes = {
         {
             id: 4,
             id_solicitud: 28515,
-            tipo_solicitud: "TEM",
-            caracter: '5',
+            tipo_solicitud: "5", //MOTIVO ES EL TRIBUTO
+            caracter: '2',
             tipo_doc: 9999999999,
             documento: 9999999999,
             apellido: 'SALES',
@@ -91,7 +91,7 @@ let solicitudes = {
         {
             id: 5,
             id_solicitud: 28516,
-            tipo_solicitud: "CISI",
+            tipo_solicitud: "1", //MOTIVO ES EL TRIBUTO
             caracter: '1',
             tipo_doc: 9999999999,
             documento: 9999999999,
@@ -108,7 +108,7 @@ let solicitudes = {
         {
             id: 6,
             id_solicitud: 28517,
-            tipo_solicitud: "TEM",
+            tipo_solicitud: "3", //MOTIVO ES EL TRIBUTO
             caracter: '2',
             tipo_doc: 9999999999,
             documento: 9999999999,
@@ -125,8 +125,8 @@ let solicitudes = {
         {
             id: 7,
             id_solicitud: 28518,
-            tipo_solicitud: "CISI",
-            caracter: '6',
+            tipo_solicitud: "2", //MOTIVO ES EL TRIBUTO
+            caracter: '1',
             tipo_doc: 9999999999,
             documento: 9999999999,
             apellido: 'SALES',
@@ -142,7 +142,7 @@ let solicitudes = {
         {
             id: 8,
             id_solicitud: 28519,
-            tipo_solicitud: "TEM",
+            tipo_solicitud: "1", //MOTIVO ES EL TRIBUTO
             caracter: '1',
             tipo_doc: 9999999999,
             documento: 9999999999,

@@ -12,12 +12,22 @@ const socket = io("http://localhost:4001");
 
 export default function PageWrapperConsulta(props) {
 
+    const tributosVista = {
+
+        1: "T.E.M",
+        2: "CICI",
+        3: "Publicidad y Propaganda",
+        4: "CISCA",
+        5: "Todos"
+
+    }
+
     //-------------------HOOKS------------------------------------------
 
     const params = useParams(); //me permite sacar contenido de las url
     const [usuario, setUsuario] = useState([]); //hook del usuario logueado en ese momento
-    const [filtrosPorTributo, setfiltrosPorTributo] = useState();
-    const [filtrosPorMotivo, setfiltrosPorMotivo] = useState();
+    const [filtrosPorTributo, setfiltrosPorTributo] = useState("0");
+    const [filtrosPorMotivo, setfiltrosPorMotivo] = useState("0");
     const [consultas, setConsultas] = useState([]);
     const [mensaje, setMensaje] = useState("");
     const [dia, setDia] = useState();
@@ -124,137 +134,145 @@ export default function PageWrapperConsulta(props) {
 
     const enviarMensaje = async () => {
 
-        if (mensaje.length != 0) {
+        if(filtrosPorTributo != "0" && filtrosPorMotivo != "0"){
 
-            let id = (Math.floor(Math.random() * (9999 - 1 + 1)) + 1);
-            let idcabecera = (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
+            if (mensaje.length != 0) {
 
-            let data = {
+                let id = (Math.floor(Math.random() * (9999 - 1 + 1)) + 1);
+                let idcabecera = (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
 
-                id: id,
-                idcabecera: idcabecera,
-                mensaje: document.getElementById("campoMensaje").value,
-                motivo: filtrosPorTributo,
-                usuario: usuario.nombre_usuario,
-                ip: '172.20.254.205',
-                fecha_mov: dia,
-                leido: true,
-                token_borrar: '6527',
-                tipoorigen: '6527',
-                fecha_leido: '2020-08-21 10:57:19.821493',
-                usuario_leido: 'false',
-                privado: null,
-                html: null,
-                adjunto: null,
-                interno: true,
-                tipo_adjunto: null,
-                idusuario: null,
-                rol: usuario.rol,
-                img: "https://bootdey.com/img/Content/avatar/avatar7.png"
+                let data = {
+
+                    id: id,
+                    idcabecera: idcabecera,
+                    mensaje: document.getElementById("campoMensaje").value,
+                    motivo: filtrosPorTributo,
+                    usuario: usuario.nombre_usuario,
+                    ip: '172.20.254.205',
+                    fecha_mov: dia,
+                    leido: false,
+                    token_borrar: '6527',
+                    tipoorigen: '6527',
+                    fecha_leido: '2020-08-21 10:57:19.821493',
+                    usuario_leido: false,
+                    privado: false,
+                    html: "<p></p>",
+                    adjunto: null,
+                    interno: false,
+                    tipo_adjunto: null,
+                    idusuario: null,
+                    rol: usuario.rol,
+                    img: "https://bootdey.com/img/Content/avatar/avatar7.png"
+
+                }
+
+                let dataSolicitud = {
+
+                    id: id,
+                    id_solicitud: idcabecera,
+                    tipo_solicitud: filtrosPorTributo,
+                    caracter: filtrosPorMotivo,
+                    tipo_doc: 9999999999,
+                    documento: 9999999999,
+                    apellido: 'SALES',
+                    nombre: usuario.nombre_usuario,
+                    usuario: usuario.nombre_usuario,
+                    ip: '172.20.254.205',
+                    fecha_mov: dia,
+                    cuit: usuario.cuit,
+                    email: usuario.email,
+                    telefono: usuario.telefono,
+                    estado: "tr-bg-Novisto"
+
+                }
+
+                let datainfoSolicitud = {
+
+                    id: id,
+                    num_tramite: idcabecera,
+                    nombre_contribuyente: "Fravega ",
+                    dni: usuario.cuit,
+                    razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
+                    fecha: dia,
+                    cuit_contribuyente: usuario.cuit,
+                    apynom: usuario.nombre_usuario
+
+                }
+
+                let dataconsulta = {
+
+                    id: id,
+                    usuario: usuario.nombre_usuario,
+                    tributo: tributosVista[filtrosPorTributo],
+                    padron: usuario.cuit,
+                    numConsulta: idcabecera,
+                    motivo: filtrosPorMotivo,
+                    fecha: dia
+
+                }
+
+                const request_mensaje = await fetch('http://localhost:4000/agregarMensaje', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                console.log("Mensaje Enviado");
+
+                const request_dataSolicitud = await fetch('http://localhost:4000/agregarInfoSolicitud', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataSolicitud)
+                });
+
+                console.log("Agregadad InfoSolicitud");
+
+                const request_dataSolicitudParaModal = await fetch('http://localhost:4000/agregarInfoSolicitudParaModal', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datainfoSolicitud)
+                });
+
+                console.log("Agregadad InfoSolicitud Para ventana Modal");
+
+                const request_consultas = await fetch('http://localhost:4000/agregarConsulta', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataconsulta)
+                });
+
+                console.log("Mostrada Consulta");
+
+                socket.emit("mensaje", true);
+
+                // window.location.href = "./" + usuario.nombre_usuario + "/" + idcabecera;
+
+                window.location.href = "/consulta-online/chat/" + idcabecera;
+
+
+            } else {
+
+                alert("Falta Escribir un Mensaje...");
 
             }
 
-            let dataSolicitud = {
+    }else{
 
-                id: id,
-                id_solicitud: idcabecera,
-                tipo_solicitud: filtrosPorTributo,
-                caracter: '5',
-                tipo_doc: 9999999999,
-                documento: 9999999999,
-                apellido: 'SALES',
-                nombre: usuario.nombre_usuario,
-                usuario: usuario.nombre_usuario,
-                ip: '172.20.254.205',
-                fecha_mov: dia,
-                cuit: usuario.cuit,
-                email: usuario.email,
-                telefono: usuario.telefono,
-                estado: "tr-bg-Novisto"
+        alert("Motivo o Tributo estan faltando...");
 
-            }
-
-            let datainfoSolicitud = {
-
-                id: id,
-                num_tramite: idcabecera,
-                nombre_contribuyente: "Fravega ",
-                dni: usuario.cuit,
-                razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
-                fecha: dia,
-                cuit_contribuyente: usuario.cuit,
-                apynom: usuario.nombre_usuario
-
-            }
-
-            let dataconsulta = {
-
-                id: id,
-                usuario: usuario.nombre_usuario,
-                tributo: filtrosPorTributo,
-                padron: usuario.cuit,
-                numConsulta: idcabecera,
-                motivo: "Solicitud Moratoria",
-                fecha: dia
-
-            }
-
-            const request_mensaje = await fetch('http://localhost:4000/agregarMensaje', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            console.log("Mensaje Enviado");
-
-            const request_dataSolicitud = await fetch('http://localhost:4000/agregarInfoSolicitud', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataSolicitud)
-            });
-
-            console.log("Agregadad InfoSolicitud");
-
-            const request_dataSolicitudParaModal = await fetch('http://localhost:4000/agregarInfoSolicitudParaModal', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(datainfoSolicitud)
-            });
-
-            console.log("Agregadad InfoSolicitud Para ventana Modal");
-
-            const request_consultas = await fetch('http://localhost:4000/agregarConsulta', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataconsulta)
-            });
-
-            console.log("Mostrada Consulta");
-
-            socket.emit("mensaje", true);
-
-            // window.location.href = "./" + usuario.nombre_usuario + "/" + idcabecera;
-
-            window.location.href = "/consulta-online/chat/" + idcabecera;
-
-
-        } else {
-
-            alert("Falta Escribir un Mensaje...");
-
-        }
+    }
 
     }
 
@@ -300,15 +318,7 @@ export default function PageWrapperConsulta(props) {
 
     //----------------------------------------------------------------
 
-    const tributosVista = {
 
-        1: "T.E.M",
-        2: "CICI",
-        3: "Publicidad y Propaganda",
-        4: "CISCA",
-        5: "Todos"
-
-    }
 
     //-----------------------------------------------------------------
 
@@ -382,17 +392,27 @@ export default function PageWrapperConsulta(props) {
                         <div className="input-group mt-3 mb-3 ms-3">
                             <select className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" onChange={tributo}>
 
-                            <option value="0">TRIBUTO</option>
+                                <option value="0">TRIBUTO</option>
 
                                 {
                                     tributosPermisos.map(numero => {
 
-                                        return(
+                                        if (tributosPermisos.length <= Object.values(tributosVista).length) {
 
-                                                
+                                            return (
+
                                                 <option value={numero}>{tributosVista[numero]}</option>
 
                                             )
+
+                                        } else {
+
+                                            return (
+
+                                                <option value="-1" className="text-danger">ERROR AL CARGAR LISTADO</option>
+
+                                            )
+                                        }
 
                                     })
                                 }
@@ -455,7 +475,7 @@ export default function PageWrapperConsulta(props) {
 
                                     return (
 
-                                        <FilasConsulta con={con} />
+                                        <FilasConsulta con={con}/>
                                     )
 
                                 })}

@@ -19,6 +19,16 @@ export default function FilaTabla(props) {
 
     }
 
+    const tributosVista = {
+
+        1: "T.E.M",
+        2: "CICI",
+        3: "Publicidad y Propaganda",
+        4: "CISCA",
+        5: "Todos"
+
+    }
+
     return (
 
         <tr className={props.con.estado} data-aos="fade-up">
@@ -32,7 +42,9 @@ export default function FilaTabla(props) {
             </td>
 
             <td>
-                <h6 className="mb-0">{props.con.tipo_solicitud}</h6>
+            
+                {/* <h6 className="mb-0">{props.con.tipo_solicitud}</h6> */}
+                <h6 className="mb-0">{tributosVista[props.con.tipo_solicitud]}</h6>
             </td>
 
             <td>

@@ -1,9 +1,18 @@
 export default function InfoConsultaTabla({ data }) {
 
-    console.log(data);
-    console.log(data[0]);
+    const motivoVista = {
+
+        1: "Consulta General",
+        2: "Solicitud Moratoria"
+
+    }
 
     //VERIFICA SI DATA EN UNDEFINED Y SI LO ES LE INGRESA UNOS DATOS GENERICOS PARA QUE EL COMPONENTE NO TIRE ERROR
+
+    //---------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------
+
+    //tipo_solicitud = "MOTIVOS DE CONSULTA OSEA CONSULTA DE MORATORIA O CONSULTA GENERAL"
 
     if (data[0] === undefined) {
 
@@ -35,14 +44,12 @@ export default function InfoConsultaTabla({ data }) {
     
     }
 
-    console.log(data[0]);
-
     return (
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h6 className="container text-center modal-title" id="exampleModalLabel"> {data[0].cuit}-{data[0].nombre} -{data[0].tipo_solicitud} </h6>
+                        <h6 className="container text-center modal-title" id="exampleModalLabel"> {data[0].cuit}-{data[0].nombre}-{motivoVista[data[0].caracter]} </h6>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
