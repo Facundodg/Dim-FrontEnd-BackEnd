@@ -182,7 +182,8 @@ export default function PageWrapperConsulta(props) {
                     cuit: usuario.cuit,
                     email: usuario.email,
                     telefono: usuario.telefono,
-                    estado: "tr-bg-Novisto"
+                    estado: "tr-bg-Novisto",
+                    mensaje: 1
 
                 }
 
@@ -316,11 +317,11 @@ export default function PageWrapperConsulta(props) {
 
     }
 
+    //ver de que cuente los mensajes NO leidos y que los represente de manera contada en la tabla de solicitudes.
+    //hacer de manera contraria de interno a usuario 
+
     //----------------------------------------------------------------
 
-
-
-    //-----------------------------------------------------------------
 
     return (
 

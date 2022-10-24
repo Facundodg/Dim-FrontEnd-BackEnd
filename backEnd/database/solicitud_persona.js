@@ -15,7 +15,8 @@ let solicitudes = {
             cuit: '23122132322',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
-            estado: "tr-bg-Novisto"
+            estado: "tr-bg-Novisto",
+            mensaje: 1
 
         },
         {
@@ -33,7 +34,8 @@ let solicitudes = {
             cuit: '23122132322',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
-            estado: "tr-bg-Novisto"
+            estado: "tr-bg-Novisto",
+            mensaje: 1
 
         },
         {
@@ -51,7 +53,8 @@ let solicitudes = {
             cuit: '34324234233',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
-            estado: "tr-bg-visto"
+            estado: "tr-bg-visto",
+            mensaje: 1
 
         },
         {
@@ -69,7 +72,8 @@ let solicitudes = {
             cuit: '43545345431',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
-            estado: "tr-bg-vistoNoContestado"
+            estado: "tr-bg-vistoNoContestado",
+            mensaje: 1
         },
         {
             id: 4,
@@ -86,7 +90,8 @@ let solicitudes = {
             cuit: '65464564545',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
-            estado: "tr-bg-vistoNoContestado"
+            estado: "tr-bg-vistoNoContestado",
+            mensaje: 1
         },
         {
             id: 5,
@@ -103,7 +108,8 @@ let solicitudes = {
             cuit: '86786786761',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
-            estado: "tr-bg-vistoNoContestado"
+            estado: "tr-bg-vistoNoContestado",
+            mensaje: 1
         },
         {
             id: 6,
@@ -120,7 +126,8 @@ let solicitudes = {
             cuit: '64564565543',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
-            estado: "tr-bg-vistoNoContestado"
+            estado: "tr-bg-vistoNoContestado",
+            mensaje: 1
         },
         {
             id: 7,
@@ -137,7 +144,8 @@ let solicitudes = {
             cuit: '234234234321',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
-            estado: "tr-bg-vistoNoContestado"
+            estado: "tr-bg-vistoNoContestado",
+            mensaje: 1
         },
         {
             id: 8,
@@ -154,7 +162,8 @@ let solicitudes = {
             cuit: '543534534344',
             email: 'kjfsf@adas.com',
             telefono: 1563673657,
-            estado: "tr-bg-vistoNoContestado"
+            estado: "tr-bg-vistoNoContestado",
+            mensaje: 1
         }
     ]
 

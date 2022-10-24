@@ -1,9 +1,12 @@
 //------------------COMPONENTES--------------------------------------
 import Usuario from './Usuario';
 import Interno from './Interno';
+import InternoInvertido from "./InternoInvertido";
+import UsuarioInvertido from "./UsuarioInvertido";
 import Opciones from './Opciones';
 import InfoContribuyente from './InfoContribuyente';
 import InfoContribuyenteResumida from './InfoContribuyenteResumida';
+import Herramientas from "./Herramientas";
 
 //-------------------HOOKS------------------------------------------
 
@@ -260,6 +263,76 @@ export default function PageWrapperChat(props) {
                         </div>
                       </div>
 
+                      <div className="modal fade" id="herramientas" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                          <div className="modal-content">
+                            <div className="modal-header">
+                              <h5 className="modal-title" id="exampleModalLabel">Herramientas</h5>
+                              <button type="button" className="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div className="modal-body">
+
+                              <Herramientas
+                                consultaN={props.consultaN}
+                                ultimoUsuario="pedro"
+                                fechaInicio={props.fecha}
+                                cuitContribuyente={props.cuitContribuyente}
+                                razonSocial={props.razon_social}
+                                dniSolicitante={props.dniUsuario}
+                                apinomSolicitante={props.razonSocial}
+                              />
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="modal fade" id="infoPlanDePago" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                          <div className="modal-content">
+                            <div className="modal-header">
+                              <h5 className="modal-title" id="exampleModalLabel">Informacion Plan de Pago</h5>
+                              <button type="button" className="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div className="modal-body">
+
+                              <div class="row">
+
+                                <div class="form-group col-md-6">
+
+                                  <div class="form-group mt-0" align="left" ng-class="{'has-error': errores.infoPFPCapital}"><label class="control-label mb-0"> Capital: </label><input class="form-control ng-pristine ng-valid ng-not-empty ng-touched" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPCapital" ng-blur="" /><span class="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPCapital"></span></div>
+
+                                </div>
+                                <div class="form-group col-md-6">
+
+                                  <div class="form-group mt-0" align="left" ng-class="{'has-error': errores.infoPFPIntereses}"><label class="control-label mb-0"> Intereses: </label><input class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPIntereses" ng-blur="" /><span class="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPIntereses"></span></div>
+
+                                </div>
+
+                              </div>
+
+                              <div class="row pt-3">
+
+                                <div class="col-md-12">
+
+                                  <button class="btn btn-primary btn-block">Enviar</button>
+
+                                </div>
+                                
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
                       {Object.entries(chats).map(js => {
 
@@ -267,7 +340,7 @@ export default function PageWrapperChat(props) {
                         let filasChat = js[1];
                         console.log(filasChat);
 
-                        if (filasChat.rol == "usuario") {
+                        if (filasChat.rol == "usuario" && usuario.rol == "interno") {
 
                           return (
 
@@ -281,11 +354,39 @@ export default function PageWrapperChat(props) {
 
                           )
 
-                        } else if (filasChat.rol == "interno") {
+                        } else if (filasChat.rol == "interno" && usuario.rol == "interno") {
 
                           return (
 
                             <Interno
+                              img={filasChat.img}
+                              nombre={filasChat.usuario}
+                              rol={filasChat.rol}
+                              fecha={filasChat.fecha_mov}
+                              mensaje={filasChat.mensaje}
+                            />
+
+                          )
+
+                        } else if (filasChat.rol == "usuario" && usuario.rol == "usuario") {
+
+                          return (
+
+                            <UsuarioInvertido
+                              img={filasChat.img}
+                              nombre={filasChat.usuario}
+                              rol={filasChat.rol}
+                              fecha={filasChat.fecha_mov}
+                              mensaje={filasChat.mensaje}
+                            />
+
+                          )
+
+                        } else if (filasChat.rol == "interno" && usuario.rol == "usuario") {
+
+                          return (
+
+                            <InternoInvertido
                               img={filasChat.img}
                               nombre={filasChat.usuario}
                               rol={filasChat.rol}

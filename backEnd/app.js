@@ -173,6 +173,21 @@ app.post('/registrar', (req, res) => {
 
 })
 
+
+app.put('/modificarInfoSolicitud/:id_solicitud', (req, res) => {
+    const solicitudActualizado = req.body;
+    const id = req.params.id_solicitud;
+  
+    const indice = solicitudes.usuarios.findIndex(usuarios => usuarios.id_solicitud == id);
+    console.log("indice:" + indice);
+  
+    if (indice >= 0) {
+        solicitudes.usuarios[indice] = solicitudActualizado;
+    }
+    
+    res.json(solicitudes);
+  });
+
 //agregarConsulta
 
 
