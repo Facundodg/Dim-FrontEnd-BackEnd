@@ -234,7 +234,7 @@ export default function PageWrapperChat(props) {
 
                     <ul>
 
-                      <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                      <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div className="modal-dialog" role="document">
                           <div className="modal-content">
@@ -263,7 +263,7 @@ export default function PageWrapperChat(props) {
                         </div>
                       </div>
 
-                      <div className="modal fade" id="herramientas" tabindex="-1" role="dialog"
+                      <div className="modal fade" id="herramientas" tabIndex="-1" role="dialog"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div className="modal-dialog" role="document">
                           <div className="modal-content">
@@ -291,7 +291,7 @@ export default function PageWrapperChat(props) {
                         </div>
                       </div>
 
-                      <div className="modal fade" id="infoPlanDePago" tabindex="-1" role="dialog"
+                      <div className="modal fade" id="infoPlanDePago" tabIndex="-1" role="dialog"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div className="modal-dialog" role="document">
                           <div className="modal-content">
@@ -304,26 +304,26 @@ export default function PageWrapperChat(props) {
                             </div>
                             <div className="modal-body">
 
-                              <div class="row">
+                              <div className="row">
 
-                                <div class="form-group col-md-6">
+                                <div className="form-group col-md-6">
 
-                                  <div class="form-group mt-0" align="left" ng-class="{'has-error': errores.infoPFPCapital}"><label class="control-label mb-0"> Capital: </label><input class="form-control ng-pristine ng-valid ng-not-empty ng-touched" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPCapital" ng-blur="" /><span class="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPCapital"></span></div>
+                                  <div className="form-group mt-0" align="left" ng-className="{'has-error': errores.infoPFPCapital}"><label className="control-label mb-0"> Capital: </label><input className="form-control ng-pristine ng-valid ng-not-empty ng-touched" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPCapital" ng-blur="" /><span className="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPCapital"></span></div>
 
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div className="form-group col-md-6">
 
-                                  <div class="form-group mt-0" align="left" ng-class="{'has-error': errores.infoPFPIntereses}"><label class="control-label mb-0"> Intereses: </label><input class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPIntereses" ng-blur="" /><span class="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPIntereses"></span></div>
+                                  <div className="form-group mt-0" align="left" ng-className="{'has-error': errores.infoPFPIntereses}"><label className="control-label mb-0"> Intereses: </label><input className="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPIntereses" ng-blur="" /><span className="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPIntereses"></span></div>
 
                                 </div>
 
                               </div>
 
-                              <div class="row pt-3">
+                              <div className="row pt-3">
 
-                                <div class="col-md-12">
+                                <div className="col-md-12">
 
-                                  <button class="btn btn-primary btn-block">Enviar</button>
+                                  <button className="btn btn-primary btn-block">Enviar</button>
 
                                 </div>
                                 

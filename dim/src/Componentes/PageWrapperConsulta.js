@@ -176,7 +176,7 @@ export default function PageWrapperConsulta(props) {
                     documento: 9999999999,
                     apellido: 'SALES',
                     nombre: usuario.nombre_usuario,
-                    usuario: usuario.nombre_usuario,
+                    usuario: "",
                     ip: '172.20.254.205',
                     fecha_mov: dia,
                     cuit: usuario.cuit,
@@ -257,8 +257,6 @@ export default function PageWrapperConsulta(props) {
                 console.log("Mostrada Consulta");
 
                 socket.emit("mensaje", true);
-
-                // window.location.href = "./" + usuario.nombre_usuario + "/" + idcabecera;
 
                 window.location.href = "/consulta-online/chat/" + idcabecera;
 

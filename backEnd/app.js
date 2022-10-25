@@ -78,6 +78,15 @@ io.on("connection", (socket) => {
 
     })
 
+    
+    socket.on("refresqueEstados", (msg) => {
+
+        io.emit("refresqueEstados", msg);
+
+    })
+
+    // refresqueEstados
+
     conexions++;
 
     console.log(conexions);

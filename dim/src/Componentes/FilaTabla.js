@@ -2,25 +2,11 @@ import InfoConsultaTabla from "./InfoConsultaTabla";
 import { useMemo, useState } from "react";
 import Cookies from 'universal-cookie';
 import { useNavigate } from "react-router-dom"
+import io, { Socket } from "socket.io-client";
+
+const socket = io("http://localhost:4001");
 
 export default function FilaTabla(props) {
-
-    // id: 3,
-    // id_solicitud: 28514,
-    // tipo_solicitud: "5", //MOTIVO ES EL TRIBUTO
-    // caracter: '2',
-    // tipo_doc: 9999999999,
-    // documento: 9999999999,
-    // apellido: 'SALES',
-    // nombre: 'ISAIAS ROMANO',
-    // usuario: 'pruebasmt',
-    // ip: '172.20.254.205',
-    // fecha_mov: '2018-10-05 13:36:00.663964',
-    // cuit: '43545345431',
-    // email: 'kjfsf@adas.com',
-    // telefono: 1563673657,
-    // estado: "tr-bg-vistoNoContestado",
-    // mensaje: 1
 
     const navigate = useNavigate();
 
@@ -29,7 +15,7 @@ export default function FilaTabla(props) {
 
         let urlCambiada = "./chat/" + url;
         modificarInfoSolicitud();
-        console.log(url);
+        socket.emit("refresqueEstados", true);
 
         return urlCambiada;
 
@@ -47,7 +33,7 @@ export default function FilaTabla(props) {
             documento: 9999999999,
             apellido: 'SALES',
             nombre: props.con.nombre,
-            usuario: props.con.nombre,
+            usuario: props.InfoInterno.nombre_usuario,
             ip: '172.20.254.205',
             fecha_mov: '2018-10-05 13:36:00.663964',
             cuit: props.con.cuit,
@@ -57,27 +43,6 @@ export default function FilaTabla(props) {
             mensaje: 0
 
         }
-
-        // let dataSolicitud = {
-
-        //     id: id,
-        //     id_solicitud: idcabecera,
-        //     tipo_solicitud: filtrosPorTributo,
-        //     caracter: filtrosPorMotivo,
-        //     tipo_doc: 9999999999,
-        //     documento: 9999999999,
-        //     apellido: 'SALES',
-        //     nombre: usuario.nombre_usuario,
-        //     usuario: usuario.nombre_usuario,
-        //     ip: '172.20.254.205',
-        //     fecha_mov: dia,
-        //     cuit: usuario.cuit,
-        //     email: usuario.email,
-        //     telefono: usuario.telefono,
-        //     estado: "tr-bg-Novisto",
-        //     mensaje: 1
-
-        // }
 
         const request_dataSolicitud = await fetch('http://localhost:4000/modificarInfoSolicitud/' + props.con.id_solicitud, {
             method: 'PUT',

@@ -254,9 +254,11 @@ export default function PageWrapperTabla(props) {
 
                 } else if (data.user.rol == "interno") {
 
+                    console.log(data.user);
+
                     console.log("Bienvenido Interno!!!");
                     setTributosPermisos(data.user.tributos);
-                    setInfoInterno(data);
+                    setInfoInterno(data.user);
 
                 }
 
@@ -281,6 +283,16 @@ export default function PageWrapperTabla(props) {
 
         }
 
+    })
+
+    socket.on("refresqueEstados", (msg) => {
+
+        if(msg){
+
+            cargarConsultasUsuarios();
+
+        }
+    
     })
 
     return (
@@ -420,24 +432,71 @@ export default function PageWrapperTabla(props) {
 
                 <div className="container">
 
-                    <Tabla>
+                    <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li className="nav-item border" role="presentation">
+                            <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                                type="button" role="tab" aria-controls="pills-home" aria-selected="true">Tabla Principal</button>
+                        </li>
+                        <li className="nav-item border" role="presentation">
+                            <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                                type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Mis Consultas atendidas</button>
+                        </li>
+
+                    </ul>
+
+                    <div className="tab-content" id="pills-tabContent">
+                        <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+
+                            <Tabla>
 
 
-                        {consultas.length === 0 ? <Loading /> : ""}
+                                {consultas.length === 0 ? <Loading /> : ""}
 
-                        {consultas.map(con => {
+                                {consultas.map(con => {
 
-                            return (
+                                    if (con.usuario != InfoInterno.nombre_usuario && con.usuario =="") {
 
-                                <FilaTabla con={con} setData={setData} cargarUsuario={cargarUsuario}/>
+                                        return (
 
-                            )
+                                            <FilaTabla con={con} InfoInterno={InfoInterno} setData={setData} cargarUsuario={cargarUsuario} />
 
-                        })
+                                        )
+                                    }
 
-                        }
+                                })
 
-                    </Tabla>
+                                }
+
+                            </Tabla>
+
+                        </div>
+                        <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                            <Tabla>
+
+                                {consultas.length === 0 ? <Loading /> : ""}
+
+                                {consultas.map(con => {
+
+                                    if (con.usuario == InfoInterno.nombre_usuario) {
+
+                                        return (
+
+                                            <FilaTabla con={con} InfoInterno={InfoInterno} setData={setData} cargarUsuario={cargarUsuario} />
+
+                                        )
+
+                                    }
+
+                                })}
+
+                            </Tabla>
+
+                        </div>
+
+                    </div>
+
+
 
                 </div>
 

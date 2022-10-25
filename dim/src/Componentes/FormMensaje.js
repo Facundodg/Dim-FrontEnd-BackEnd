@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 
 export default function FormMensaje(props) {
 
+    console.log(props.rol.rol);
+
     //----------------------------HOOKS----------------------------------------
 
     const [btnVisable, setbtnVisable] = useState(true);
@@ -87,7 +89,7 @@ export default function FormMensaje(props) {
                 idcabecera: idcabecera,
                 mensaje: document.getElementById("campoMensaje").value,
                 motivo: '1',
-                usuario: props.rol.user.nombre_usuario,
+                usuario: props.rol.nombre_usuario,
                 ip: '172.20.254.205',
 
                 fecha_mov: dia,
@@ -102,7 +104,7 @@ export default function FormMensaje(props) {
                 interno: true,
                 tipo_adjunto: null,
                 idusuario: null,
-                rol: props.rol.user.rol,
+                rol: props.rol.rol,
                 img: "https://bootdey.com/img/Content/avatar/avatar8.png"
 
             }
@@ -215,7 +217,7 @@ export default function FormMensaje(props) {
     //---------------------------------------------------------------
 
     console.log("PRUEBA DE ROL:")
-    console.log(props.rol.user.rol)
+    console.log(props.rol.rol)
 
     return (
 
@@ -250,7 +252,7 @@ export default function FormMensaje(props) {
 
                 </div>
 
-                {props.rol.user.rol == "interno" ?
+                {props.rol.rol == "interno" ?
 
                     <div className="input-group mt-3">
 
