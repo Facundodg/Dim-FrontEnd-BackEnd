@@ -21,7 +21,6 @@ export default function PageWrapperTabla(props) {
 
     //-----------------------OBJETOS------------------------------------------
 
-
     const datafixed = {
 
         id: 1,
@@ -66,7 +65,6 @@ export default function PageWrapperTabla(props) {
     const [data, setData] = useState(datafixed);
 
     const [tributosPermisos, setTributosPermisos] = useState([]);
-
 
 
     useEffect(() => {
@@ -126,7 +124,6 @@ export default function PageWrapperTabla(props) {
         }
 
     }
-
 
     //----------------------CONSULTAS-------------------------------------------
 
@@ -449,7 +446,6 @@ export default function PageWrapperTabla(props) {
 
                             <Tabla>
 
-
                                 {consultas.length === 0 ? <Loading /> : ""}
 
                                 {consultas.map(con => {
@@ -495,8 +491,6 @@ export default function PageWrapperTabla(props) {
                         </div>
 
                     </div>
-
-
 
                 </div>
 

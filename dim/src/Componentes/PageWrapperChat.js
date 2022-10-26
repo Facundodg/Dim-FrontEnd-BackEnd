@@ -7,6 +7,7 @@ import Opciones from './Opciones';
 import InfoContribuyente from './InfoContribuyente';
 import InfoContribuyenteResumida from './InfoContribuyenteResumida';
 import Herramientas from "./Herramientas";
+import Privado from "./Privado";
 
 //-------------------HOOKS------------------------------------------
 
@@ -32,6 +33,8 @@ export default function PageWrapperChat(props) {
 
   const [dia, setDia] = useState();
 
+  const [mensajePrivado, setMensajePrivado] = useState(false);
+
   useEffect(() => {
 
     verificacion();
@@ -51,6 +54,25 @@ export default function PageWrapperChat(props) {
     setDia(output);
 
   }, []);
+
+
+  //----------------------EVENTO------------------------------
+
+  const mensajePrivadoEvento = function (evento) {
+
+    if (evento.target.value === "false") {
+
+      setMensajePrivado(true);
+
+    } else {
+
+      setMensajePrivado(false);
+
+    }
+
+    console.log(mensajePrivado);
+
+  }
 
   //---------------------------------------------------------------
 
@@ -107,8 +129,6 @@ export default function PageWrapperChat(props) {
 
     if (imput.length != 0) {
 
-      console.log("me estoy curtiendo");
-
       const data = {
 
         id: 29,
@@ -121,9 +141,9 @@ export default function PageWrapperChat(props) {
         leido: true,
         token_borrar: '6527',
         tipoorigen: '6527',
-        fecha_leido: '2020-08-21 10:57:19.821493',
+        fecha_leido: '2020-08-21',
         usuario_leido: 'false',
-        privado: null,
+        privado: mensajePrivado,
         html: null,
         adjunto: null,
         interno: true,
@@ -133,6 +153,12 @@ export default function PageWrapperChat(props) {
         img: "https://bootdey.com/img/Content/avatar/avatar7.png"
 
       }
+
+
+      console.log("------------------------------------")
+      console.log(data)
+      console.log("------------------------------------")
+      
 
       enviarMensaje(data);
 
@@ -326,7 +352,7 @@ export default function PageWrapperChat(props) {
                                   <button className="btn btn-primary btn-block">Enviar</button>
 
                                 </div>
-                                
+
                               </div>
 
                             </div>
@@ -396,10 +422,25 @@ export default function PageWrapperChat(props) {
 
                           )
 
+                        } else if (filasChat.rol == "interno" && usuario.rol == "interno" && filasChat.privado) {
+
+                          console.log(filasChat.privado);
+
+                          return (
+
+                            <Privado
+                              img={filasChat.img}
+                              nombre={filasChat.usuario}
+                              rol={filasChat.rol}
+                              fecha={filasChat.fecha_mov}
+                              mensaje={filasChat.mensaje}
+                              />
+
+                          )
+
                         }
 
                       })}
-
 
                     </ul>
 
@@ -415,9 +456,16 @@ export default function PageWrapperChat(props) {
                             <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
                           </svg></a>
 
+                          {usuario.rol == "interno" ?
+
+                            <input class="form-check-input" type="checkbox" value={mensajePrivado} id="defaultCheck1" onChange={mensajePrivadoEvento} />
+
+                            : ""}
+
                         </div>
                         <input type="text" id="campoMensaje" className="form-control" placeholder="Escribe Mensaje...."
                           aria-label="" aria-describedby="basic-addon1" />
+
                       </div>
 
                     </div>
