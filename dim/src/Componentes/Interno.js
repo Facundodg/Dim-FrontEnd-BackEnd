@@ -2,7 +2,9 @@ export default function Interno(props){
 
     return(
 
-        <li data-aos="fade-left">
+        // data-aos="fade-left"
+
+        <li>
             <a href="#">
 
                 <div className="message-avatar-DIM">

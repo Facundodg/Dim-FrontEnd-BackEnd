@@ -158,7 +158,7 @@ export default function PageWrapperChat(props) {
       console.log("------------------------------------")
       console.log(data)
       console.log("------------------------------------")
-      
+
 
       enviarMensaje(data);
 
@@ -360,6 +360,18 @@ export default function PageWrapperChat(props) {
                         </div>
                       </div>
 
+                      {chats.length === 0 ?
+
+                        // <div className="alert alert-danger" id="NoConsulta" role="alert">
+                        //   Nose Encontraron Mensajes...
+                        // </div>
+
+                        <Privado
+                        mensaje={"No se Encontraron Mensajes..."}
+                      />
+
+                        : ""}
+
                       {Object.entries(chats).map(js => {
 
 
@@ -373,6 +385,20 @@ export default function PageWrapperChat(props) {
                             <Usuario
                               img={filasChat.img}
                               nombre={filasChat.usuario}
+                              rol={filasChat.rol}
+                              fecha={filasChat.fecha_mov}
+                              mensaje={filasChat.mensaje}
+                            />
+
+                          )
+
+                        } else if (filasChat.rol == "interno" && usuario.rol == "interno" && filasChat.privado) {
+
+                          return (
+
+                            <Privado
+                              img={filasChat.img}
+                              nombre={filasChat.usuario + "(PRIVADO)"}
                               rol={filasChat.rol}
                               fecha={filasChat.fecha_mov}
                               mensaje={filasChat.mensaje}
@@ -394,7 +420,8 @@ export default function PageWrapperChat(props) {
 
                           )
 
-                        } else if (filasChat.rol == "usuario" && usuario.rol == "usuario") {
+                        } else if (filasChat.rol == "usuario" && usuario.rol == "usuario" && filasChat.privado == false) {
+
 
                           return (
 
@@ -408,7 +435,7 @@ export default function PageWrapperChat(props) {
 
                           )
 
-                        } else if (filasChat.rol == "interno" && usuario.rol == "usuario") {
+                        } else if (filasChat.rol == "interno" && usuario.rol == "usuario" && filasChat.privado == false) {
 
                           return (
 
@@ -419,22 +446,6 @@ export default function PageWrapperChat(props) {
                               fecha={filasChat.fecha_mov}
                               mensaje={filasChat.mensaje}
                             />
-
-                          )
-
-                        } else if (filasChat.rol == "interno" && usuario.rol == "interno" && filasChat.privado) {
-
-                          console.log(filasChat.privado);
-
-                          return (
-
-                            <Privado
-                              img={filasChat.img}
-                              nombre={filasChat.usuario}
-                              rol={filasChat.rol}
-                              fecha={filasChat.fecha_mov}
-                              mensaje={filasChat.mensaje}
-                              />
 
                           )
 
@@ -458,7 +469,7 @@ export default function PageWrapperChat(props) {
 
                           {usuario.rol == "interno" ?
 
-                            <input class="form-check-input" type="checkbox" value={mensajePrivado} id="defaultCheck1" onChange={mensajePrivadoEvento} />
+                            <input className="form-check-input" type="checkbox" value={mensajePrivado} id="defaultCheck1" onChange={mensajePrivadoEvento} />
 
                             : ""}
 

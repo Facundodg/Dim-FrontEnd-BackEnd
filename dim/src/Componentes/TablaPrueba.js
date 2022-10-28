@@ -2,7 +2,7 @@ export default function TablaPrueba(props) {
 
     return (
 
-        <table class="table">
+        <table className="table">
             <thead>
                 <tr>
                     <th scope="col">#</th>

@@ -2,7 +2,9 @@ export default function UsuarioInvertido(props) {
 
     return (
 
-        <li data-aos="fade-left">
+        // data-aos="fade-left"
+
+        <li>
 
             <a href="#">
 

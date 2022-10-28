@@ -375,7 +375,9 @@ export default function Login(props) {
 
             {registrate ?
 
-                <div className="container d-flex border justify-content-center align-items-center" id="contenedor-ingreso" data-aos="fade-up">
+// data-aos="fade-up"
+
+                <div className="container d-flex border justify-content-center align-items-center" id="contenedor-ingreso">
 
                     <div className="container border border-3" id="formulario">
 
@@ -515,7 +517,7 @@ export default function Login(props) {
 
                                 {/* onClick={() => registraUsuario()} */}
 
-                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registra(formValues)}>Registrarte</button>
+                                <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon1" onClick={() => registra(formValues)}>Registrarte</button>
                                 <button href="#" className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => registrarte()}>Atras</button>
 
                             </div>

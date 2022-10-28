@@ -2,7 +2,9 @@ export default function Usuario(props) {
 
   return (
 
-    <li data-aos="fade-right">
+    // data-aos="fade-right"
+
+    <li >
 
       <a href="#">
 

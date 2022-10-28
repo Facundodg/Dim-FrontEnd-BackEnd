@@ -68,7 +68,9 @@ export default function FilaTabla(props) {
 
     return (
 
-        <tr className={props.con.estado} data-aos="fade-up">
+        // data-aos="fade-up"
+
+        <tr className={props.con.estado}>
 
             <td>
                 <h6 className="mb-0">{props.con.nombre}</h6>
