@@ -4,7 +4,7 @@ export default function Privado(props) {
 
         // data-aos="fade-left"
 
-        <li>
+        <li data-aos="fade-left">
 
             <a href="#">
 

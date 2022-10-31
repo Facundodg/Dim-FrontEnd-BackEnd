@@ -223,7 +223,7 @@ export default function FormMensaje(props) {
 
         // data-aos="fade-up"
 
-        <div className="container w-100 text-center mt-3 mb-3">
+        <div className="container w-100 text-center mt-3 mb-3" data-aos="fade-up">
 
             <div className="container border">
 

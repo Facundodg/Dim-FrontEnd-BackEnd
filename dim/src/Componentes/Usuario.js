@@ -4,7 +4,7 @@ export default function Usuario(props) {
 
     // data-aos="fade-right"
 
-    <li >
+    <li data-aos="fade-right">
 
       <a href="#">
 

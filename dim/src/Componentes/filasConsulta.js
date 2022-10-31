@@ -25,7 +25,7 @@ export default function FilasConsulta(props) {
 
     return (
 
-            <tr>
+            <tr data-aos="fade-up">
                 <td>
                     <h6 className="mb-0">{props.con.tributo}</h6>
                 </td>

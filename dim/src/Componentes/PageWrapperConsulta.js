@@ -38,10 +38,15 @@ export default function PageWrapperConsulta(props) {
         verificacion();
         // ConsultasPorUsuario();
         // ConsultaUsuarioActivo();
+        
+        var today = new Date();
 
-        let date = new Date();
-        let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
-        setDia(output);
+        // obtener la fecha y la hora
+        var now = today.toLocaleString();
+        console.log(now);
+
+        // let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
+        setDia(now);
 
         setInterval(() => {
 
@@ -134,7 +139,7 @@ export default function PageWrapperConsulta(props) {
 
     const enviarMensaje = async () => {
 
-        if(filtrosPorTributo != "0" && filtrosPorMotivo != "0"){
+        if (filtrosPorTributo != "0" && filtrosPorMotivo != "0") {
 
             if (mensaje.length != 0) {
 
@@ -267,11 +272,11 @@ export default function PageWrapperConsulta(props) {
 
             }
 
-    }else{
+        } else {
 
-        alert("Motivo o Tributo estan faltando...");
+            alert("Motivo o Tributo estan faltando...");
 
-    }
+        }
 
     }
 
@@ -474,7 +479,7 @@ export default function PageWrapperConsulta(props) {
 
                                     return (
 
-                                        <FilasConsulta con={con}/>
+                                        <FilasConsulta con={con} />
                                     )
 
                                 })}

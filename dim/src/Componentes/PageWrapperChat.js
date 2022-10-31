@@ -334,12 +334,12 @@ export default function PageWrapperChat(props) {
 
                                 <div className="form-group col-md-6">
 
-                                  <div className="form-group mt-0" align="left" ng-className="{'has-error': errores.infoPFPCapital}"><label className="control-label mb-0"> Capital: </label><input className="form-control ng-pristine ng-valid ng-not-empty ng-touched" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPCapital" ng-blur="" /><span className="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPCapital"></span></div>
+                                  <div className="form-group mt-0" align="left"><label className="control-label mb-0"> Capital: </label><input className="form-control ng-pristine ng-valid ng-not-empty ng-touched" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPCapital" ng-blur="" /><span className="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPCapital"></span></div>
 
                                 </div>
                                 <div className="form-group col-md-6">
 
-                                  <div className="form-group mt-0" align="left" ng-className="{'has-error': errores.infoPFPIntereses}"><label className="control-label mb-0"> Intereses: </label><input className="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPIntereses" ng-blur="" /><span className="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPIntereses"></span></div>
+                                  <div className="form-group mt-0" align="left"><label className="control-label mb-0"> Intereses: </label><input className="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="number" float-todos="" string-to-number="" ng-model="datos.infoPFPIntereses" ng-blur="" /><span className="help-block ng-binding ng-hide" ng-hide="!errores.infoPFPIntereses"></span></div>
 
                                 </div>
 

@@ -154,6 +154,11 @@ body {
     width: 55% !important;
 }
 
+.not-active { 
+    pointer-events: none; 
+    cursor: default; 
+} 
+
 
 /*PARTE RESPONSIVE DE LAS CARDS llega a 560px la media */
 

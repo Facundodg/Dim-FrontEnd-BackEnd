@@ -62,19 +62,21 @@ export default function PageWrapperTabla(props) {
 
     const [consultas, setConsultas] = useState([]);
 
+    const [consultasTiempo, setConsultasTiempo] = useState([]);
+
+    const [filasConsultasTiempo, setFilasConsultasTiempo] = useState([]);
+
     const [data, setData] = useState(datafixed);
 
     const [tributosPermisos, setTributosPermisos] = useState([]);
 
-
     useEffect(() => {
 
         verificacion();
-        //permiso();
         cargarConsultasUsuarios();
 
-    }, []);
 
+    }, []);
 
     //-------------------EVENTOS DE LOS HOOKS--------------------------
 
@@ -127,6 +129,36 @@ export default function PageWrapperTabla(props) {
 
     //----------------------CONSULTAS-------------------------------------------
 
+    const cargarConsultasUsuariosVerificarTiempo = async () => {
+
+        let filasConsultasT;
+
+        let url = "http://localhost:4000/atencion-online";
+
+        let consulta = await fetch(url, {
+
+            " method ": ' GET ',
+            " headers ": {
+                " Accept ": ' application/json ',
+                " Content-Type ": ' application/json ',
+            }
+
+        });
+
+        let json = await consulta.json();
+
+        {
+            Object.entries(json).map(js => {
+
+                filasConsultasT = js[1];
+
+            })
+        }
+
+        setFilasConsultasTiempo(filasConsultasT);
+
+    }
+
     const cargarConsultasUsuarios = async () => {
 
         setLoading(true);
@@ -145,7 +177,6 @@ export default function PageWrapperTabla(props) {
 
         let json = await consulta.json();
 
-
         {
             Object.entries(json).map(js => {
 
@@ -154,7 +185,26 @@ export default function PageWrapperTabla(props) {
             })
         }
 
+        ConsultasTiempo(filasConsultas)
         setConsultas(filasConsultas);
+
+    }
+
+    function ConsultasTiempo(filas) {
+
+        console.log(filas);
+
+        let filasTiempos;
+
+        console.log("--pruebas--");
+
+        //=================================================================================
+        //HACER EN CASA
+        //=================================================================================
+
+        setFilasConsultasTiempo(filasTiempos);
+
+        console.log(filasTiempos);
 
     }
 
@@ -284,12 +334,12 @@ export default function PageWrapperTabla(props) {
 
     socket.on("refresqueEstados", (msg) => {
 
-        if(msg){
+        if (msg) {
 
             cargarConsultasUsuarios();
 
         }
-    
+
     })
 
     return (
@@ -450,13 +500,29 @@ export default function PageWrapperTabla(props) {
 
                                 {consultas.map(con => {
 
-                                    if (con.usuario != InfoInterno.nombre_usuario && con.usuario =="") {
+                                    if (con.usuario != InfoInterno.nombre_usuario) {
 
-                                        return (
 
-                                            <FilaTabla con={con} InfoInterno={InfoInterno} setData={setData} cargarUsuario={cargarUsuario} />
+                                        if (con.usuario == "") {
 
-                                        )
+
+                                            return (
+
+                                                <FilaTabla con={con} InfoInterno={InfoInterno} setData={setData} cargarUsuario={cargarUsuario} />
+
+                                            )
+
+                                        } else {
+
+                                            return (
+
+                                                <FilaTabla con={con} InfoInterno={InfoInterno} setData={setData} cargarUsuario={cargarUsuario} desactive="not-active text-secondary" />
+
+                                            )
+
+                                        }
+
+
                                     }
 
                                 })
