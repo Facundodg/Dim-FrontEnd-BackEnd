@@ -192,17 +192,36 @@ export default function PageWrapperTabla(props) {
 
     function ConsultasTiempo(filas) {
 
+        var today = new Date();
+
+        // obtener la fecha y la hora
+        var now = today.toLocaleString();
+
         console.log(filas);
 
-        let filasTiempos;
+        let filasTiempos = [];
+
+        let i = 0;
 
         console.log("--pruebas--");
 
-        //=================================================================================
-        //HACER EN CASA
-        //=================================================================================
+        filas.map(fila =>{
 
-        setFilasConsultasTiempo(filasTiempos);
+            //========================================================
+            //REVISAR EN CASA-----------------------------------------
+            //========================================================
+
+            if(fila.fecha_mov == "1/11/2022, 8:45:34"){
+
+                console.log("perro mono");
+
+            }
+
+            filasTiempos[i] = fila.fecha_mov;
+
+            i++;
+
+        })
 
         console.log(filasTiempos);
 
@@ -272,7 +291,7 @@ export default function PageWrapperTabla(props) {
 
         1: "T.E.M",
         2: "CICI",
-        3: "Publicidad y Propaganda",
+        3: "PYP",
         4: "CISCA",
         5: "Todos"
 

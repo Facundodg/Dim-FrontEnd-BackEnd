@@ -60,7 +60,7 @@ export default function FilaTabla(props) {
 
         1: "T.E.M",
         2: "CICI",
-        3: "Publicidad y Propaganda",
+        3: "PYP",
         4: "CISCA",
         5: "Todos"
 

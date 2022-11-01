@@ -98,14 +98,14 @@ export default function FormMensaje(props) {
                 tipoorigen: '6527',
                 fecha_leido: '2020-08-21 10:57:19.821493',
                 usuario_leido: 'false',
-                privado: null,
+                privado: false,
                 html: null,
                 adjunto: null,
                 interno: true,
                 tipo_adjunto: null,
                 idusuario: null,
                 rol: props.rol.rol,
-                img: "https://bootdey.com/img/Content/avatar/avatar8.png"
+                img: "https://bootdey.com/img/Content/avatar/avatar7.png"
 
             }
 
@@ -119,15 +119,38 @@ export default function FormMensaje(props) {
                 documento: 9999999999,
                 apellido: 'SALES',
                 nombre: document.getElementById("campoCuit").value,
-                usuario: document.getElementById("campoCuit").value,
+                usuario: props.rol.nombre_usuario,
                 ip: '172.20.254.205',
                 fecha_mov: dia,
                 cuit: "llenar con cuit",
                 email: "llenar con email",
                 telefono: "llenar con telefono",
-                estado: "tr-bg-Novisto"
+                estado: "tr-bg-visto"
 
             }
+
+            //=================================================
+            // let dataSolicitud = {
+
+            //     id: props.con.id,
+            //     id_solicitud: props.con.id_solicitud,
+            //     tipo_solicitud: props.con.tipo_solicitud, //MOTIVO ES EL TRIBUTO
+            //     caracter: props.con.caracter,
+            //     tipo_doc: 9999999999,
+            //     documento: 9999999999,
+            //     apellido: 'SALES',
+            //     nombre: props.con.nombre,
+            //     usuario: props.InfoInterno.nombre_usuario,
+            //     ip: '172.20.254.205',
+            //     fecha_mov: '2018-10-05 13:36:00.663964',
+            //     cuit: props.con.cuit,
+            //     email: props.con.email,
+            //     telefono: props.con.telefono,
+            //     estado: "tr-bg-visto",
+            //     mensaje: 0
+    
+            // }
+            //=================================================
 
             let datainfoSolicitud = {
 

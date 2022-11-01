@@ -41,6 +41,8 @@ export default function PageWrapperConsulta(props) {
         
         var today = new Date();
 
+        // today.format('dd-m-yy');
+
         // obtener la fecha y la hora
         var now = today.toLocaleString();
         console.log(now);

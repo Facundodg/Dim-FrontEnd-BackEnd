@@ -420,7 +420,7 @@ export default function Login(props) {
 
                 :
 
-                <div className="container d-flex border justify-content-center align-items-center" id="contenedor-ingreso" data-aos="fade-up">
+                <div className="container d-flex border justify-content-center align-items-center" id="contenedor-ingreso">
 
                     <div className="container border border-3" id="formulario-registro">
 
