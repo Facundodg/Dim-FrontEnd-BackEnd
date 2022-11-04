@@ -4,7 +4,6 @@ import axios from "axios";
 import md5 from "md5";
 import Cookies from 'universal-cookie';
 
-
 const baseUrl = "http://localhost:4000/usuarios/";
 const cookies = new Cookies();
 
@@ -14,7 +13,6 @@ export default function InicioSesion(props) {
     const [linea2, setContraseña] = useState();
 
     let datos ={}
-
 
     const usuario = function (evento) {
 
@@ -131,10 +129,8 @@ export default function InicioSesion(props) {
 
     }
 
-
-
-
     return (
+
         <div>
 
             <div className="container d-flex justify-content-center align-items-center border" id="contenedor-informacion">

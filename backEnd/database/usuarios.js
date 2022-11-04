@@ -8,7 +8,7 @@ let usuarios = {
             nombre_usuario: "facundo",
             password: "1234",
             email: "facundo_dg10@hotmail.com",
-            cuit: "12345678901",
+            cuit: "1232324322",
             telefono: 3816487545,
             tributos:[1,2]
 
@@ -19,7 +19,7 @@ let usuarios = {
             nombre_usuario: "admin",
             password: "1234",
             email: "facundo_dg10@hotmail.com",
-            cuit: "12345678901",
+            cuit: "13232133221",
             telefono: 3816487545,
             tributos:[1,2,3,4,5]
 
@@ -30,7 +30,7 @@ let usuarios = {
             nombre_usuario: "admin2",
             password: "1234",
             email: "facundo_dg10@hotmail.com",
-            cuit: "12345678901",
+            cuit: "1232312321111",
             telefono: 3816487545,
             tributos:[1,2,3,4,5]
 
@@ -41,7 +41,7 @@ let usuarios = {
             nombre_usuario: "diego",
             password: "1234",
             email: "facundo_dg10@hotmail.com",
-            cuit: "12345678901",
+            cuit: "222222222",
             telefono: 3816487545,
             tributos:[3,4]
 

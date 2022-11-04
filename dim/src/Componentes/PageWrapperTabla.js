@@ -70,13 +70,34 @@ export default function PageWrapperTabla(props) {
 
     const [tributosPermisos, setTributosPermisos] = useState([]);
 
+    const [horaActual, setHoraActual] = useState("");
+
     useEffect(() => {
 
         verificacion();
         cargarConsultasUsuarios();
 
+        var today = new Date();
+
+        var now = today.toLocaleString();
+        
+        setHoraActual(now);
 
     }, []);
+
+    setInterval(() => {
+
+        cargarConsultasUsuariosVerificarTiempo();
+
+        var today = new Date();
+
+        var now = today.toLocaleString();
+        
+        setHoraActual(now);
+
+        console.log(now);
+      
+    }, 60000);
 
     //-------------------EVENTOS DE LOS HOOKS--------------------------
 
@@ -524,7 +545,6 @@ export default function PageWrapperTabla(props) {
 
                                         if (con.usuario == "") {
 
-
                                             return (
 
                                                 <FilaTabla con={con} InfoInterno={InfoInterno} setData={setData} cargarUsuario={cargarUsuario} />
@@ -558,6 +578,8 @@ export default function PageWrapperTabla(props) {
                                 {consultas.length === 0 ? <Loading /> : ""}
 
                                 {consultas.map(con => {
+
+                                    // && con.fecha_mov < horaActual
 
                                     if (con.usuario == InfoInterno.nombre_usuario) {
 

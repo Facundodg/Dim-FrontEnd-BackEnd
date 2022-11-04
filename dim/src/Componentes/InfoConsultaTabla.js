@@ -68,7 +68,7 @@ export default function InfoConsultaTabla({ data }) {
 
                             <div className="d-flex justify-content-between w-100">
 
-                                <h6>DNI: <span>{data[0].documento}</span></h6>
+                                <h6>DNI: <span>{data[0].fecha_mov}</span></h6>
 
                                 <h6>Atendido Por: <span>{data[0].usuario}</span></h6>
 
