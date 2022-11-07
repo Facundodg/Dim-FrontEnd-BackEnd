@@ -97,7 +97,7 @@ export default function PageWrapperTabla(props) {
 
         console.log(now);
       
-    }, 60000);
+    }, 3600000);
 
     //-------------------EVENTOS DE LOS HOOKS--------------------------
 
@@ -248,13 +248,13 @@ export default function PageWrapperTabla(props) {
 
     }
 
-    const cargarUsuario = async (cuit) => {
+    const cargarUsuario = async (id) => {
 
         verificacion();
 
-        let url = 'http://localhost:4000/atencion-online/usuario/' + cuit + '';
+        let url = 'http://localhost:4000/atencion-online/usuario/' + id + '';
 
-        console.log(cuit);
+        console.log(id);
 
         let consulta = await fetch(url, {
 
@@ -504,7 +504,7 @@ export default function PageWrapperTabla(props) {
 
                             </div>
 
-                            {ticket ? <FormMensaje rol={InfoInterno} /> : ""}
+                            {ticket ? <FormMensaje rol={InfoInterno}/> : ""}
 
                         </div>
 

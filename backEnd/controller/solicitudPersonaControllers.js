@@ -145,11 +145,11 @@ const getSolicitudPorCuit = (req, res) => {
 
 }
 
-const getUsuarioPorCuit = (req, res) => {
+const getUsuarioPorId = (req, res) => {
 
-    const cuit = req.params.cuit;
-
-    const resultados = solicitudes.usuarios.filter(dato => dato.cuit == cuit);
+    const id = req.params.id;
+    const resultados = solicitudes.usuarios.filter(dato => dato.id == id);
+    console.log(resultados);
 
     if (resultados.length === 0) {
         return res.status(204).send(`No se encontro usuario...`);
@@ -163,6 +163,6 @@ module.exports = {
 
     getSolicitudes,
     getSolicitudPorCuit,
-    getUsuarioPorCuit
+    getUsuarioPorId
 
 }

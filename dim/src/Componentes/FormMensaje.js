@@ -1,14 +1,29 @@
 import { useState, useEffect } from "react";
+import io, { Socket } from "socket.io-client";
+
+
+const socket = io("http://localhost:4001");
 
 export default function FormMensaje(props) {
 
     console.log(props.rol.rol);
 
+    
+    const tributosVista = {
+
+        1: "T.E.M",
+        2: "CICI",
+        3: "Publicidad y Propaganda",
+        4: "CISCA",
+        5: "Todos"
+
+    }
+
     //----------------------------HOOKS----------------------------------------
 
     const [btnVisable, setbtnVisable] = useState(true);
-    const [filtrosPorTributo, setfiltrosPorTributo] = useState();
-    const [filtrosPorMotivo, setfiltrosPorMotivo] = useState();
+    const [filtrosPorTributo, setfiltrosPorTributo] = useState(0);
+    const [filtrosPorMotivo, setfiltrosPorMotivo] = useState(0);
     const [consultas, setConsultas] = useState([]);
     const [mensaje, setMensaje] = useState("");
     const [dia, setDia] = useState("");
@@ -56,10 +71,8 @@ export default function FormMensaje(props) {
     const mensajeEvento = function (evento) {
 
         setMensaje(evento.target.value)
-        console.log(evento.target.value);
-        console.log(usuarioCuit.length);
 
-        if (mensaje.length >= 10) {
+        if (mensaje.length >= 10 && filtrosPorTributo != 0 && filtrosPorMotivo != 0) {
 
             setbtnVisable(false);
             console.log(btnVisable);
@@ -78,159 +91,279 @@ export default function FormMensaje(props) {
 
     const enviarMensaje = async () => {
 
-        if (document.getElementById("campoMensaje").value.length != 0 && document.getElementById("campoCuit").value.length > 2) {
+        if (props.rol.rol == "interno") {
 
-            let id = (Math.floor(Math.random() * (9999 - 1 + 1)) + 1);
-            let idcabecera = (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
+            if (document.getElementById("campoMensaje").value.length != 0 && document.getElementById("campoCuit").value.length > 2
+                && filtrosPorTributo != 0 && filtrosPorMotivo != 0) {
 
-            let data = {
+                let id = (Math.floor(Math.random() * (9999 - 1 + 1)) + 1);
+                let idcabecera = (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
 
-                id: id,
-                idcabecera: idcabecera,
-                mensaje: document.getElementById("campoMensaje").value,
-                motivo: '1',
-                usuario: props.rol.nombre_usuario,
-                ip: '172.20.254.205',
+                let data = {
 
-                fecha_mov: dia,
-                leido: true,
-                token_borrar: '6527',
-                tipoorigen: '6527',
-                fecha_leido: '2020-08-21 10:57:19.821493',
-                usuario_leido: 'false',
-                privado: false,
-                html: null,
-                adjunto: null,
-                interno: true,
-                tipo_adjunto: null,
-                idusuario: null,
-                rol: props.rol.rol,
-                img: "https://bootdey.com/img/Content/avatar/avatar7.png"
+                    id: id,
+                    idcabecera: idcabecera,
+                    mensaje: document.getElementById("campoMensaje").value,
+                    motivo: '1',
+                    usuario: props.rol.nombre_usuario,
+                    ip: '172.20.254.205',
+
+                    fecha_mov: dia,
+                    leido: true,
+                    token_borrar: '6527',
+                    tipoorigen: '6527',
+                    fecha_leido: '2020-08-21 10:57:19.821493',
+                    usuario_leido: 'false',
+                    privado: false,
+                    html: null,
+                    adjunto: null,
+                    interno: true,
+                    tipo_adjunto: null,
+                    idusuario: null,
+                    rol: props.rol.rol,
+                    img: "https://bootdey.com/img/Content/avatar/avatar7.png"
+
+                }
+
+                let dataSolicitud = {
+
+                    id: id,
+                    id_solicitud: idcabecera,
+                    tipo_solicitud: "TEM",
+                    caracter: '5',
+                    tipo_doc: 9999999999,
+                    documento: 9999999999,
+                    apellido: 'SALES',
+                    nombre: document.getElementById("campoCuit").value,
+                    usuario: props.rol.nombre_usuario,
+                    ip: '172.20.254.205',
+                    fecha_mov: dia,
+                    cuit: "llenar con cuit",
+                    email: "llenar con email",
+                    telefono: "llenar con telefono",
+                    estado: "tr-bg-visto"
+
+                }
+
+                let datainfoSolicitud = {
+
+                    id: id,
+                    num_tramite: idcabecera,
+                    nombre_contribuyente: "Fravega ",
+                    dni: "llenar con usuario.cuit",
+                    razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
+                    fecha: dia,
+                    cuit_contribuyente: "llenar con cuit_contribuyente",
+                    apynom: document.getElementById("campoCuit").value
+
+                }
+
+                let dataconsulta = {
+
+                    id: id,
+                    usuario: document.getElementById("campoCuit").value,
+                    tributo: "T.E.M",
+                    padron: "llenar con usuario.cuit",
+                    numConsulta: idcabecera,
+                    motivo: "Solicitud Moratoria",
+                    fecha: dia
+
+                }
+
+                const request_mensaje = await fetch('http://localhost:4000/agregarMensaje', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                console.log("Mensaje Enviado");
+
+                const request_dataSolicitud = await fetch('http://localhost:4000/agregarInfoSolicitud', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataSolicitud)
+                });
+
+                console.log("Agregadad InfoSolicitud");
+
+                const request_dataSolicitudParaModal = await fetch('http://localhost:4000/agregarInfoSolicitudParaModal', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datainfoSolicitud)
+                });
+
+                console.log("Agregadad InfoSolicitud Para ventana Modal");
+
+                const request_consultas = await fetch('http://localhost:4000/agregarConsulta', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataconsulta)
+                });
+
+                console.log("Mostrada Consulta");
+
+                // socket.emit("mensaje", true);
+
+                // window.location.href = "./" + props.rol.user.nombre_usuario + "/" + idcabecera;
+
+                window.location.href = "/atencion-online/chat/" + idcabecera;
+
+                socket.emit("mensaje", true);
+
+
+            } else {
+
+                alert("Te estan Faltando datos para hacer esta operacion...");
 
             }
 
-            let dataSolicitud = {
+        } else if (props.rol.rol == "usuario") {
 
-                id: id,
-                id_solicitud: idcabecera,
-                tipo_solicitud: "TEM",
-                caracter: '5',
-                tipo_doc: 9999999999,
-                documento: 9999999999,
-                apellido: 'SALES',
-                nombre: document.getElementById("campoCuit").value,
-                usuario: props.rol.nombre_usuario,
-                ip: '172.20.254.205',
-                fecha_mov: dia,
-                cuit: "llenar con cuit",
-                email: "llenar con email",
-                telefono: "llenar con telefono",
-                estado: "tr-bg-visto"
+            if (document.getElementById("campoMensaje").value.length != 0 && filtrosPorTributo != 0 && filtrosPorMotivo != 0) {
+
+                let id = (Math.floor(Math.random() * (9999 - 1 + 1)) + 1);
+                let idcabecera = (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
+
+                let data = {
+
+                    id: id,
+                    idcabecera: idcabecera,
+                    mensaje: document.getElementById("campoMensaje").value,
+                    motivo: '1',
+                    usuario: props.rol.nombre_usuario,
+                    ip: '172.20.254.205',
+                    fecha_mov: dia,
+                    leido: true,
+                    token_borrar: '6527',
+                    tipoorigen: '6527',
+                    fecha_leido: '2020-08-21 10:57:19.821493',
+                    usuario_leido: 'false',
+                    privado: false,
+                    html: null,
+                    adjunto: null,
+                    interno: true,
+                    tipo_adjunto: null,
+                    idusuario: null,
+                    rol: props.rol.rol,
+                    img: "https://bootdey.com/img/Content/avatar/avatar7.png"
+
+                }
+
+                let dataSolicitud = {
+
+                    id: id,
+                    id_solicitud: idcabecera,
+                    tipo_solicitud: "TEM",
+                    caracter: '5',
+                    tipo_doc: 9999999999,
+                    documento: 9999999999,
+                    apellido: 'SALES',
+                    nombre: props.rol.nombre_usuario,
+                    usuario: "",
+                    ip: '172.20.254.205',
+                    fecha_mov: dia,
+                    cuit: props.rol.cuit,
+                    email: "llenar con email",
+                    telefono: "llenar con telefono",
+                    estado: "tr-bg-visto"
+
+                }
+
+                let datainfoSolicitud = {
+
+                    id: id,
+                    num_tramite: idcabecera,
+                    nombre_contribuyente: "Fravega ",
+                    dni: "llenar con usuario.cuit",
+                    razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
+                    fecha: dia,
+                    cuit_contribuyente: "llenar con cuit_contribuyente",
+                    apynom: ""
+
+                }
+
+                let dataconsulta = {
+
+                    id: id,
+                    usuario: "",
+                    tributo: "T.E.M",
+                    padron: "llenar con usuario.cuit",
+                    numConsulta: idcabecera,
+                    motivo: "Solicitud Moratoria",
+                    fecha: dia
+
+                }
+
+                const request_mensaje = await fetch('http://localhost:4000/agregarMensaje', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                console.log("Mensaje Enviado");
+
+                const request_dataSolicitud = await fetch('http://localhost:4000/agregarInfoSolicitud', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataSolicitud)
+                });
+
+                console.log("Agregadad InfoSolicitud");
+
+                const request_dataSolicitudParaModal = await fetch('http://localhost:4000/agregarInfoSolicitudParaModal', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datainfoSolicitud)
+                });
+
+                console.log("Agregadad InfoSolicitud Para ventana Modal");
+
+                const request_consultas = await fetch('http://localhost:4000/agregarConsulta', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataconsulta)
+                });
+
+                console.log("Mostrada Consulta");
+
+                // socket.emit("mensaje", true);
+
+                // window.location.href = "./" + props.rol.user.nombre_usuario + "/" + idcabecera;
+
+                window.location.href = "/consulta-online/chat/" + idcabecera;
+
+                socket.emit("mensaje", true);
+
+
+            } else {
+
+                alert("Te estan Faltando datos para hacer esta operacion...");
 
             }
-
-            //=================================================
-            // let dataSolicitud = {
-
-            //     id: props.con.id,
-            //     id_solicitud: props.con.id_solicitud,
-            //     tipo_solicitud: props.con.tipo_solicitud, //MOTIVO ES EL TRIBUTO
-            //     caracter: props.con.caracter,
-            //     tipo_doc: 9999999999,
-            //     documento: 9999999999,
-            //     apellido: 'SALES',
-            //     nombre: props.con.nombre,
-            //     usuario: props.InfoInterno.nombre_usuario,
-            //     ip: '172.20.254.205',
-            //     fecha_mov: '2018-10-05 13:36:00.663964',
-            //     cuit: props.con.cuit,
-            //     email: props.con.email,
-            //     telefono: props.con.telefono,
-            //     estado: "tr-bg-visto",
-            //     mensaje: 0
-    
-            // }
-            //=================================================
-
-            let datainfoSolicitud = {
-
-                id: id,
-                num_tramite: idcabecera,
-                nombre_contribuyente: "Fravega ",
-                dni: "llenar con usuario.cuit",
-                razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
-                fecha: dia,
-                cuit_contribuyente: "llenar con cuit_contribuyente",
-                apynom: document.getElementById("campoCuit").value
-
-            }
-
-            let dataconsulta = {
-
-                id: id,
-                usuario: document.getElementById("campoCuit").value,
-                tributo: "T.E.M",
-                padron: "llenar con usuario.cuit",
-                numConsulta: idcabecera,
-                motivo: "Solicitud Moratoria",
-                fecha: dia
-
-            }
-
-            const request_mensaje = await fetch('http://localhost:4000/agregarMensaje', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            console.log("Mensaje Enviado");
-
-            const request_dataSolicitud = await fetch('http://localhost:4000/agregarInfoSolicitud', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataSolicitud)
-            });
-
-            console.log("Agregadad InfoSolicitud");
-
-            const request_dataSolicitudParaModal = await fetch('http://localhost:4000/agregarInfoSolicitudParaModal', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(datainfoSolicitud)
-            });
-
-            console.log("Agregadad InfoSolicitud Para ventana Modal");
-
-            const request_consultas = await fetch('http://localhost:4000/agregarConsulta', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataconsulta)
-            });
-
-            console.log("Mostrada Consulta");
-
-            // socket.emit("mensaje", true);
-
-            // window.location.href = "./" + props.rol.user.nombre_usuario + "/" + idcabecera;
-
-            window.location.href = "/atencion-online/chat/" + idcabecera;
-
-
-        } else {
-
-            alert("Te estan Faltando datos para hacer esta operacion...");
 
         }
 
@@ -254,6 +387,7 @@ export default function FormMensaje(props) {
 
                     <div className="input-group mt-3 mb-3 ms-3">
                         <select onChange={tributo} className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon">
+
                             <option value="0">TRIBUTO</option>
                             <option value="1">T.E.M</option>
                             <option value="1">CISI</option>

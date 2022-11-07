@@ -136,7 +136,6 @@ export default function PageWrapperConsulta(props) {
         setTributosPermisos(json[0].tributos);
         setUsuario(json[0]);
 
-
     }
 
     const enviarMensaje = async () => {
@@ -160,7 +159,7 @@ export default function PageWrapperConsulta(props) {
                     leido: false,
                     token_borrar: '6527',
                     tipoorigen: '6527',
-                    fecha_leido: '2020-08-21 10:57:19.821493',
+                    fecha_leido: dia,
                     usuario_leido: false,
                     privado: false,
                     html: "<p></p>",
@@ -179,9 +178,9 @@ export default function PageWrapperConsulta(props) {
                     id_solicitud: idcabecera,
                     tipo_solicitud: filtrosPorTributo,
                     caracter: filtrosPorMotivo,
-                    tipo_doc: 9999999999,
-                    documento: 9999999999,
-                    apellido: 'SALES',
+                    tipo_doc: 11111,
+                    documento: 11111,
+                    apellido: "apellido",
                     nombre: usuario.nombre_usuario,
                     usuario: "",
                     ip: dia,
@@ -198,7 +197,7 @@ export default function PageWrapperConsulta(props) {
 
                     id: id,
                     num_tramite: idcabecera,
-                    nombre_contribuyente: "Fravega ",
+                    nombre_contribuyente: "Garbarino",
                     dni: usuario.cuit,
                     razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
                     fecha: dia,
@@ -383,7 +382,7 @@ export default function PageWrapperConsulta(props) {
 
             </nav>
 
-            {/* <FormMensaje></FormMensaje> */}
+            <FormMensaje rol={usuario}/>
 
             <div className="container w-100 text-center mt-3 mb-3">
 
@@ -392,8 +391,6 @@ export default function PageWrapperConsulta(props) {
                 <div className="container border">
 
                     <div className="d-flex justify-content-center">
-
-                        {/* https://www.youtube.com/watch?v=3lpVqgLh7vw */}
 
                         <div className="input-group mt-3 mb-3 ms-3">
                             <select className="form-select" id="inputGroupSelect03" aria-label="Example select with button addon" onChange={tributo}>
