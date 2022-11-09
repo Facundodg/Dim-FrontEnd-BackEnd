@@ -452,8 +452,6 @@ export default function PageWrapperTabla(props) {
 
                         <div className="container d-flex filtros">
 
-                            {/* https://www.youtube.com/watch?v=3lpVqgLh7vw */}
-
                             <div className="input-group mb-3">
                                 <label className="pe-3 pt-2" htmlFor="">Filtrar por Tributo</label>
                                 <select className="form-select" onChange={filtro1} id="inputGroupSelect03" >

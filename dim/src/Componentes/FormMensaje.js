@@ -107,7 +107,6 @@ export default function FormMensaje(props) {
                     motivo: '1',
                     usuario: props.rol.nombre_usuario,
                     ip: '172.20.254.205',
-
                     fecha_mov: dia,
                     leido: true,
                     token_borrar: '6527',
@@ -129,7 +128,7 @@ export default function FormMensaje(props) {
 
                     id: id,
                     id_solicitud: idcabecera,
-                    tipo_solicitud: "TEM",
+                    tipo_solicitud: filtrosPorMotivo,
                     caracter: '5',
                     tipo_doc: 9999999999,
                     documento: 9999999999,
@@ -138,9 +137,9 @@ export default function FormMensaje(props) {
                     usuario: props.rol.nombre_usuario,
                     ip: '172.20.254.205',
                     fecha_mov: dia,
-                    cuit: "llenar con cuit",
-                    email: "llenar con email",
-                    telefono: "llenar con telefono",
+                    cuit: props.rol.cuit,
+                    email: props.rol.email,
+                    telefono: props.rol.telefono,
                     estado: "tr-bg-visto"
 
                 }
@@ -150,7 +149,7 @@ export default function FormMensaje(props) {
                     id: id,
                     num_tramite: idcabecera,
                     nombre_contribuyente: "Fravega ",
-                    dni: "llenar con usuario.cuit",
+                    dni: "aqui va cuit de contribuyente",
                     razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
                     fecha: dia,
                     cuit_contribuyente: "llenar con cuit_contribuyente",
@@ -162,10 +161,10 @@ export default function FormMensaje(props) {
 
                     id: id,
                     usuario: document.getElementById("campoCuit").value,
-                    tributo: "T.E.M",
+                    tributo: filtrosPorTributo,
                     padron: "llenar con usuario.cuit",
                     numConsulta: idcabecera,
-                    motivo: "Solicitud Moratoria",
+                    motivo: filtrosPorMotivo,
                     fecha: dia
 
                 }
@@ -265,13 +264,13 @@ export default function FormMensaje(props) {
 
                     id: id,
                     id_solicitud: idcabecera,
-                    tipo_solicitud: "TEM",
+                    tipo_solicitud: filtrosPorMotivo,
                     caracter: '5',
                     tipo_doc: 9999999999,
                     documento: 9999999999,
                     apellido: 'SALES',
                     nombre: props.rol.nombre_usuario,
-                    usuario: "",
+                    usuario: props.rol.nombre_usuario,
                     ip: '172.20.254.205',
                     fecha_mov: dia,
                     cuit: props.rol.cuit,
@@ -286,7 +285,7 @@ export default function FormMensaje(props) {
                     id: id,
                     num_tramite: idcabecera,
                     nombre_contribuyente: "Fravega ",
-                    dni: "llenar con usuario.cuit",
+                    dni: "12312312313",
                     razon_social: "FEDERACION, PATRONAL SEGUROS S.A",
                     fecha: dia,
                     cuit_contribuyente: "llenar con cuit_contribuyente",
@@ -299,9 +298,9 @@ export default function FormMensaje(props) {
                     id: id,
                     usuario: "",
                     tributo: "T.E.M",
-                    padron: "llenar con usuario.cuit",
+                    padron: "usuario.cuit",
                     numConsulta: idcabecera,
-                    motivo: "Solicitud Moratoria",
+                    motivo: filtrosPorMotivo,
                     fecha: dia
 
                 }
@@ -390,10 +389,10 @@ export default function FormMensaje(props) {
 
                             <option value="0">TRIBUTO</option>
                             <option value="1">T.E.M</option>
-                            <option value="1">CISI</option>
-                            <option value="2">Publicidad y Propaganda</option>
-                            <option value="3">CISCA</option>
-                            <option value="4">Todos</option>
+                            <option value="2">CISI</option>
+                            <option value="3">Publicidad y Propaganda</option>
+                            <option value="4">CISCA</option>
+                            <option value="5">Todos</option>
 
                         </select>
                     </div>

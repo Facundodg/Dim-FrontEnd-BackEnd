@@ -39,12 +39,14 @@ export default function Login(props) {
 
             setRegistrarte(false);
             console.log(registrate);
+            setFormValues(usuarioRegistrar);
             limpiarErrores();
 
         } else {
 
             setRegistrarte(true);
             console.log(registrate);
+            setFormValues(usuarioRegistrar);
             limpiarErrores();
         }
 
@@ -92,7 +94,7 @@ export default function Login(props) {
     };
 
     const [formValues, setFormValues] = useState(usuarioRegistrar);
-    const [formErrors, setFormErrors] = useState({});
+    const [formErrors, setFormErrors] = useState([]);
     // const [isSubmit, setIsSubmit] = useState();
 
     const ingresoValoresFormulario = (e) => {
@@ -107,7 +109,10 @@ export default function Login(props) {
 
     const validate = (valores) => {
 
-        const errors = {};
+        console.log("------------valores--------------")
+        console.log(valores);
+        console.log("----------------------------------")
+        const errors = [];
 
         errors.nombre = validarNombre(valores.nombre);
         errors.apellido = validarApellido(valores.apellido);
@@ -117,7 +122,10 @@ export default function Login(props) {
         errors.contraseña = validarContraseña(valores.contraseña);
         errors.contraseñaConfirmar = validarContraseñaRepetida(valores.contraseñaConfirmar);
 
-        console.log(formErrors);
+        console.log("-------------errors--------------")
+        console.log(errors);
+        setFormErrors(errors);
+        console.log("----------------------------------")
 
         return errors;
 
@@ -125,22 +133,21 @@ export default function Login(props) {
 
     function validarNombre(nombre) {
 
-        if (nombre.length >= 5) {
+        if (nombre.length > 3) {
 
             return false;
 
         } else {
 
+            console.log("enter");
             return true;
 
         }
 
     }
-
-
     function validarApellido(apellido) {
 
-        if (apellido.length > 5) {
+        if (apellido.length > 3) {
 
             return false;
 
@@ -151,8 +158,6 @@ export default function Login(props) {
         }
 
     }
-
-
     function validarCorreo(correo) {
 
         var expReg = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
@@ -170,7 +175,6 @@ export default function Login(props) {
         }
 
     }
-
     function validarDniCuit(dni) {
 
         if (dni.length === 8) {
@@ -184,7 +188,6 @@ export default function Login(props) {
         }
 
     }
-
     function validarTelefono(telefono) {
 
         if (telefono.length === 10) {
@@ -198,10 +201,9 @@ export default function Login(props) {
         }
 
     }
-
     function validarContraseña(contraseña) {
 
-        if (contraseña.length >= 5) {
+        if (contraseña.length > 4) {
 
             return false;
 
@@ -212,10 +214,9 @@ export default function Login(props) {
         }
 
     }
-
     function validarContraseñaRepetida(contraseña) {
 
-        if (contraseña.length >= 5) {
+        if (contraseña.length > 4) {
 
             return false;
 
@@ -302,56 +303,81 @@ export default function Login(props) {
 
     const registra = async (data) => {
 
-        setFormErrors(validate(data));
-
+        console.log("------------------data------------------");
+        console.log(data);
+        console.log("------------------------------------------");
+        
+        console.log("------------------validate------------------");
+        console.log(validate(data));
+        console.log("------------------------------------------");
+        
+        console.log("------------------formErrors------------------");
+        console.log(formErrors);
+        console.log("------------------------------------------");
+        
         console.log(data.contraseña)
         console.log(data.contraseñaConfirmar)
 
-        if (data.contraseña === data.contraseñaConfirmar) {
+        if (formErrors.nombre == false && formErrors.apellido == false && formErrors.dni == false
+            && formErrors.correo == false && formErrors.telefono == false && formErrors.contraseña == false && formErrors.contraseñaConfirmar == false) {
 
-            let id = (Math.floor(Math.random() * (9999 - 1 + 1)) + 1);
+            if (data.contraseña === data.contraseñaConfirmar && data.contraseña.length > 3 && data.contraseñaConfirmar.length > 3) {
 
-            const dataSubir = {
+                let id = (Math.floor(Math.random() * (9999 - 1 + 1)) + 1);
 
-                id: id,
-                rol: "usuario",
-                nombre_usuario: data.nombre + " " + data.apellido,
-                password: data.contraseña,
-                email: data.correo,
-                cuit: data.dni,
-                telefono: data.telefono,
-                tributos:[1,2,3,4,5]
+                const dataSubir = {
+
+                    id: id,
+                    rol: "usuario",
+                    nombre_usuario: data.nombre + " " + data.apellido,
+                    password: data.contraseña,
+                    email: data.correo,
+                    cuit: data.dni,
+                    telefono: data.telefono,
+                    tributos: [1, 2, 3, 4, 5]
+
+                }
+
+                try {
+
+                    const request = await fetch('http://localhost:4000/registrar', {
+
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(dataSubir)
+
+                    });
+
+                    console.log(dataSubir);
+                    alert("ME REGISTRESTE CON EXITO!!!");
+                    setFormValues(usuarioRegistrar);
+                    setRegistrarte(true);
+
+                } catch (error) {
+
+                    alert("Problemas a la hora de Registrarte...");
+
+                }
+
+            } else {
+
+                console.log(data.contraseña.length);
+                console.log(data.contraseñaConfirmar.length);
+
+                alert("No son Iguales las Constraseñas o Es muy corta.");
 
             }
 
-            try {
+        }else{
 
-                const request = await fetch('http://localhost:4000/registrar', {
-
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dataSubir)
-
-                });
-
-                console.log(dataSubir);
-                alert("ME REGISTRESTE CON EXITO!!!");
-                setRegistrarte(true);
-
-            } catch (error) {
-
-                alert("Problemas a la hora de Registrarte...");    
-
-            }
-
-        } else {
-
-            alert("No son Iguales las Constraseñas");
+            alert("Te estan Faltandos datos...");
 
         }
+
+
 
 
     }
@@ -375,7 +401,7 @@ export default function Login(props) {
 
             {registrate ?
 
-// data-aos="fade-up"
+                // data-aos="fade-up"
 
                 <div className="container d-flex border justify-content-center align-items-center" id="contenedor-ingreso">
 
@@ -530,11 +556,11 @@ export default function Login(props) {
 
             }
 
-            <pre>
+            {/* <pre>
 
                 {JSON.stringify(formValues, null, 2)}
 
-            </pre>
+            </pre> */}
 
             <Footer />
 

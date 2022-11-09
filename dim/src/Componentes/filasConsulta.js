@@ -9,6 +9,16 @@ export default function FilasConsulta(props) {
 
     }
 
+    const tributosVista = {
+
+        1: "T.E.M",
+        2: "CICI",
+        3: "PYP",
+        4: "CISCA",
+        5: "Todos"
+
+    }
+
     const navigate = useNavigate();
 
     //ACOMODA LA URL
@@ -27,7 +37,7 @@ export default function FilasConsulta(props) {
 
             <tr data-aos="fade-up">
                 <td>
-                    <h6 className="mb-0">{props.con.tributo}</h6>
+                    <h6 className="mb-0">{tributosVista[props.con.tributo]}</h6>
                 </td>
                 <td>
                     <h6 className="mb-0">{props.con.padron}</h6>

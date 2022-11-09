@@ -140,6 +140,9 @@ export default function PageWrapperConsulta(props) {
 
     const enviarMensaje = async () => {
 
+        console.log("filtroPorTributos: " + filtrosPorTributo);
+        console.log("filtrarPorMotivo: " + filtrosPorMotivo);
+
         if (filtrosPorTributo != "0" && filtrosPorMotivo != "0") {
 
             if (mensaje.length != 0) {
@@ -382,7 +385,7 @@ export default function PageWrapperConsulta(props) {
 
             </nav>
 
-            <FormMensaje rol={usuario}/>
+            {/* <FormMensaje rol={usuario}/> */}
 
             <div className="container w-100 text-center mt-3 mb-3">
 
@@ -472,7 +475,7 @@ export default function PageWrapperConsulta(props) {
                                         Aun No Tienes Consultas Pendientes...
                                     </div>
 
-                                    : ""}
+                                : ""}
 
                                 {consultas.map(con => {
 
