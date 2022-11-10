@@ -269,6 +269,8 @@ export default function PageWrapperTabla(props) {
         let json = await consulta.json();
 
         console.log(json);
+        
+        refrescarToken();
 
         setData(json);
 
@@ -355,6 +357,38 @@ export default function PageWrapperTabla(props) {
 
             console.log("NO AUTORIZADO PARA ESTAR AQUI");
             window.location.href = "/";
+
+        }
+
+    }
+
+    
+    //----------------------REFRESCA TOKEN-------------------------------------
+
+    const refrescarToken = async () => {
+
+        const token = document.cookie.replace("token=", "")
+
+        try {
+
+            const request = await fetch('http://localhost:4000/refreshtoken', {
+
+                method: 'POST',
+                headers: {
+                    'authorization': token
+                }
+            }).then((res) => res.json()).then(data => {
+
+                console.log("===================================================")
+                console.log("REFRESQUE BIEN");
+                console.log("===================================================")
+
+                console.log(data.mensaje);
+            })
+
+        } catch (error) {
+
+            console.log("NO SE PUDO REFRESCAR CORRECTAMENTE");
 
         }
 

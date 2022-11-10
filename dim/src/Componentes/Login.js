@@ -275,7 +275,6 @@ export default function Login(props) {
                     'authorization': token
                 }
             }).then((res) => res.json()).then(data => {
-                console.log(data.user.rol);
 
                 if (data.user.rol == "usuario") {
 

@@ -116,8 +116,7 @@ export default function PageWrapperChat(props) {
     let json = await consulta.json();
     console.log(json);
     setChat(json);
-    console.log("estoy entrando al refresque del chat perroooo");
-
+    window.scrollTo( 0, 969);
   }
 
   //METODO QUE SE ENCARGA DE ENVIAR EL MENSAJE (NO SEGURO / SE TIENE QUE CAMBIAR / SACAR PARAMS)
@@ -165,6 +164,7 @@ export default function PageWrapperChat(props) {
       //EMISOR DEL SOCKET 
       socket.emit("chat", document.getElementById("campoMensaje").value);
       document.getElementById("campoMensaje").value = "";
+      refrescarToken();
 
     } else {
 
@@ -235,6 +235,36 @@ export default function PageWrapperChat(props) {
     }
 
   }
+
+  //METODO PARA REFRESCAR EL TOKEN
+  const refrescarToken = async () => {
+
+    const token = document.cookie.replace("token=", "")
+
+    try {
+
+        const request = await fetch('http://localhost:4000/refreshtoken', {
+
+            method: 'POST',
+            headers: {
+                'authorization': token
+            }
+        }).then((res) => res.json()).then(data => {
+
+            console.log("===================================================")
+            console.log("REFRESQUE BIEN");
+            console.log("===================================================")
+
+            console.log(data.mensaje);
+        })
+
+    } catch (error) {
+
+        console.log("NO SE PUDO REFRESCAR CORRECTAMENTE");
+
+    }
+
+}
 
   //{EnviarMensaje() === true ? <Usuario mensaje="hola perro" /> : ""}
 

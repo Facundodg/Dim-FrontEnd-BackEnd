@@ -36,14 +36,9 @@ export default function PageWrapperConsulta(props) {
     useEffect(() => {
 
         verificacion();
-        // ConsultasPorUsuario();
-        // ConsultaUsuarioActivo();
-        
+  
         var today = new Date();
 
-        // today.format('dd-m-yy');
-
-        // obtener la fecha y la hora
         var now = today.toLocaleString();
         console.log(now);
 
@@ -103,13 +98,6 @@ export default function PageWrapperConsulta(props) {
         });
 
         let json = await consulta.json();
-
-
-        // Object.entries(json).map(js => {
-
-        //     filasConsultas = js[1];
-
-        // })
 
         console.log(json);
         setConsultas(json);
@@ -213,7 +201,7 @@ export default function PageWrapperConsulta(props) {
 
                     id: id,
                     usuario: usuario.nombre_usuario,
-                    tributo: tributosVista[filtrosPorTributo],
+                    tributo: filtrosPorTributo,
                     padron: usuario.cuit,
                     numConsulta: idcabecera,
                     motivo: filtrosPorMotivo,
@@ -266,6 +254,8 @@ export default function PageWrapperConsulta(props) {
                 console.log("Mostrada Consulta");
 
                 socket.emit("mensaje", true);
+                
+                refrescarToken();
 
                 window.location.href = "/consulta-online/chat/" + idcabecera;
 
@@ -327,8 +317,48 @@ export default function PageWrapperConsulta(props) {
     //ver de que cuente los mensajes NO leidos y que los represente de manera contada en la tabla de solicitudes.
     //hacer de manera contraria de interno a usuario 
 
-    //----------------------------------------------------------------
+    //---------------------REFRESH TOKEN-----------------------------
 
+    const refrescarToken = async () => {
+
+        const token = document.cookie.replace("token=", "")
+
+        try {
+
+            const request = await fetch('http://localhost:4000/refreshtoken', {
+
+                method: 'POST',
+                headers: {
+                    'authorization': token
+                }
+            }).then((res) => res.json()).then(data => {
+
+                console.log("===================================================")
+                console.log("REFRESQUE BIEN");
+                console.log("===================================================")
+
+                console.log(data.mensaje);
+            })
+
+        } catch (error) {
+
+            console.log("NO SE PUDO REFRESCAR CORRECTAMENTE");
+
+        }
+
+    }
+
+    //---------------------METODOS----------------------------
+
+    const cerrarSesion = () => {
+
+        document.cookie.split(";").forEach(function (c) {
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        });
+
+        window.location.href = '/';
+
+    }
 
     return (
 
@@ -351,31 +381,31 @@ export default function PageWrapperConsulta(props) {
 
                         <li key="uniqueId1" className="nav-item">
 
-                            <a className="nav-link" href="#">Sobre Nosotros</a>
+                            <a className="nav-link" href="#">Opcion 1</a>
 
                         </li>
 
                         <li key="uniqueId2" className="nav-item">
 
-                            <a className="nav-link" href="#">Servicios</a>
+                            <a className="nav-link" href="#">Opcion 2</a>
 
                         </li>
 
                         <li key="uniqueId3" className="nav-item">
 
-                            <a className="nav-link" href="#">Direccion</a>
+                            <a className="nav-link" href="#">Opcion 3</a>
 
                         </li>
 
                         <li key="uniqueId4" className="nav-item">
 
-                            <a className="nav-link" href="#">Contacto</a>
+                            <a className="nav-link" href="#">Opcion 4</a>
 
                         </li>
 
                         <li key="uniqueId5" className="nav-item">
 
-                            <a className="nav-link" href="#">Agendar Cita</a>
+                            <a className="nav-link" href="#" onClick={() => cerrarSesion()}>Salir</a>
 
                         </li>
 

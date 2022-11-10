@@ -10,7 +10,7 @@ app.use(require("./routers/usuariosRouters"));
 
 app.use(cors({
 
-    origin:"http://localhost:4001"
+    origin: "http://localhost:4001"
 
 })); //activa cors para no producir problema con los servidores locales
 // app.use(require("./routers/tokenRouter"));
@@ -20,9 +20,9 @@ const { Server } = require("socket.io");
 const http = require("http");
 
 const server = http.createServer(app);
-const io = new Server(server,{
+const io = new Server(server, {
 
-    cors:"http://localhost:4000"
+    cors: "http://localhost:4000"
 
 });
 
@@ -78,7 +78,7 @@ io.on("connection", (socket) => {
 
     })
 
-    
+
     socket.on("refresqueEstados", (msg) => {
 
         io.emit("refresqueEstados", msg);
@@ -91,7 +91,7 @@ io.on("connection", (socket) => {
 
     console.log(conexions);
 
-    socket.on("disconnect", ()=>{
+    socket.on("disconnect", () => {
 
         conexions--;
         console.log(conexions);
@@ -164,7 +164,7 @@ app.post('/agregarInfoSolicitudParaModal', (req, res) => {
 
 app.post('/agregarConsulta', (req, res) => {
 
-    let InfoConsulta= req.body;
+    let InfoConsulta = req.body;
     consultas.consulta.push(InfoConsulta);
     res.json(consultas);
     console.log(consultas);
@@ -186,49 +186,16 @@ app.post('/registrar', (req, res) => {
 app.put('/modificarInfoSolicitud/:id_solicitud', (req, res) => {
     const solicitudActualizado = req.body;
     const id = req.params.id_solicitud;
-  
+
     const indice = solicitudes.usuarios.findIndex(usuarios => usuarios.id_solicitud == id);
     console.log("indice:" + indice);
-  
+
     if (indice >= 0) {
         solicitudes.usuarios[indice] = solicitudActualizado;
     }
-    
+
     res.json(solicitudes);
-  });
-
-//agregarConsulta
-
-
-/*
-
-//VERIFICA EL TOKEN (NO LO ESTOY USANDO)
-app.post("/pruebaToken", (req, res) => {
-
-    const token = req.headers["authorization"]
-
-    jwt.verify(token, "keykey", (err, user) => {
-
-        if (err) {
-
-            res.status(403).json({ msg: "NO AUTORIZADO" });
-
-        } else {
-
-            res.status(200).json({ msg: "AUTORIZADO", user });
-            console.log("resultado abajo");
-            //return jwt.verify(token, "keykey");
-            const rol = jwt.verify(token, "keykey");
-            verificaRol(rol);
-            console.log("------------------------------");
-
-        }
-
-    });
-
 });
-
-*/
 
 //VERIFICA EL TOKEN SI ES USUARIO (EN USO)
 app.post("/pruebaTokenInternOusuario", (req, res) => {
@@ -265,6 +232,59 @@ app.post("/pruebaTokenInternOusuario", (req, res) => {
     });
 
 });
+
+//REFRESH TOKEN 
+app.post("/refreshtoken", (req, res) => {
+
+    const token = req.headers["authorization"]
+
+    jwt.verify(token, "keykey", (err, user) => {
+
+        if (err) {
+
+            res.status(403).json({ msg: "NO AUTORIZADO" });
+
+        } else {
+
+                // const usu = jwt.verify(token, "keykey");
+                console.log("--------------REFRESH------------------");
+                console.log(user);
+                console.log("---------------------------------------");
+
+                const usuarioEncontrado = usuarios.usuario.findIndex(usuario => usuario.id == user.id);
+
+                const token2 = jwt.sign({
+                    id: usuarioEncontrado.id, rol: usuarioEncontrado.rol,
+                    nombre_usuario: usuarioEncontrado.nombre_usuario, password: usuarioEncontrado.password,
+                    email: usuarioEncontrado.email, cuit: usuarioEncontrado.cuit, telefono: usuarioEncontrado.telefono,
+                    tributos: usuarioEncontrado.tributos
+                }, "keykey", { expiresIn: "1h" });
+
+                console.log("--------------TOKEN REFRESCADO--------");
+                console.log(token2)
+                console.log("--------------------------------------");
+
+                res.json({mensaje:"Token Refrescado.", token2});
+
+        }
+
+    });
+
+});
+
+// Refresh token
+// const refrescaToken = await jwt.sign(
+
+//     { email },
+//     process("keykey"),
+//     {
+//         expiresIn: "1m",
+//     }
+
+// );
+
+
+//---------------------------------------------------------
 
 app.get("/consultas/:usuario", (req, res) => {
 
