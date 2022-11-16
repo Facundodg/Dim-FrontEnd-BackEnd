@@ -780,3 +780,32 @@ app.get('/solicitud/:num_tramite', (req, res) => {
                                 {/* ----------------CAMBIAR EN CASA----------------- */}
 
                                 {/* <option value="0">TRIBUTOS</option> */}
+--------------------------------------------------------------------------------------------------------
+
+    // console.log("--------------TIEMPO DE EXPIRACION TOKEN---------------");
+    // console.log(payload.exp);
+    // const unixTime = payload.exp;
+    // const date = new Date(unixTime * 1000);    
+    // console.log(date.toLocaleString());
+    // console.log("-------------------------------------------------------");
+
+    // console.log("------------------TIEMPO ACTUAL------------------------");
+    // const tiempoActual = moment().unix();
+    // const dateTiempoActual = new Date(tiempoActual * 1000);
+    // console.log(dateTiempoActual.toLocaleString());
+    // console.log("-------------------------------------------------------");
+
+    // console.log("------------------COMPARA FECHAS-----------------------");
+    // console.log(date - dateTiempoActual);
+    // console.log(date - dateTiempoActual < 300000);
+    // console.log("-------------------------------------------------------");
+
+
+    // console.log("------------------MOMENT UNIX--------------------------");
+    // console.log(moment().unix());
+    // console.log("-------------------------------------------------------");
+
+    // console.log(payload.exp < moment().valueOf());
+
+    //aqui tengo que comparar el tiempo de expiracion que se este pronto a vencer
+

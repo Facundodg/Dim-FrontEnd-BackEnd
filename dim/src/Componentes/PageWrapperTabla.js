@@ -361,7 +361,6 @@ export default function PageWrapperTabla(props) {
         }
 
     }
-
     
     //----------------------REFRESCA TOKEN-------------------------------------
 
@@ -379,11 +378,16 @@ export default function PageWrapperTabla(props) {
                 }
             }).then((res) => res.json()).then(data => {
 
+                //AQUI TENGO QUE COMPARAR EL TIEMPO O EN EL SERVIDOR
+
                 console.log("===================================================")
-                console.log("REFRESQUE BIEN");
+                console.log("REFRESQUE BIEN EL TOKEN");
                 console.log("===================================================")
 
                 console.log(data.mensaje);
+                console.log(data.token);
+
+                document.cookie = `token=${data.token}; max-age=${60 * 60}; path=/; samesite=strict`
             })
 
         } catch (error) {
@@ -417,6 +421,7 @@ export default function PageWrapperTabla(props) {
     })
 
     return (
+
 
         <div>
 

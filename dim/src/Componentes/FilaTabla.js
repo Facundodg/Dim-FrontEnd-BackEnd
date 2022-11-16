@@ -25,7 +25,45 @@ export default function FilaTabla(props) {
         modificarInfoSolicitud();
         socket.emit("refresqueEstados", true);
 
+        refrescarToken();
+
         return urlCambiada;
+
+    }
+
+    //----------------------REFRESCA TOKEN-------------------------------------
+
+    const refrescarToken = async () => {
+
+        const token = document.cookie.replace("token=", "")
+
+        try {
+
+            const request = await fetch('http://localhost:4000/refreshtoken', {
+
+                method: 'POST',
+                headers: {
+                    'authorization': token
+                }
+            }).then((res) => res.json()).then(data => {
+
+                //AQUI TENGO QUE COMPARAR EL TIEMPO O EN EL SERVIDOR
+
+                console.log("===================================================")
+                console.log("REFRESQUE BIEN EL TOKEN");
+                console.log("===================================================")
+
+                console.log(data.mensaje);
+                console.log(data.token);
+
+                document.cookie = `token=${data.token}; max-age=${60 * 60}; path=/; samesite=strict`
+            })
+
+        } catch (error) {
+
+            console.log("NO SE PUDO REFRESCAR CORRECTAMENTE");
+
+        }
 
     }
 

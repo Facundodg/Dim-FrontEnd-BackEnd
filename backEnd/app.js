@@ -1,6 +1,7 @@
 const express = require('express'); //importo express
 const app = express(); // instancio un objeto de tipo express
 const cors = require("cors"); // le doy los permisos a cors asai no me produsca proble para interactuar dos servidores locales
+var moment = require('moment');
 
 //---------------zona prueba-----------------------
 app.use(require("./routers/infoSolicitudRouters"));
@@ -32,7 +33,7 @@ server.listen(4001, () => {
 
 })
 
-//-------------------------------------------------
+//----------------------------------------------------------
 
 const { usuarios } = require('./database/usuarios');//database usuario
 const { consultas } = require('./database/consultas');//database usuario
@@ -40,7 +41,7 @@ const { datos } = require("./database/chat")
 const { solicitudes } = require('./database/solicitud_persona'); //database infoSolicitud
 const { infoSolicitud } = require('./database/infoSolicitud'); //database infoSolicitudParaModal
 
-//-------------------------------------------------
+//----------------------------------------------------------
 
 const jwt = require("jsonwebtoken"); //importo el modulo de token o jwt
 const { get } = require('./routers/infoSolicitudRouters');
@@ -51,8 +52,6 @@ app.use(express.json()); //convertira los objetos en formato json a objetos java
 
 
 //-------------------------SOCKET---------------------------
-
-
 
 io.on("connection", (socket) => {
 
@@ -132,6 +131,111 @@ app.post("/login", (req, res) => {
 
 });
 
+//VERIFICA EL TOKEN SI ES USUARIO
+app.post("/pruebaTokenInternOusuario", (req, res) => {
+
+    const token = req.headers["authorization"]
+
+    jwt.verify(token, "keykey", (err, user) => {
+
+        if (err) {
+
+            res.status(403).json({ msg: "NO AUTORIZADO" });
+
+        } else {
+
+            const rol = jwt.verify(token, "keykey");
+
+            if (rol.rol === "interno") {
+
+                res.status(200).json({ msg: "INTERNO", user });
+
+            } else if (rol.rol === "usuario") {
+
+                res.status(200).json({ msg: "USUARIO", user });
+
+            } else {
+
+                res.status(403).json({ msg: "ROLO NO REGISTRADO" });
+
+            }
+
+
+        }
+
+    });
+
+});
+
+//REFRESH TOKEN 
+app.post("/refreshtoken", (req, res) => {
+
+    const token = req.headers["authorization"]
+
+    var payload = jwt.decode(token, "keykey");
+
+    var tiempoACTUAL = moment().unix();
+    tiempoACTUAL = new Date(tiempoACTUAL * 1000); //tiempo actual 
+
+    const unixTime = payload.exp;
+    const date = new Date(unixTime * 1000); //tiempo de expiracion del token
+
+    const tiempoLIMITE = new Date(date - 900000); //fecha del expiracion del token restada 15 minutos
+
+    //=====================================================================================
+    /*si la hora actual es mayor a la hora limite 
+                            Y 
+    el tiempo actual es mas chico que el tiempo de expiracion del token 
+    se podra refrescar el token. lo que significa es que si encuentra actividad 15 minutos antes
+    que se venga el token lo refrescara, caso contrario o no refresca si aun no llega el tiempo limite
+    y si supera el tiempo de expiracion cierra la sesion*/
+    //=====================================================================================
+
+    if (tiempoACTUAL > tiempoLIMITE && tiempoACTUAL < date) {
+
+        jwt.verify(token, "keykey", (err, user) => {
+
+            if (err) {
+
+                res.status(403).json({ msg: "NO AUTORIZADO" });
+
+            } else {
+
+                const usuarioEncontrado = usuarios.usuario.find(usuario => usuario.id == user.id);
+
+                const token2 = jwt.sign({
+                    id: usuarioEncontrado.id, rol: usuarioEncontrado.rol,
+                    nombre_usuario: usuarioEncontrado.nombre_usuario, password: usuarioEncontrado.password,
+                    email: usuarioEncontrado.email, cuit: usuarioEncontrado.cuit, telefono: usuarioEncontrado.telefono,
+                    tributos: usuarioEncontrado.tributos
+                }, "keykey", { expiresIn: "1h" });
+
+                console.log("--------------TOKEN REFRESCADO--------");
+                console.log("Tiempo Actual: " + tiempoACTUAL.toLocaleString());
+                console.log("Tiempo Limite: " + tiempoLIMITE.toLocaleString());
+                console.log("Tiempo De Exp Token: " + date.toLocaleString());
+                console.log("Token nuevo: " + token2);
+                console.log("--------------------------------------");
+
+                res.json({ mensaje: "Token Refrescado.", token: token2 });
+
+            }
+
+        });
+
+    } else {
+
+        console.log("-----------------------------------------------");
+        console.log("--NO REFRESCO TOKEN--");
+        console.log("Tiempo Actual: " + tiempoACTUAL.toLocaleString());
+        console.log("Tiempo Limite: " + tiempoLIMITE.toLocaleString());
+        console.log("Tiempo De Exp Token: " + date.toLocaleString());
+        console.log("-----------------------------------------------");
+
+    }
+
+});
+
 //---------------METODOS POST PARA AGERGAR EN LOS ROUTERS LUEGO--------------------------
 
 app.post('/agregarMensaje', (req, res) => {
@@ -180,8 +284,7 @@ app.post('/registrar', (req, res) => {
     res.json(usuarios);
     console.log(consultas);
 
-})
-
+});
 
 app.put('/modificarInfoSolicitud/:id_solicitud', (req, res) => {
     const solicitudActualizado = req.body;
@@ -197,95 +300,6 @@ app.put('/modificarInfoSolicitud/:id_solicitud', (req, res) => {
     res.json(solicitudes);
 });
 
-//VERIFICA EL TOKEN SI ES USUARIO (EN USO)
-app.post("/pruebaTokenInternOusuario", (req, res) => {
-
-    const token = req.headers["authorization"]
-
-    jwt.verify(token, "keykey", (err, user) => {
-
-        if (err) {
-
-            res.status(403).json({ msg: "NO AUTORIZADO" });
-
-        } else {
-
-            const rol = jwt.verify(token, "keykey");
-
-            if (rol.rol === "interno") {
-
-                res.status(200).json({ msg: "INTERNO", user });
-
-            } else if (rol.rol === "usuario") {
-
-                res.status(200).json({ msg: "USUARIO", user });
-
-            } else {
-
-                res.status(403).json({ msg: "ROLO NO REGISTRADO" });
-
-            }
-
-
-        }
-
-    });
-
-});
-
-//REFRESH TOKEN 
-app.post("/refreshtoken", (req, res) => {
-
-    const token = req.headers["authorization"]
-
-    jwt.verify(token, "keykey", (err, user) => {
-
-        if (err) {
-
-            res.status(403).json({ msg: "NO AUTORIZADO" });
-
-        } else {
-
-                // const usu = jwt.verify(token, "keykey");
-                console.log("--------------REFRESH------------------");
-                console.log(user);
-                console.log("---------------------------------------");
-
-                const usuarioEncontrado = usuarios.usuario.findIndex(usuario => usuario.id == user.id);
-
-                const token2 = jwt.sign({
-                    id: usuarioEncontrado.id, rol: usuarioEncontrado.rol,
-                    nombre_usuario: usuarioEncontrado.nombre_usuario, password: usuarioEncontrado.password,
-                    email: usuarioEncontrado.email, cuit: usuarioEncontrado.cuit, telefono: usuarioEncontrado.telefono,
-                    tributos: usuarioEncontrado.tributos
-                }, "keykey", { expiresIn: "1h" });
-
-                console.log("--------------TOKEN REFRESCADO--------");
-                console.log(token2)
-                console.log("--------------------------------------");
-
-                res.json({mensaje:"Token Refrescado.", token2});
-
-        }
-
-    });
-
-});
-
-// Refresh token
-// const refrescaToken = await jwt.sign(
-
-//     { email },
-//     process("keykey"),
-//     {
-//         expiresIn: "1m",
-//     }
-
-// );
-
-
-//---------------------------------------------------------
-
 app.get("/consultas/:usuario", (req, res) => {
 
     const usuario = req.params.usuario;
@@ -300,12 +314,7 @@ app.get("/consultas/:usuario", (req, res) => {
 
 });
 
-//----------------------------------------------------------
 
-
-
-
-//----------------------------------------------------------
 /*
 
 const checkRole = (roles) => async (req, res, next) => {
@@ -368,4 +377,3 @@ app.listen(PUERTO, () => {
     console.log(`El servidor esta escuchando en el puerto ${PUERTO}...`);
 });
 
-//--------------------------------------------------------------------

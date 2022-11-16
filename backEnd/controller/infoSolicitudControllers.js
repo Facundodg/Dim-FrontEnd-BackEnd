@@ -26,7 +26,6 @@ const getInfoSolicitud = async (req, res) => {
 
     /*
 
-
     const respuesta = await pool.query('SELECT * FROM infosolicitud WHERE num_tramite');
     console.log(respuesta.rows);
     res.json(respuesta.rows);

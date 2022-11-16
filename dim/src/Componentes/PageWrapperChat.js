@@ -19,7 +19,7 @@ import io, { Socket } from "socket.io-client";
 
 const socket = io("http://localhost:4001");
 
-//----------------------------------------------------------------- (NO SEGURO / SE TIENE QUE CAMBIAR / SACAR PARAMS)
+//-----------------------------------------------------------------
 
 export default function PageWrapperChat(props) {
 
@@ -122,7 +122,7 @@ export default function PageWrapperChat(props) {
   //METODO QUE SE ENCARGA DE ENVIAR EL MENSAJE (NO SEGURO / SE TIENE QUE CAMBIAR / SACAR PARAMS)
   const EnviarMensaje = async () => {
 
-    // verificacion();
+    refrescarToken();
 
     const imput = document.getElementById("campoMensaje").value
 
@@ -164,7 +164,6 @@ export default function PageWrapperChat(props) {
       //EMISOR DEL SOCKET 
       socket.emit("chat", document.getElementById("campoMensaje").value);
       document.getElementById("campoMensaje").value = "";
-      refrescarToken();
 
     } else {
 
@@ -237,6 +236,7 @@ export default function PageWrapperChat(props) {
   }
 
   //METODO PARA REFRESCAR EL TOKEN
+
   const refrescarToken = async () => {
 
     const token = document.cookie.replace("token=", "")
@@ -251,11 +251,15 @@ export default function PageWrapperChat(props) {
             }
         }).then((res) => res.json()).then(data => {
 
+            console.log(data);
+
             console.log("===================================================")
             console.log("REFRESQUE BIEN");
             console.log("===================================================")
 
             console.log(data.mensaje);
+
+            document.cookie = `token=${data.token2}; max-age=${60 * 60}; path=/; samesite=strict`
         })
 
     } catch (error) {
@@ -265,6 +269,7 @@ export default function PageWrapperChat(props) {
     }
 
 }
+
 
   //{EnviarMensaje() === true ? <Usuario mensaje="hola perro" /> : ""}
 

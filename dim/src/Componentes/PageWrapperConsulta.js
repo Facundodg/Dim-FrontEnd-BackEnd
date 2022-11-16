@@ -333,11 +333,15 @@ export default function PageWrapperConsulta(props) {
                 }
             }).then((res) => res.json()).then(data => {
 
+                console.log(data);
+
                 console.log("===================================================")
                 console.log("REFRESQUE BIEN");
                 console.log("===================================================")
 
                 console.log(data.mensaje);
+
+                document.cookie = `token=${data.token2}; max-age=${60 * 60}; path=/; samesite=strict`
             })
 
         } catch (error) {
