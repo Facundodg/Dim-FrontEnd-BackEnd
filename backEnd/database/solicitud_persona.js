@@ -52,7 +52,7 @@ let solicitudes = {
             fecha_mov: '1/11/2022, 8:45:34',
             cuit: '34324234233',
             email: 'kjfsf@adas.com',
-            telefono: 1563673657,
+            telefono: 1563673657,   
             estado: "tr-bg-visto",
             mensaje: 1
 
